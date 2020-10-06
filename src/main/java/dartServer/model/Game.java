@@ -46,7 +46,7 @@ public class Game {
 
     public User getWinner() {
         return null;
-        // TODO
+        // TODO return winner
     }
 
     public boolean addUser(User user) {

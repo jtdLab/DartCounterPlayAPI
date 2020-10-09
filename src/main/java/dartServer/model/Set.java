@@ -2,7 +2,6 @@ package dartServer.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Set {
 
@@ -18,21 +17,21 @@ public class Set {
 
     public int getWinner() {
         ArrayList<Integer> winners = new ArrayList<>();
-        for(Leg leg : legs) {
+        for (Leg leg : legs) {
             winners.add(leg.getWinner());
         }
 
         HashMap<Integer, Integer> map = new HashMap();
         winners.forEach((element) -> {
-            if(!map.containsKey(element)) {
+            if (!map.containsKey(element)) {
                 map.put(element, 1);
             } else {
                 map.put(element, (map.get(element) + 1));
             }
         });
 
-        for(Integer key : map.keySet()) {
-            if(map.get(key) == legsNeededToWin) {
+        for (Integer key : map.keySet()) {
+            if (map.get(key) == legsNeededToWin) {
                 return key;
             }
         }

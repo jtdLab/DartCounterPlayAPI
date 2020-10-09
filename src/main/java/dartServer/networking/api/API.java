@@ -1,8 +1,8 @@
 package dartServer.networking.api;
 
+import com.google.gson.Gson;
 import dartServer.networking.artefacts.requests.AuthRequest;
 import dartServer.networking.artefacts.responses.AuthResponse;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.URI;

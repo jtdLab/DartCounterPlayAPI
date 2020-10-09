@@ -1,6 +1,5 @@
 package dartServer;
 
-import dartServer.model.Game;
 import dartServer.networking.handlers.websocket.HTTPInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -10,11 +9,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import dartServer.networking.User;
-
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Server {
 
@@ -45,7 +39,6 @@ public class Server {
             workerGroup.shutdownGracefully();
         }
     }
-
 
 
 }

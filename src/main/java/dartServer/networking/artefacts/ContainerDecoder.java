@@ -1,7 +1,7 @@
 package dartServer.networking.artefacts;
 
-import dartServer.networking.artefacts.requests.AuthRequest;
 import com.google.gson.*;
+import dartServer.networking.artefacts.requests.AuthRequest;
 
 import java.lang.reflect.Type;
 

@@ -27,8 +27,8 @@ public class User {
         channel.writeAndFlush(new TextWebSocketFrame(ContainerEncoder.encode(payload)));
     }
 
-    public void send(Payload ... payloads) {
-        for(Payload payload : payloads) {
+    public void send(Payload... payloads) {
+        for (Payload payload : payloads) {
             send(payload);
         }
     }

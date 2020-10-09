@@ -1,6 +1,7 @@
 package dartServer.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Leg {
 
@@ -29,11 +30,11 @@ public class Leg {
     }
 
     Throw undoThrow() {
-        Throw last = xThrows.get(xThrows.size()-1);
+        Throw last = xThrows.get(xThrows.size() - 1);
         pointsLeft[last.getPlayerIndex()] += last.getPoints();
         dartsThrown[last.getPlayerIndex()] -= last.getDartsThrown();
         dartsOnDouble[last.getPlayerIndex()] -= last.getDartsOnDouble();
-        xThrows.remove(xThrows.size()-1);
+        xThrows.remove(xThrows.size() - 1);
 
         return last;
     }
@@ -42,8 +43,8 @@ public class Leg {
      * @return index of winner or -1
      */
     public int getWinner() {
-        for (int i = 0; i < pointsLeft.length ; i++) {
-            if(pointsLeft[i] == 0) {
+        for (int i = 0; i < pointsLeft.length; i++) {
+            if (pointsLeft[i] == 0) {
                 return i;
             }
         }

@@ -51,12 +51,12 @@ public class GameConfig {
     public String getTypeAsString() {
         switch (type) {
             case LEGS:
-                if(size == 1) {
+                if (size == 1) {
                     return "LEG";
                 }
                 return "LEGS";
             case SETS:
-                if(size == 1) {
+                if (size == 1) {
                     return "SET";
                 }
                 return "SETS";

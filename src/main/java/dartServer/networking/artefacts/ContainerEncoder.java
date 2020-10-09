@@ -1,8 +1,8 @@
 package dartServer.networking.artefacts;
 
-import dartServer.networking.artefacts.responses.AuthResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
+import dartServer.networking.artefacts.responses.AuthResponse;
 
 public class ContainerEncoder {
 
@@ -12,14 +12,14 @@ public class ContainerEncoder {
         try {
             Container container;
 
-            if(payload instanceof AuthResponse) {
+            if (payload instanceof AuthResponse) {
                 container = new Container("authResponse", payload);
             } else {
                 container = null;
             }
             // TODO
 
-            if(container != null) {
+            if (container != null) {
                 return gson.toJson(container, Container.class);
             }
 

@@ -1,4 +1,6 @@
-package dartServer.model;
+package dartServer;
+
+import dartServer.model.Game;
 
 public class GameLoop extends Thread {
 

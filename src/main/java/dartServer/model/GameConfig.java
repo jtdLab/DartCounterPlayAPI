@@ -1,5 +1,8 @@
 package dartServer.model;
 
+import dartServer.model.enums.GameMode;
+import dartServer.model.enums.GameType;
+
 public class GameConfig {
 
     private GameMode mode;

@@ -1,6 +1,9 @@
 package dartServer.model;
 
-import dartServer.networking.artefacts.responses.Snapshot;
+import dartServer.model.enums.GameMode;
+import dartServer.model.enums.GameStatus;
+import dartServer.model.enums.GameType;
+import dartServer.networking.artefacts.responses.GameSnapshot;
 
 import java.util.ArrayList;
 
@@ -14,7 +17,6 @@ public class Game {
 
     private int turnIndex;
 
-    private GameLoop gameLoop;
 
     public Game(Player player) {
         this.config = new GameConfig();
@@ -23,17 +25,15 @@ public class Game {
         sets = new ArrayList<>();
         turnIndex = 0;
         players.add(player);
-
-        gameLoop = new GameLoop(this);
     }
 
-    public Snapshot getSnapshot() {
+    public GameSnapshot getSnapshot() {
         // TODO
         switch (status) {
             case PENDING:
-                return new Snapshot();
+                return new GameSnapshot();
             case RUNNING:
-                return new Snapshot();
+                return new GameSnapshot();
         }
         return null;
     }
@@ -62,8 +62,8 @@ public class Game {
     }
 
     public boolean performThrow(Throw t) {
-        if(true) {
-            // TODO THROW VALIDATION
+        if(ThrowValidator.isValidThrow(t,getCurrentTurn().getPointsLeft())) {
+
             getCurrentTurn().setNext(false);
 
             // sets the player who threw

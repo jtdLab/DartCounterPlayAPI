@@ -23,6 +23,7 @@ public class Server {
     public static final GameManager gameManager = new GameManager();
 
     public static void main(String[] args) {
+
         // Configure the server.
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();

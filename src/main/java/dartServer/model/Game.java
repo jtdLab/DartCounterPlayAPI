@@ -255,30 +255,133 @@ public class Game {
     }
 
     private String getAverageCurrentTurn() {
-        // TODO
-        return null;
+        int totalDartsThrown = 0;
+        int totalPointsScored = 0;
+        for(Set set : sets) {
+            for(Leg leg : set.getLegs()) {
+                totalDartsThrown += leg.getDartsThrown()[turnIndex];
+                totalPointsScored += (config.getStartingPoints() - leg.getPointsLeft()[turnIndex]);
+            }
+        }
+        if(totalDartsThrown == 0) {
+            return "0.00";
+        }
+
+        String rawString = String.valueOf(((3 * totalPointsScored) / totalDartsThrown));
+        // TODO formate 2 digits
+        return rawString;
     }
 
     private String getCheckoutPercentageCurrentTurn() {
-        // TODO
-        return null;
+        int totalLegsWon = 0;
+        int totalDartsOnDouble = 0;
+        for(Set set : sets) {
+            for(Leg leg : set.getLegs()) {
+                if(leg.getWinner() == turnIndex) {
+                    totalLegsWon ++;
+                }
+                totalDartsOnDouble += leg.getDartsOnDouble()[turnIndex];
+            }
+        }
+
+        if(totalDartsOnDouble == 0) {
+            return "0.00";
+        }
+
+        String rawString = String.valueOf((totalLegsWon/totalDartsOnDouble)*100);
+        // TODO formate 2 digits
+        return rawString;
     }
 
     public Player getWinner() {
-        // TODO
+       switch (config.getType()) {
+           case LEGS:
+               int legsNeededToWin;
+               switch (config.getMode()) {
+                   case FIRST_TO:
+                       legsNeededToWin = config.getSize();
+                       for(Player player : players) {
+                           if(player.getLegs() == legsNeededToWin) {
+                               return player;
+                           }
+                       }
+                       break;
+                   case BEST_OF:
+                       legsNeededToWin = Math.round(config.getSize()/2);
+                       for(Player player : players) {
+                           if(player.getLegs() == legsNeededToWin) {
+                               return player;
+                           }
+                       }
+                       break;
+               }
+               break;
+           case SETS:
+               int setsNeededToWin;
+               switch (config.getMode()) {
+                   case FIRST_TO:
+                       setsNeededToWin = config.getSize();
+                       for(Player player : players) {
+                           if(player.getSets() == setsNeededToWin) {
+                               return player;
+                           }
+                       }
+                    break;
+                   case BEST_OF:
+                       setsNeededToWin = Math.round(config.getSize()/2);
+                       for(Player player : players) {
+                           if(player.getSets() == setsNeededToWin) {
+                               return player;
+                           }
+                       }
+                       break;
+               }
+               break;
+       }
         return null;
     }
 
     private void createSet() {
-        // TODO
+        if(config.getMode() == GameMode.FIRST_TO) {
+            if(config.getType() == GameType.LEGS) {
+                sets.add(new Set(turnIndex, config.getSize()));
+            } else {
+                sets.add(new Set(turnIndex, 3));
+            }
+        } else {
+            if(config.getType() == GameType.LEGS){
+                sets.add(new Set(turnIndex, Math.round(this.config.getSize() / 2)));
+            } else {
+                sets.add(new Set(turnIndex, 3));
+            }
+        }
     }
 
     private void createLeg() {
-        // TODO
+        getCurrentSet().getLegs().add(new Leg(turnIndex, players.size(), config.getStartingPoints()));
     }
 
     private void initPlayers() {
-        // TODO
+        int index = 1;
+        for(Player player : players) {
+            if(player.getName().equals("")) {
+                player.setName("Player " + index);
+                index++;
+            }
+            player.setNext(false);
+            player.setLastThrow(-1);
+            player.setPointsLeft(config.getStartingPoints());
+            player.setDartsThrown(0);
+            if(config.getType() == GameType.SETS) {
+                player.setSets(0);
+            } else {
+                player.setSets(-1);
+            }
+            player.setLegs(0);
+            player.setAverage("0.00");
+            player.setCheckoutPercentage("0.00");
+        }
+        players.get(turnIndex).setNext(true);
     }
 
 

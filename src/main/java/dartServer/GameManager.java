@@ -15,7 +15,7 @@ public class GameManager {
 
     }
 
-    public void createGame(User user) {
+ /*   public void createGame(User user) {
         Game game = new Game(user);
         games.add(game);
     }
@@ -51,5 +51,5 @@ public class GameManager {
 
     public boolean isPlaying(User user) {
         return getGame(user) != null;
-    }
+    }*/
 }

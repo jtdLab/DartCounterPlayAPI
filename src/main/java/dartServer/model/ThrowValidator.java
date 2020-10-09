@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ThrowValidator {
 
-    static boolean isValidThrow(Throw t, int pointsLeft) {
+    public static boolean isValidThrow(Throw t, int pointsLeft) {
         if(t == null) return false;
 
         if(t.getPoints() < 0 || t.getPoints() > 180) return false;

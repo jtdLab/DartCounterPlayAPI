@@ -4,6 +4,11 @@ import java.util.List;
 
 public class ThrowValidator {
 
+    /**
+     * @param t
+     * @param pointsLeft
+     * @return true if t is valid in raltion to the pointsLeft
+     */
     public static boolean isValidThrow(Throw t, int pointsLeft) {
         if (t == null) return false;
 

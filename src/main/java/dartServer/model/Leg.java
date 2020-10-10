@@ -22,6 +22,10 @@ public class Leg {
         this.startIndex = startIndex;
     }
 
+    /**
+     * Performs a throw updates the related fields and add the throw to the history
+     * @param t
+     */
     public void performThrow(Throw t) {
         pointsLeft[t.getPlayerIndex()] -= t.getPoints();
         dartsThrown[t.getPlayerIndex()] += t.getDartsThrown();
@@ -29,14 +33,21 @@ public class Leg {
         xThrows.add(t);
     }
 
+    /**
+     * Undos throw restores old fields and removes throw from the history
+     * @return undone throw
+     */
     Throw undoThrow() {
-        Throw last = xThrows.get(xThrows.size() - 1);
-        pointsLeft[last.getPlayerIndex()] += last.getPoints();
-        dartsThrown[last.getPlayerIndex()] -= last.getDartsThrown();
-        dartsOnDouble[last.getPlayerIndex()] -= last.getDartsOnDouble();
-        xThrows.remove(xThrows.size() - 1);
+        if(!xThrows.isEmpty()) {
+            Throw last = xThrows.get(xThrows.size() - 1);
+            pointsLeft[last.getPlayerIndex()] += last.getPoints();
+            dartsThrown[last.getPlayerIndex()] -= last.getDartsThrown();
+            dartsOnDouble[last.getPlayerIndex()] -= last.getDartsOnDouble();
+            xThrows.remove(xThrows.size() - 1);
 
-        return last;
+            return last;
+        }
+        return null;
     }
 
     /**
@@ -81,6 +92,14 @@ public class Leg {
     }
 
     public void setThrows(ArrayList<Throw> xThrows) {
+        this.xThrows = xThrows;
+    }
+
+    public ArrayList<Throw> getxThrows() {
+        return xThrows;
+    }
+
+    public void setxThrows(ArrayList<Throw> xThrows) {
         this.xThrows = xThrows;
     }
 

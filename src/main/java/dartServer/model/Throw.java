@@ -7,12 +7,6 @@ public class Throw {
     private int dartsThrown;
     private int playerIndex;
 
-    public Throw(int points, int dartsOnDouble, int dartsThrown) {
-        this.points = points;
-        this.dartsOnDouble = dartsOnDouble;
-        this.dartsThrown = dartsThrown;
-    }
-
     public Throw(int points, int dartsOnDouble, int dartsThrown, int playerIndex) {
         this.points = points;
         this.dartsOnDouble = dartsOnDouble;

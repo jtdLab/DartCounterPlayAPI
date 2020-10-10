@@ -11,7 +11,10 @@ public class GameConfig {
     private int startingPoints;
 
     public GameConfig() {
-
+        mode = GameMode.FIRST_TO;
+        type = GameType.LEGS;
+        size = 3;
+        startingPoints = 501;
     }
 
     public GameConfig(GameMode mode, GameType type, int size, int startingPoints) {

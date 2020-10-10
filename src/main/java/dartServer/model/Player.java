@@ -15,8 +15,8 @@ public class Player {
     private int sets;
     private int legs;
 
-    String average;
-    String checkoutPercentage;
+    private String average;
+    private String checkoutPercentage;
 
     Player() {
         id = UUID.randomUUID();

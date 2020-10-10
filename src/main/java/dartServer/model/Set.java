@@ -43,6 +43,10 @@ public class Set {
         return legs;
     }
 
+    public void addLeg(Leg leg) {
+        legs.add(leg);
+    }
+
     public int getLegsNeededToWin() {
         return legsNeededToWin;
     }

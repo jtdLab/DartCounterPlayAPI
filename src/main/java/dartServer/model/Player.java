@@ -1,5 +1,7 @@
 package dartServer.model;
 
+import dartServer.networking.artefacts.responses.snapshots.PlayerSnapshot;
+
 import java.util.UUID;
 
 public class Player {
@@ -18,14 +20,13 @@ public class Player {
     private String average;
     private String checkoutPercentage;
 
-    Player() {
-        id = UUID.randomUUID();
-        this.name = "";
-    }
-
     Player(String name) {
         id = UUID.randomUUID();
         this.name = name;
+    }
+
+    public PlayerSnapshot getSnapshot() {
+        return new PlayerSnapshot(this);
     }
 
     public UUID getId() {

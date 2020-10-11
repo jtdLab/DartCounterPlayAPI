@@ -24,6 +24,7 @@ public class GameConfig {
         this.startingPoints = startingPoints;
     }
 
+
     public GameMode getMode() {
         return mode;
     }
@@ -40,29 +41,29 @@ public class GameConfig {
         return startingPoints;
     }
 
-    public String getModeAsString() {
+    protected String getModeAsString() {
         switch (mode) {
             case FIRST_TO:
-                return "FIRST TO";
+                return "first to";
             case BEST_OF:
-                return "BEST OF";
+                return "best of";
         }
 
         return null;
     }
 
-    public String getTypeAsString() {
+    protected String getTypeAsString() {
         switch (type) {
             case LEGS:
                 if (size == 1) {
-                    return "LEG";
+                    return "leg";
                 }
-                return "LEGS";
+                return "legs";
             case SETS:
                 if (size == 1) {
-                    return "SET";
+                    return "set";
                 }
-                return "SETS";
+                return "sets";
         }
 
         return null;

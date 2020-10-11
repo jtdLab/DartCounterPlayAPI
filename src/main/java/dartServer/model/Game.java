@@ -3,20 +3,20 @@ package dartServer.model;
 import dartServer.model.enums.GameMode;
 import dartServer.model.enums.GameStatus;
 import dartServer.model.enums.GameType;
-import dartServer.networking.artefacts.responses.GameSnapshot;
+import dartServer.networking.artefacts.responses.snapshots.GameSnapshot;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Game {
 
-    private GameConfig config;
     private GameStatus status;
+    private GameConfig config;
 
     private ArrayList<Player> players;
     private ArrayList<Set> sets;
 
     private int turnIndex;
-
 
     public Game(Player player) {
         this.config = new GameConfig();
@@ -27,19 +27,12 @@ public class Game {
         players.add(player);
     }
 
-    public GameSnapshot getSnapshot() {
-        // TODO
-        switch (status) {
-            case PENDING:
-                return new GameSnapshot();
-            case RUNNING:
-                return new GameSnapshot();
-        }
-        return null;
-    }
 
     public boolean addPlayer(Player player) {
         if (players.size() < 4) {
+            for (Player p : players) {
+                if (p.getName().equals(player.getName())) return false;
+            }
             players.add(player);
             return true;
         }
@@ -62,7 +55,7 @@ public class Game {
     }
 
     public boolean performThrow(Throw t) {
-        if (ThrowValidator.isValidThrow(t, getCurrentTurn().getPointsLeft())) {
+        if (turnIndex == t.getPlayerIndex() && ThrowValidator.isValidThrow(t, getCurrentTurn().getPointsLeft())) {
 
             getCurrentTurn().setNext(false);
 
@@ -117,6 +110,7 @@ public class Game {
                     for (int i = 0; i < players.size(); i++) {
                         Player player = players.get(i);
                         int legs = player.getLegs();
+
                         if (i == turnIndex) {
                             legs += 1;
                         }
@@ -237,9 +231,66 @@ public class Game {
         getCurrentTurn().setCheckoutPercentage(getCheckoutPercentageCurrentTurn());
     }
 
+    public Player getWinner() {
+        switch (config.getType()) {
+            case LEGS:
+                int legsNeededToWin;
+                switch (config.getMode()) {
+                    case FIRST_TO:
+                        legsNeededToWin = config.getSize();
+                        for (Player player : players) {
+                            if (player.getLegs() == legsNeededToWin) {
+                                return player;
+                            }
+                        }
+                        break;
+                    case BEST_OF:
+                        legsNeededToWin = Math.round(config.getSize() / 2) + 1;
+                        for (Player player : players) {
+                            if (player.getLegs() == legsNeededToWin) {
+                                return player;
+                            }
+                        }
+                        break;
+                }
+                break;
+            case SETS:
+                int setsNeededToWin;
+                switch (config.getMode()) {
+                    case FIRST_TO:
+                        setsNeededToWin = config.getSize();
+                        for (Player player : players) {
+                            if (player.getSets() == setsNeededToWin) {
+                                return player;
+                            }
+                        }
+                        break;
+                    case BEST_OF:
+                        setsNeededToWin = Math.round(config.getSize() / 2) + 1;
+                        for (Player player : players) {
+                            if (player.getSets() == setsNeededToWin) {
+                                return player;
+                            }
+                        }
+                        break;
+                }
+                break;
+        }
+        return null;
+    }
+
+    public GameSnapshot getSnapshot() {
+        return new GameSnapshot(getStatusAsString(), getDescription(), players.stream().map(player -> player.getSnapshot()).collect(Collectors.toList()));
+    }
+
     public String getDescription() {
         return config.getModeAsString() + " " + config.getSize() + " " + config.getTypeAsString();
     }
+
+    public void setConfig(GameConfig config) {
+        this.config = config;
+    }
+
 
     private Set getCurrentSet() {
         return sets.get(sets.size() - 1);
@@ -267,9 +318,9 @@ public class Game {
             return "0.00";
         }
 
-        String rawString = String.valueOf(((3 * totalPointsScored) / totalDartsThrown));
-        // TODO formate 2 digits
-        return rawString;
+        double avg = ((3 * totalPointsScored) / (double) totalDartsThrown);
+        String rawString = String.format("%f", avg);
+        return rawString.substring(0, rawString.indexOf(",") + 3).replace(",", ".");
     }
 
     private String getCheckoutPercentageCurrentTurn() {
@@ -288,57 +339,10 @@ public class Game {
             return "0.00";
         }
 
-        String rawString = String.valueOf((totalLegsWon / totalDartsOnDouble) * 100);
-        // TODO formate 2 digits
-        return rawString;
-    }
+        double checkoutPercentage = (totalLegsWon / (double) totalDartsOnDouble) * 100;
+        String rawString = String.format("%f", checkoutPercentage);
+        return rawString.substring(0, rawString.indexOf(",") + 3).replace(",", ".");
 
-    public Player getWinner() {
-        switch (config.getType()) {
-            case LEGS:
-                int legsNeededToWin;
-                switch (config.getMode()) {
-                    case FIRST_TO:
-                        legsNeededToWin = config.getSize();
-                        for (Player player : players) {
-                            if (player.getLegs() == legsNeededToWin) {
-                                return player;
-                            }
-                        }
-                        break;
-                    case BEST_OF:
-                        legsNeededToWin = Math.round(config.getSize() / 2);
-                        for (Player player : players) {
-                            if (player.getLegs() == legsNeededToWin) {
-                                return player;
-                            }
-                        }
-                        break;
-                }
-                break;
-            case SETS:
-                int setsNeededToWin;
-                switch (config.getMode()) {
-                    case FIRST_TO:
-                        setsNeededToWin = config.getSize();
-                        for (Player player : players) {
-                            if (player.getSets() == setsNeededToWin) {
-                                return player;
-                            }
-                        }
-                        break;
-                    case BEST_OF:
-                        setsNeededToWin = Math.round(config.getSize() / 2);
-                        for (Player player : players) {
-                            if (player.getSets() == setsNeededToWin) {
-                                return player;
-                            }
-                        }
-                        break;
-                }
-                break;
-        }
-        return null;
     }
 
     private void createSet() {
@@ -350,7 +354,7 @@ public class Game {
             }
         } else {
             if (config.getType() == GameType.LEGS) {
-                sets.add(new Set(turnIndex, Math.round(this.config.getSize() / 2)));
+                sets.add(new Set(turnIndex, Math.round(config.getSize() / 2) + 1));
             } else {
                 sets.add(new Set(turnIndex, 3));
             }
@@ -384,5 +388,16 @@ public class Game {
         players.get(turnIndex).setNext(true);
     }
 
+    private String getStatusAsString() {
+        switch (status) {
+            case PENDING:
+                return "pending";
+            case RUNNING:
+                return "running";
+            case FINISHED:
+                return "finished";
+        }
+        return null;
+    }
 
 }

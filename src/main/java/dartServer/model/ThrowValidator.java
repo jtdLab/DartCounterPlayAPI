@@ -22,9 +22,10 @@ public class ThrowValidator {
         if (t.getDartsOnDouble() < 0 || t.getDartsOnDouble() > 3) return false;
         if (t.getDartsOnDouble() > t.getDartsThrown()) return false;
         if (t.getDartsOnDouble() > 0 && !isThreeDartFinish(pointsLeft)) return false;
-        if (t.getDartsOnDouble() == 2 && (isThreeDartFinish(pointsLeft) && !isOneDartFinish(pointsLeft) && !isTwoDartFinish(pointsLeft))) return false;
+        if (t.getDartsOnDouble() == 2 && (isThreeDartFinish(pointsLeft) && !isOneDartFinish(pointsLeft) && !isTwoDartFinish(pointsLeft)))
+            return false;
         if (t.getDartsOnDouble() == 3 && !isOneDartFinish(pointsLeft)) return false;
-        if(pointsLeft == 2 && t.getDartsOnDouble() != t.getDartsThrown()) return false;
+        if (pointsLeft == 2 && t.getDartsOnDouble() != t.getDartsThrown()) return false;
 
         return true;
     }

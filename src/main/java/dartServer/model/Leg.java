@@ -24,6 +24,7 @@ public class Leg {
 
     /**
      * Performs a throw updates the related fields and add the throw to the history
+     *
      * @param t
      */
     public void performThrow(Throw t) {
@@ -35,10 +36,11 @@ public class Leg {
 
     /**
      * Undos throw restores old fields and removes throw from the history
+     *
      * @return undone throw
      */
     Throw undoThrow() {
-        if(!xThrows.isEmpty()) {
+        if (!xThrows.isEmpty()) {
             Throw last = xThrows.get(xThrows.size() - 1);
             pointsLeft[last.getPlayerIndex()] += last.getPoints();
             dartsThrown[last.getPlayerIndex()] -= last.getDartsThrown();

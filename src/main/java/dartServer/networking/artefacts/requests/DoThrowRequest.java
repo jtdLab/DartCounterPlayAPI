@@ -1,4 +1,6 @@
 package dartServer.networking.artefacts.requests;
 
-public class DoThrowRequest {
+import dartServer.networking.artefacts.Payload;
+
+public class DoThrowRequest implements Payload {
 }

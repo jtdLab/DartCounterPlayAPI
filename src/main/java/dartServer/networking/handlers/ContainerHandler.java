@@ -3,14 +3,17 @@ package dartServer.networking.handlers;
 import dartServer.Server;
 import dartServer.networking.User;
 import dartServer.networking.artefacts.Container;
+import dartServer.networking.artefacts.ContainerDecoder;
+import dartServer.networking.artefacts.ContainerEncoder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 public class ContainerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        Container container = (Container) msg;
+        Container container = ContainerDecoder.decode((String) msg);
 
         switch (container.type) {
             case "cancelGameRequest":
@@ -19,6 +22,7 @@ public class ContainerHandler extends ChannelInboundHandlerAdapter {
             case "createGameRequest":
                 User user = Server.instance.getUser(ctx.channel());
                 Server.instance.getGameManager().createGame(user);
+                ctx.channel().writeAndFlush(new TextWebSocketFrame("GAME CREATED"));
                 break;
             case "doThrowRequest":
 

@@ -40,6 +40,14 @@
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty.websocket</groupId>
+            <artifactId>websocket-client</artifactId>
+            <version>9.4.32.v20200930</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

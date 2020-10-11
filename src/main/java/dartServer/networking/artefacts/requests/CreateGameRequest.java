@@ -1,4 +1,6 @@
 package dartServer.networking.artefacts.requests;
 
-public class CreateGameRequest {
+import dartServer.networking.artefacts.Payload;
+
+public class CreateGameRequest implements Payload {
 }

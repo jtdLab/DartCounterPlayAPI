@@ -1,4 +1,6 @@
 package dartServer.networking.artefacts.requests;
 
-public class CancelGameRequest {
+import dartServer.networking.artefacts.Payload;
+
+public class CancelGameRequest implements Payload {
 }

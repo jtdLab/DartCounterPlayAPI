@@ -1,7 +1,9 @@
 package dartServer.networking.artefacts;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import dartServer.networking.artefacts.requests.*;
 import dartServer.networking.artefacts.responses.*;
 
 /**
@@ -9,13 +11,27 @@ import dartServer.networking.artefacts.responses.*;
  */
 public class ContainerEncoder {
 
-    private static final Gson gson = new Gson();
+    private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
     public static String encode(Payload payload) {
         try {
             Container container;
 
-            if (payload instanceof AuthResponse) {
+            if (payload instanceof AuthRequest) {
+                container = new Container("authRequest", payload);
+            } else if (payload instanceof CancelGameRequest) {
+                container = new Container("cancelGameRequest", null);
+            } else if (payload instanceof CreateGameRequest) {
+                container = new Container("createGameRequest", null);
+            } else if (payload instanceof DoThrowRequest) {
+                container = new Container("doThrowRequest", payload);
+            } else if (payload instanceof JoinGameRequest) {
+                container = new Container("joinGameRequest", payload);
+            } else if (payload instanceof StartGameRequest) {
+                container = new Container("startGameRequest", payload);
+            } else if (payload instanceof UndoThrowRequest) {
+                container = new Container("undoThrowRequest", payload);
+            } else if (payload instanceof AuthResponse) {
                 container = new Container("authResponse", payload);
             } else if (payload instanceof CancelGameResponse) {
                 container = new Container("cancelGameResponse", payload);

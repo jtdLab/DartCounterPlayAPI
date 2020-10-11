@@ -1,52 +1,60 @@
 package dartServer;
 
-import dartServer.networking.artefacts.ContainerEncoder;
 import dartServer.networking.artefacts.requests.AuthRequest;
 import dartServer.networking.artefacts.requests.CreateGameRequest;
-import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
-import org.eclipse.jetty.websocket.client.WebSocketClient;
+import dartServer.networking.artefacts.responses.AuthResponse;
+import helpers.TestClient;
 import org.junit.jupiter.api.Test;
-
-import java.net.URI;
-import java.util.concurrent.TimeUnit;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ServerTest {
 
-
     @Test
     public void testAuth() throws Exception {
-        String destUri = "ws://127.0.0.1:9000";
-
-        WebSocketClient client = new WebSocketClient();
-        SimpleWebSocket socket = new SimpleWebSocket();
-        try
-        {
-            client.start();
-            URI uri = new URI(destUri);
-            ClientUpgradeRequest request = new ClientUpgradeRequest();
-            client.connect(socket, uri, request).get(2,TimeUnit.SECONDS);
-            System.err.printf("Connecting to : %s%n", uri);
-
-            socket.send(new CreateGameRequest());
-
-            socket.awaitClose(5, TimeUnit.SECONDS);
-        }
-        catch (Throwable t)
-        {
-            t.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
-                client.stop();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
+        TestClient testClient = new TestClient(9000);
+        testClient.connect();
+        testClient.send(new AuthRequest("mrjosch", "sanoj050499"));
+        testClient.disconnect();
+        assertTrue(testClient.getLastReceived() != null);
+        assertEquals("authResponse", testClient.getLastReceived().type);
+        assertTrue (((AuthResponse) testClient.getLastReceived().payload).successful);
     }
+
+    @Test
+    public void testCancelGame() throws Exception {
+
+    }
+
+    @Test
+    public void testCreateGame() throws Exception {
+        TestClient testClient = new TestClient(9000);
+        testClient.connect();
+        testClient.send(new AuthRequest("mrjosch", "sanoj050499"));
+        testClient.send(new CreateGameRequest());
+        testClient.disconnect();
+        assertTrue(testClient.getLastReceived() != null);
+        assertEquals("createGameResponse", testClient.getLastReceived().type);
+    }
+
+    @Test
+    public void testDoThrow() throws Exception {
+
+    }
+
+    @Test
+    public void testJoinGame() throws Exception {
+
+    }
+
+    @Test
+    public void testStartGame() throws Exception {
+
+    }
+
+    @Test
+    public void testUndoThrow() throws Exception {
+
+    }
+
 
 }

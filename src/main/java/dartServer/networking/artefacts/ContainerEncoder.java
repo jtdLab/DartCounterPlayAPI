@@ -20,9 +20,9 @@ public class ContainerEncoder {
             if (payload instanceof AuthRequest) {
                 container = new Container("authRequest", payload);
             } else if (payload instanceof CancelGameRequest) {
-                container = new Container("cancelGameRequest", null);
+                container = new Container("cancelGameRequest", payload);
             } else if (payload instanceof CreateGameRequest) {
-                container = new Container("createGameRequest", null);
+                container = new Container("createGameRequest", payload);
             } else if (payload instanceof DoThrowRequest) {
                 container = new Container("doThrowRequest", payload);
             } else if (payload instanceof JoinGameRequest) {

@@ -1,6 +1,8 @@
 package dartServer;
 
 import dartServer.networking.User;
+import dartServer.networking.artefacts.ContainerEncoder;
+import dartServer.networking.artefacts.requests.AuthRequest;
 import dartServer.networking.handlers.websocket.HTTPInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;

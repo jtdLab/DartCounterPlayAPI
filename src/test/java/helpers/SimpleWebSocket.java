@@ -1,4 +1,4 @@
-package dartServer;//
+package helpers;//
 //  ========================================================================
 //  Copyright (c) 1995-2020 Mort Bay Consulting Pty Ltd and others.
 //  ------------------------------------------------------------------------
@@ -20,6 +20,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import dartServer.networking.artefacts.Container;
+import dartServer.networking.artefacts.ContainerDecoder;
 import dartServer.networking.artefacts.ContainerEncoder;
 import dartServer.networking.artefacts.Payload;
 import dartServer.networking.artefacts.requests.AuthRequest;
@@ -31,42 +33,54 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-/**
- * Basic Echo Client Socket
- */
-@WebSocket(maxTextMessageSize = 64 * 1024)
+
+@org.eclipse.jetty.websocket.api.annotations.WebSocket(maxTextMessageSize = 64 * 1024)
 public class SimpleWebSocket
 {
+    private Container lastReceived;
+
     private final CountDownLatch closeLatch;
-    @SuppressWarnings("unused")
     private Session session;
 
-    public SimpleWebSocket()
-    {
-        this.closeLatch = new CountDownLatch(1);
+    public SimpleWebSocket() {
+       this.closeLatch = new CountDownLatch(1);
     }
 
-    public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException
-    {
+    public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
         return this.closeLatch.await(duration, unit);
     }
 
     @OnWebSocketClose
-    public void onClose(int statusCode, String reason)
-    {
+    public void onClose(int statusCode, String reason) {
         System.out.printf("Connection closed: %d - %s%n", statusCode, reason);
         this.session = null;
         this.closeLatch.countDown(); // trigger latch
     }
 
     @OnWebSocketConnect
-    public void onConnect(Session session)
-    {
+    public void onConnect(Session session) {
         System.out.printf("Got connect: %s%n", session);
         this.session = session;
+    }
+
+    @OnWebSocketMessage
+    public void onMessage(String msg) {
+        System.out.printf("Got msg: %s%n", msg);
+        lastReceived = ContainerDecoder.decode(msg);
+    }
+
+    @OnWebSocketError
+    public void onError(Throwable cause) {
+        System.out.printf("Got msg: %s%n", cause.getMessage());
+    }
+
+
+    public void send(Payload payload) {
         try
         {
-            send(new AuthRequest("mrjosch", "sanoj050499"));
+            String msg = ContainerEncoder.encode(payload);
+            Future<Void> fut = session.getRemote().sendStringByFuture(msg);
+            fut.get(2, TimeUnit.SECONDS); // wait for send to complete.
         }
         catch (Throwable t)
         {
@@ -74,27 +88,7 @@ public class SimpleWebSocket
         }
     }
 
-    @OnWebSocketMessage
-    public void onMessage(String msg)
-    {
-        System.out.printf("Got msg: %s%n", msg);
+    public Container getLastReceived() {
+        return lastReceived;
     }
-
-    @OnWebSocketError
-    public void onError(Throwable cause)
-    {
-        cause.printStackTrace();
-    }
-
-    public void send(Payload payload) {
-        try {
-            String msg = ContainerEncoder.encode(payload);
-            Future<Void> fut = session.getRemote().sendStringByFuture(msg);
-            fut.get(1, TimeUnit.SECONDS);
-            System.out.println("Sent " + msg);
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
 }

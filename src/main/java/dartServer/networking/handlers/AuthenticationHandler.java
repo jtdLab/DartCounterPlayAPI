@@ -26,7 +26,7 @@ public class AuthenticationHandler extends ChannelInboundHandlerAdapter {
                 AuthResponse authResponse = API.authenticate(authRequest);
 
                 if (authResponse.successful) {
-                    Server.users.add(new User(authRequest.username, ctx.channel()));
+                    Server.instance.createUser(authRequest.username, ctx.channel());
                     ctx.pipeline().replace(this, "containerHandler", new ContainerHandler());
                 }
 

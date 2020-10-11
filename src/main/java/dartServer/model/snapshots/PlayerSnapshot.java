@@ -1,4 +1,4 @@
-package dartServer.networking.artefacts.responses;
+package dartServer.model.snapshots;
 
 import dartServer.model.Player;
 

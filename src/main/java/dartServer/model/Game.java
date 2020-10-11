@@ -3,7 +3,7 @@ package dartServer.model;
 import dartServer.model.enums.GameMode;
 import dartServer.model.enums.GameStatus;
 import dartServer.model.enums.GameType;
-import dartServer.networking.artefacts.responses.GameSnapshot;
+import dartServer.model.snapshots.GameSnapshot;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;

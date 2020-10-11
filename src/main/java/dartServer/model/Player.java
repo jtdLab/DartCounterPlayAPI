@@ -1,6 +1,6 @@
 package dartServer.model;
 
-import dartServer.networking.artefacts.responses.PlayerSnapshot;
+import dartServer.model.snapshots.PlayerSnapshot;
 
 import java.util.UUID;
 

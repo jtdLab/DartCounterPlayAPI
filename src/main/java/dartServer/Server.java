@@ -1,8 +1,5 @@
 package dartServer;
 
-import dartServer.model.Game;
-import dartServer.model.Player;
-import dartServer.networking.artefacts.ContainerEncoder;
 import dartServer.networking.handlers.websocket.HTTPInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -42,6 +39,5 @@ public class Server {
             workerGroup.shutdownGracefully();
         }
     }
-
 
 }

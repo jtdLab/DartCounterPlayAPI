@@ -17,7 +17,7 @@ public class API {
     public static final int port = 8000;
 
     public static AuthResponse authenticate(AuthRequest authRequest) {
-        URI uri = URI.create(API.protocol + "://" + API.host + ":" + API.port + "/dartServer/networking/api/auth");
+        URI uri = URI.create(API.protocol + "://" + API.host + ":" + API.port + "/api/auth");
 
         Gson gson = new Gson();
         String body = gson.toJson(authRequest, AuthRequest.class);

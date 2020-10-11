@@ -1,5 +1,6 @@
 package dartServer;
 
+import dartServer.networking.User;
 import dartServer.networking.handlers.websocket.HTTPInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -10,10 +11,13 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 public class Server {
 
     public static final int PORT = 9000;
 
+    public static final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();
     public static final GameManager gameManager = new GameManager();
 
     public static void main(String[] args) {
@@ -38,6 +42,15 @@ public class Server {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    public static User getUser(Channel channel) {
+        for (User user : users) {
+            if (user.getChannel() == channel) {
+                return user;
+            }
+        }
+        return null;
     }
 
 }

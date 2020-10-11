@@ -16,6 +16,8 @@ package helpers;//
 //  ========================================================================
 //
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -38,12 +40,14 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 public class SimpleWebSocket
 {
     private Container lastReceived;
+    private List<Container> received;
 
     private final CountDownLatch closeLatch;
     private Session session;
 
     public SimpleWebSocket() {
        this.closeLatch = new CountDownLatch(1);
+       received = new ArrayList<>();
     }
 
     public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
@@ -66,7 +70,9 @@ public class SimpleWebSocket
     @OnWebSocketMessage
     public void onMessage(String msg) {
         System.out.printf("Got msg: %s%n", msg);
-        lastReceived = ContainerDecoder.decode(msg);
+        Container container = ContainerDecoder.decode(msg);
+        received.add(container);
+        lastReceived = container;
     }
 
     @OnWebSocketError
@@ -76,8 +82,7 @@ public class SimpleWebSocket
 
 
     public void send(Payload payload) {
-        try
-        {
+        try {
             String msg = ContainerEncoder.encode(payload);
             Future<Void> fut = session.getRemote().sendStringByFuture(msg);
             fut.get(2, TimeUnit.SECONDS); // wait for send to complete.
@@ -91,4 +96,9 @@ public class SimpleWebSocket
     public Container getLastReceived() {
         return lastReceived;
     }
+
+    public List<Container> getReceived() {
+        return received;
+    }
+
 }

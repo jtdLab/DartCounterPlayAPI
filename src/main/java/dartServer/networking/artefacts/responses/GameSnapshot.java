@@ -1,8 +1,10 @@
-package dartServer.networking.artefacts.responses.snapshots;
+package dartServer.networking.artefacts.responses;
+
+import dartServer.networking.artefacts.Payload;
 
 import java.util.List;
 
-public class GameSnapshot {
+public class GameSnapshot implements Payload {
 
     public String status;
     public String description;

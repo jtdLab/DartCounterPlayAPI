@@ -3,6 +3,7 @@ package dartServer.networking.artefacts;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import dartServer.networking.artefacts.responses.AuthResponse;
+import dartServer.networking.artefacts.responses.GameSnapshot;
 
 public class ContainerEncoder {
 
@@ -14,6 +15,8 @@ public class ContainerEncoder {
 
             if (payload instanceof AuthResponse) {
                 container = new Container("authResponse", payload);
+            } else if(payload instanceof GameSnapshot) {
+                container = new Container("gameSnapshot", payload);
             } else {
                 container = null;
             }

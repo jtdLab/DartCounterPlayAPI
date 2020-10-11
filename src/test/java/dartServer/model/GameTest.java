@@ -2,7 +2,7 @@ package dartServer.model;
 
 import dartServer.model.enums.GameMode;
 import dartServer.model.enums.GameType;
-import dartServer.networking.artefacts.responses.snapshots.PlayerSnapshot;
+import dartServer.networking.artefacts.responses.PlayerSnapshot;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

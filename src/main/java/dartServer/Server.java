@@ -1,5 +1,8 @@
 package dartServer;
 
+import dartServer.model.Throw;
+import dartServer.networking.Lobby;
+import dartServer.networking.PlayManager;
 import dartServer.networking.User;
 import dartServer.networking.handlers.websocket.HTTPInitializer;
 import io.netty.bootstrap.ServerBootstrap;
@@ -29,7 +32,7 @@ public class Server {
     private int port;
     private Status status;
     private final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();
-    private final GameManager gameManager = new GameManager();
+    private final PlayManager playManager = new PlayManager();
 
     private final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -80,6 +83,69 @@ public class Server {
         users.add(user);
     }
 
+    public boolean createLobby(User user) {
+        if(users.contains(user)) {
+            playManager.create(user);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteLobby(User user) {
+        Lobby lobby = playManager.getLobby(user);
+        if(lobby != null) {
+            playManager.cancel(user, lobby);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean joinLobby(User user, Lobby lobby) {
+        Lobby l = playManager.getLobby(user);
+        if(l == null) {
+            return playManager.join(user, lobby);
+        }
+        return false;
+    }
+
+    public boolean leaveLobby(User user) {
+        Lobby lobby = playManager.getLobby(user);
+        if(lobby != null) {
+            playManager.leave(user,lobby);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean startGame(User user)  {
+        Lobby lobby = playManager.getLobby(user);
+        if(lobby != null) {
+            return playManager.start(user,lobby);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean doThrow(Throw t, User user) {
+        Lobby lobby = playManager.getLobby(user);
+        if(lobby != null) {
+            return playManager.doThrow(t, user, lobby);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean undoThrow(User user)  {
+        Lobby lobby = playManager.getLobby(user);
+        if(lobby != null) {
+            return playManager.undoThrow(user, lobby);
+        } else {
+            return false;
+        }
+    }
+
+
+
     public User getUser(Channel channel) {
         for (User user : users) {
             if (user.getChannel() == channel) {
@@ -89,7 +155,7 @@ public class Server {
         return null;
     }
 
-    public GameManager getGameManager() {
-        return gameManager;
+    public PlayManager getPlayManager() {
+        return playManager;
     }
 }

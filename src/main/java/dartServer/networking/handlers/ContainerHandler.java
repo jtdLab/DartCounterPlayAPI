@@ -22,8 +22,8 @@ public class ContainerHandler extends ChannelInboundHandlerAdapter {
                 break;
             case "createGameRequest":
                 User user = Server.instance.getUser(ctx.channel());
-                Server.instance.getGameManager().createGame(user);
-                ctx.channel().writeAndFlush(new TextWebSocketFrame(ContainerEncoder.encode(new CreateGameResponse())));
+                //Server.instance.
+                //ctx.channel().write(new TextWebSocketFrame(ContainerEncoder.encode(new CreateGameResponse())));
                 break;
             case "doThrowRequest":
 

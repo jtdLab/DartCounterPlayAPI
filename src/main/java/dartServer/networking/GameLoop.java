@@ -1,4 +1,4 @@
-package dartServer;
+package dartServer.networking;
 
 import dartServer.model.Game;
 

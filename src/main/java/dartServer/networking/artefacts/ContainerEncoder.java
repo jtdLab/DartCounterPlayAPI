@@ -27,6 +27,8 @@ public class ContainerEncoder {
                 container = new Container("doThrowRequest", payload);
             } else if (payload instanceof JoinGameRequest) {
                 container = new Container("joinGameRequest", payload);
+            } else if (payload instanceof LeaveGameRequest) {
+                container = new Container("leaveGameRequest", payload);
             } else if (payload instanceof StartGameRequest) {
                 container = new Container("startGameRequest", payload);
             } else if (payload instanceof UndoThrowRequest) {
@@ -41,6 +43,8 @@ public class ContainerEncoder {
                 container = new Container("doThrowResponse", payload);
             } else if (payload instanceof JoinGameResponse) {
                 container = new Container("joinGameResponse", payload);
+            } else if (payload instanceof LeaveGameResponse) {
+                container = new Container("leaveGameResponse", payload);
             } else if (payload instanceof StartGameResponse) {
                 container = new Container("startGameResponse", payload);
             } else if (payload instanceof UndoThrowResponse) {

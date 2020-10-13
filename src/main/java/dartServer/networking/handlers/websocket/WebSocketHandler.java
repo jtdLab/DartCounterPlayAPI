@@ -13,7 +13,7 @@ public class WebSocketHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         if (msg instanceof TextWebSocketFrame) {
-            System.out.println(((TextWebSocketFrame) msg).text());
+            System.out.println("Received: " + ((TextWebSocketFrame) msg).text());
             ctx.fireChannelRead(((TextWebSocketFrame) msg).text());
         } else {
             // TODO unknown data received add log

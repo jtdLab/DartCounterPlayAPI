@@ -50,6 +50,8 @@ public class ContainerDecoder {
                         return new Container(type, gson.fromJson(payload, DoThrowRequest.class));
                     case "joinGameRequest":
                         return new Container(type, gson.fromJson(payload, JoinGameRequest.class));
+                    case "leaveGameRequest":
+                        return new Container(type, gson.fromJson(payload, LeaveGameRequest.class));
                     case "startGameRequest":
                         return new Container(type, gson.fromJson(payload, StartGameRequest.class));
                     case "undoThrowRequest":
@@ -64,6 +66,8 @@ public class ContainerDecoder {
                         return new Container(type, gson.fromJson(payload, DoThrowResponse.class));
                     case "joinGameResponse":
                         return new Container(type, gson.fromJson(payload, JoinGameResponse.class));
+                    case "leaveGameResponse":
+                        return new Container(type, gson.fromJson(payload, LeaveGameResponse.class));
                     case "startGameResponse":
                         return new Container(type, gson.fromJson(payload, StartGameResponse.class));
                     case "undoThrowResponse":

@@ -6,6 +6,8 @@ import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class TestClient {
@@ -50,5 +52,9 @@ public class TestClient {
 
     public Container getLastReceived() {
         return socket.getLastReceived();
+    }
+
+    public List<Container> getReceived() {
+        return socket.getReceived();
     }
 }

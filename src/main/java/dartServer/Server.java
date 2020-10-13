@@ -1,5 +1,6 @@
 package dartServer;
 
+import dartServer.model.Game;
 import dartServer.model.Throw;
 import dartServer.networking.Lobby;
 import dartServer.networking.PlayManager;
@@ -100,9 +101,10 @@ public class Server {
         return false;
     }
 
-    public boolean joinLobby(User user, Lobby lobby) {
+    public boolean joinLobby(User user, String usernameOfPlayerInLobby) {
         Lobby l = playManager.getLobby(user);
         if(l == null) {
+            Lobby lobby = playManager.getLobby(usernameOfPlayerInLobby);
             return playManager.join(user, lobby);
         }
         return false;
@@ -145,6 +147,10 @@ public class Server {
     }
 
 
+    public Game getGame(User user) {
+       return playManager.getGame(user);
+    }
+
 
     public User getUser(Channel channel) {
         for (User user : users) {
@@ -155,7 +161,4 @@ public class Server {
         return null;
     }
 
-    public PlayManager getPlayManager() {
-        return playManager;
-    }
 }

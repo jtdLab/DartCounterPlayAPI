@@ -29,7 +29,6 @@ public class AuthenticationHandler extends ChannelInboundHandlerAdapter {
                     Server.instance.createUser(authRequest.username, ctx.channel());
                     ctx.pipeline().replace(this, "containerHandler", new ContainerHandler());
                 }
-
                 ctx.channel().writeAndFlush(new TextWebSocketFrame(ContainerEncoder.encode(authResponse)));
             }
         }

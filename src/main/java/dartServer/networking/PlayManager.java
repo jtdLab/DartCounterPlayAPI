@@ -40,8 +40,7 @@ public class PlayManager {
 
     public boolean start(User user, Lobby lobby) {
         if(lobby.getOwner().equals(user)) {
-            lobby.start();
-            return true;
+            return lobby.start();
         }
         return false;
     }

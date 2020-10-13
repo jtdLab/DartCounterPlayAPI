@@ -20,8 +20,8 @@ public class Lobby {
     public Lobby(User user) {
         id = UUID.randomUUID();
         users = new CopyOnWriteArrayList<>();
-        join(user);
         game = new Game(new Player(user.getUsername()));
+        join(user);
     }
 
 
@@ -40,8 +40,12 @@ public class Lobby {
         game.removePlayer(index);
     }
 
-    protected void start() {
-        game.start();
+    protected boolean start() {
+        if(users.size() > 1) {
+            game.start();
+            return true;
+        }
+        return false;
     }
 
     protected boolean doThrow(Throw t, User user) {
@@ -68,6 +72,10 @@ public class Lobby {
 
     protected Game getGame() {
         return game;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     @Override

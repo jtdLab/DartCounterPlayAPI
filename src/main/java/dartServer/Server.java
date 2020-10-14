@@ -5,15 +5,16 @@ import dartServer.model.Throw;
 import dartServer.networking.Lobby;
 import dartServer.networking.PlayManager;
 import dartServer.networking.User;
-import dartServer.networking.handlers.websocket.HTTPInitializer;
+import dartServer.networking.ServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.concurrent.GlobalEventExecutor;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -23,29 +24,29 @@ enum Status{
 
 public class Server {
 
-    public static Server instance;
-
-    public static void main(String[] args) {
-        Server server = new Server(9000);
-        server.start();
-    }
-
     private int port;
     private Status status;
-    private final CopyOnWriteArrayList<User> users = new CopyOnWriteArrayList<>();
-    private final PlayManager playManager = new PlayManager();
 
-    private final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-    private final EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private final ChannelGroup channels;
+    private final CopyOnWriteArrayList<User> users;
+
+    private final PlayManager playManager;
+
+    private final EventLoopGroup bossGroup;
+    private final EventLoopGroup workerGroup;
 
     public Server(int port) {
         this.port = port;
         status = Status.NOT_RUNNING;
+        channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+        users = new CopyOnWriteArrayList<>();
+        playManager = new PlayManager();
+        bossGroup = new NioEventLoopGroup(1);
+        workerGroup = new NioEventLoopGroup();
     }
 
     public void start() {
         if(status == Status.NOT_RUNNING) {
-            instance = this;
 
             // Configure the server.
             try {
@@ -54,8 +55,7 @@ public class Server {
                 b.group(bossGroup, workerGroup)
                         .channel(NioServerSocketChannel.class)
                         .handler(new LoggingHandler(LogLevel.INFO))
-                        .childHandler(new HTTPInitializer());
-
+                        .childHandler(new ServerInitializer(this));
                 Channel ch = b.bind(port).sync().channel();
 
                 ch.closeFuture().sync();
@@ -68,20 +68,26 @@ public class Server {
 
             status = Status.RUNNING;
             // TODO log server started
+        } else {
+            // TODO log alrdy running
         }
-        // TODO log couldn't start server
     }
 
     public void stop() {
-        bossGroup.shutdownGracefully();
-        workerGroup.shutdownGracefully();
-        instance = null;
-        // TODO log server stopped
+        if(status == Status.RUNNING) {
+            bossGroup.shutdownGracefully();
+            workerGroup.shutdownGracefully();
+            // TODO log server stopped
+        } else {
+            // TODO log server not running
+        }
     }
 
+
     public void createUser(String username, Channel channel) {
-        User user = new User(username, channel);
+        User user = new User(username, channel.id());
         users.add(user);
+        channels.add(channel);
     }
 
     public boolean createLobby(User user) {
@@ -154,7 +160,7 @@ public class Server {
 
     public User getUser(Channel channel) {
         for (User user : users) {
-            if (user.getChannel() == channel) {
+            if (channels.find(user.getChannelId()) == channel) {
                 return user;
             }
         }

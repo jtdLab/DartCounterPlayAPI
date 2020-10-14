@@ -1,12 +1,11 @@
 package helpers;
 
 import dartServer.networking.artefacts.Container;
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -46,8 +45,8 @@ public class TestClient {
         }
     }
 
-    public void send(Payload payload) {
-        socket.send(payload);
+    public void send(Packet packet) {
+        socket.send(packet);
     }
 
     public Container getLastReceived() {

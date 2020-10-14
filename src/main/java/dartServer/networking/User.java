@@ -1,38 +1,23 @@
 package dartServer.networking;
 
-import dartServer.networking.artefacts.ContainerEncoder;
-import dartServer.networking.artefacts.Payload;
-import io.netty.channel.Channel;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-
-import java.util.Objects;
+import io.netty.channel.ChannelId;
 
 public class User {
 
     private String username;
-    private Channel channel;
+    private ChannelId channelId;
 
-    public User(String username, Channel channel) {
+    public User(String username, ChannelId channelId) {
         this.username = username;
-        this.channel = channel;
+        this.channelId = channelId;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public Channel getChannel() {
-        return channel;
-    }
-
-    public void send(Payload payload) {
-        channel.writeAndFlush(new TextWebSocketFrame(ContainerEncoder.encode(payload)));
-    }
-
-    public void send(Payload... payloads) {
-        for (Payload payload : payloads) {
-            send(payload);
-        }
+    public ChannelId getChannelId() {
+        return channelId;
     }
 
     @Override

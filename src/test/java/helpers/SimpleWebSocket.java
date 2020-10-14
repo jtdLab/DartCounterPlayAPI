@@ -23,17 +23,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import dartServer.networking.artefacts.Container;
-import dartServer.networking.artefacts.ContainerDecoder;
-import dartServer.networking.artefacts.ContainerEncoder;
-import dartServer.networking.artefacts.Payload;
-import dartServer.networking.artefacts.requests.AuthRequest;
+import dartServer.networking.handlers.codec.ContainerDecoder;
+import dartServer.networking.handlers.codec.ContainerEncoder;
+import dartServer.networking.artefacts.Packet;
 import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.StatusCode;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
-import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
 
 @org.eclipse.jetty.websocket.api.annotations.WebSocket(maxTextMessageSize = 64 * 1024)
@@ -81,9 +78,9 @@ public class SimpleWebSocket
     }
 
 
-    public void send(Payload payload) {
+    public void send(Packet packet) {
         try {
-            String msg = ContainerEncoder.encode(payload);
+            String msg = ContainerEncoder.encode(packet);
             Future<Void> fut = session.getRemote().sendStringByFuture(msg);
             fut.get(2, TimeUnit.SECONDS); // wait for send to complete.
         }

@@ -1,23 +1,22 @@
 package dartServer.networking.handlers.websocket;
 
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 
 /**
  * server.networking.handlers.websocket.WebSocketHandler converts incoming TextWebSocketFrame to String and forwards it
  */
 
-public class WebSocketHandler extends ChannelInboundHandlerAdapter {
+
+public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-        if (msg instanceof TextWebSocketFrame) {
-            System.out.println("Received: " + ((TextWebSocketFrame) msg).text());
-            ctx.fireChannelRead(((TextWebSocketFrame) msg).text());
-        } else {
-            // TODO unknown data received add log
-        }
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, TextWebSocketFrame textWebSocketFrame) {
+        // TODO log message received
+        String text = textWebSocketFrame.text();
+        channelHandlerContext.fireChannelRead(text);
     }
 
 }
+

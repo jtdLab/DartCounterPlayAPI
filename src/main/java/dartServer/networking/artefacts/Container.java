@@ -2,15 +2,15 @@ package dartServer.networking.artefacts;
 
 import java.sql.Timestamp;
 
-public class Container implements Payload {
+public class Container implements Packet {
 
     public String type;
-    public Payload payload;
+    public Packet packet;
     public Timestamp timestamp;
 
-    public Container(String type, Payload payload) {
+    public Container(String type, Packet packet) {
         this.type = type;
-        this.payload = payload;
+        this.packet = packet;
         timestamp = new Timestamp(System.currentTimeMillis());
     }
 

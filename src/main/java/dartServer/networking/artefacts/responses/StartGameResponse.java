@@ -1,9 +1,9 @@
 package dartServer.networking.artefacts.responses;
 
 import dartServer.model.snapshots.GameSnapshot;
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 
-public class StartGameResponse implements Payload {
+public class StartGameResponse implements Packet {
 
     public Boolean successful;
     public GameSnapshot gameSnapshot;

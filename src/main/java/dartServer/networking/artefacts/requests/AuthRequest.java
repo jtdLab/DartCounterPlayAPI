@@ -1,8 +1,8 @@
 package dartServer.networking.artefacts.requests;
 
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 
-public class AuthRequest implements Payload {
+public class AuthRequest implements Packet {
 
     public String username;
     public String password;

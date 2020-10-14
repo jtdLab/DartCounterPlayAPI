@@ -1,6 +1,6 @@
 package dartServer.networking.artefacts.requests;
 
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 
-public class UndoThrowRequest implements Payload {
+public class UndoThrowRequest implements Packet {
 }

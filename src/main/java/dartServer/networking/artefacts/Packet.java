@@ -1,4 +1,4 @@
 package dartServer.networking.artefacts;
 
-public interface Payload {
+public interface Packet {
 }

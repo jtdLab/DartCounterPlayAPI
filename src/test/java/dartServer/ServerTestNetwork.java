@@ -17,7 +17,7 @@ class ServerTestNetwork {
         testClient.disconnect();
         assertTrue(testClient.getLastReceived() != null);
         assertEquals("authResponse", testClient.getLastReceived().type);
-        assertTrue(((AuthResponse) testClient.getLastReceived().payload).successful);
+        assertTrue(((AuthResponse) testClient.getLastReceived().packet).successful);
     }
 
     @Test
@@ -43,7 +43,7 @@ class ServerTestNetwork {
         assertEquals("authResponse", testClient.getReceived().get(0).type);
         assertEquals("createGameResponse", testClient.getReceived().get(1).type);
         assertEquals("cancelGameResponse", testClient.getReceived().get(2).type);
-        assertTrue(((CancelGameResponse) testClient.getLastReceived().payload).successful);
+        assertTrue(((CancelGameResponse) testClient.getLastReceived().packet).successful);
     }
 
     @Test
@@ -63,8 +63,8 @@ class ServerTestNetwork {
         testClient.disconnect();
         assertEquals("authResponse", testClient.getReceived().get(0).type);
         assertEquals("joinGameResponse", testClient.getReceived().get(1).type);
-        assertTrue(((JoinGameResponse) testClient.getLastReceived().payload).successful);
-        GameSnapshot gameSnapshot = ((JoinGameResponse) testClient.getLastReceived().payload).gameSnapshot;
+        assertTrue(((JoinGameResponse) testClient.getLastReceived().packet).successful);
+        GameSnapshot gameSnapshot = ((JoinGameResponse) testClient.getLastReceived().packet).gameSnapshot;
         assertTrue(gameSnapshot.players.size() == 2);
     }
 
@@ -87,7 +87,7 @@ class ServerTestNetwork {
         assertEquals("authResponse", testClient.getReceived().get(0).type);
         assertEquals("joinGameResponse", testClient.getReceived().get(1).type);
         assertEquals("leaveGameResponse", testClient.getReceived().get(2).type);
-        assertTrue(((LeaveGameResponse) testClient.getLastReceived().payload).successful);
+        assertTrue(((LeaveGameResponse) testClient.getLastReceived().packet).successful);
         // TODO
     }
 
@@ -102,7 +102,7 @@ class ServerTestNetwork {
         assertEquals("authResponse", testClient.getReceived().get(0).type);
         assertEquals("createGameResponse", testClient.getReceived().get(1).type);
         assertEquals("startGameResponse", testClient.getReceived().get(2).type);
-        assertFalse(((StartGameResponse) testClient.getLastReceived().payload).successful);
+        assertFalse(((StartGameResponse) testClient.getLastReceived().packet).successful);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package dartServer.networking.artefacts.responses;
 
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 
-public class DoThrowResponse implements Payload {
+public class DoThrowResponse implements Packet {
 }

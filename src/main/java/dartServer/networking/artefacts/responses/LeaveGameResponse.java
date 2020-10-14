@@ -1,8 +1,8 @@
 package dartServer.networking.artefacts.responses;
 
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 
-public class LeaveGameResponse implements Payload {
+public class LeaveGameResponse implements Packet {
 
     public Boolean successful;
 

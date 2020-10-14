@@ -1,6 +1,6 @@
 package dartServer.networking.artefacts.requests;
 
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 
-public class LeaveGameRequest implements Payload  {
+public class LeaveGameRequest implements Packet {
 }

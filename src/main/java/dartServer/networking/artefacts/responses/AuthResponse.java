@@ -1,8 +1,8 @@
 package dartServer.networking.artefacts.responses;
 
-import dartServer.networking.artefacts.Payload;
+import dartServer.networking.artefacts.Packet;
 
-public class AuthResponse implements Payload {
+public class AuthResponse implements Packet {
 
     public Boolean successful;
     public String details;

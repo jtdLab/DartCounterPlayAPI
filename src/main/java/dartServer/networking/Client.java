@@ -16,11 +16,12 @@ public class Client {
     static final Logger logger = LogManager.getLogger(Client.class);
 
     private static long id;
+
     private long clientId;
     private Channel channel;
     private boolean kicked;
 
-    public Client(Channel channel, SocketAddress remote) {
+    public Client(Channel channel) {
         this.clientId = id;
         this.channel = channel;
         id++;

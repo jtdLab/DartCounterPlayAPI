@@ -1,8 +1,7 @@
 package dartServer.gameengine;
 
 import dartServer.commons.packets.outgoing.ResponsePacket;
-import dartServer.gameengine.listeners.ClientConnectListener;
-import dartServer.gameengine.listeners.ClientDisconnectListener;
+import dartServer.gameengine.listeners.*;
 import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;
 import dartServer.networking.NetworkManager;
@@ -33,9 +32,6 @@ public class GameEngine {
     public static void init() {
         lobbies.clear();
         users.clear();
-
-        addLobby(new Lobby());
-
         registerEvents();
     }
 
@@ -47,12 +43,14 @@ public class GameEngine {
             return;
         NetworkManager.registerListener(new ClientConnectListener());
         NetworkManager.registerListener(new ClientDisconnectListener());
-        NetworkManager.registerListener(new UserJoinListener());
+        NetworkManager.registerListener(new AuthenticationListener());
+        NetworkManager.registerListener(new ServerListener());
+        NetworkManager.registerListener(new GameListener());
         eventsRegistered = true;
     }
 
-    public static void broadcastToLobby(String name, ResponsePacket packet) {
-        Lobby lobby = getLobbyByName(name);
+    public static void broadcastToLobby(long id, ResponsePacket packet) {
+        Lobby lobby = getLobbyById(id);
         if (lobby == null)
             throw new IllegalArgumentException("Name must correspond to a lobby.");
         broadcastToLobby(lobby, packet);
@@ -64,7 +62,7 @@ public class GameEngine {
 
     public static void addUser(SocketAddress address, User user) {
         users.put(address, user);
-        getLobbyByName(user.getLobbyName()).getActiveGame().addUser(user);
+        getLobbyById(user.getLobbyId()).getActiveGame().addUser(user);
     }
 
     public static void updateUserAddress(SocketAddress address, User user) {
@@ -75,7 +73,7 @@ public class GameEngine {
     public static void removeUser(SocketAddress address) {
         User user = getUser(address);
         users.remove(address);
-        getLobbyByName(user.getLobbyName()).getActiveGame().removeUser(user);
+        getLobbyById(user.getLobbyId()).getActiveGame().removeUser(user);
     }
 
     public static User getUser(SocketAddress address) {
@@ -92,20 +90,20 @@ public class GameEngine {
 
 
     public static void addLobby(Lobby l) {
-        if (getLobbyByName(l.getName()) != null)
+        if (getLobbyById(l.getLobbyId()) != null)
             throw new IllegalArgumentException("Lobby name must be unique!");
         lobbies.add(l);
     }
 
-    public static Lobby getLobbyByName(String lobbyName) {
+    public static Lobby getLobbyById(long id) {
         for (Lobby l : lobbies) {
-            if (l.getName().equals(lobbyName))
+            if (l.getLobbyId() == id)
                 return l;
         }
         return null;
     }
 
-    public static boolean isLobby(String lobbyName) {
-        return getLobbyByName(lobbyName) != null;
+    public static boolean isLobby(long id) {
+        return getLobbyById(id) != null;
     }
 }

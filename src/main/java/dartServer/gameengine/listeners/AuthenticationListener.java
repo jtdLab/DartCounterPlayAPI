@@ -1,6 +1,8 @@
 package dartServer.gameengine.listeners;
 
 import dartServer.commons.packets.incoming.requests.AuthRequestPacket;
+import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
 import dartServer.networking.events.PacketReceiveEvent;

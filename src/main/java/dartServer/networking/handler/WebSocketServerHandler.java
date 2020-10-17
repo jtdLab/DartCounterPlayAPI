@@ -63,7 +63,7 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        client = new Client(ctx.channel(), ctx.channel().remoteAddress());
+        client = new Client(ctx.channel());
         NetworkManager.fireEvent(new ClientConnectEvent(client));
     }
 
@@ -98,7 +98,7 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        client = new Client(ctx.channel(), ctx.channel().remoteAddress());
+        client = new Client(ctx.channel());
     }
 
     @Override

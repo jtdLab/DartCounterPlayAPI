@@ -4,9 +4,9 @@ import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.GameLoop;
+import dartServer.gameengine.model.Throw;
 
 import java.util.Arrays;
-import java.util.Calendar;
 
 /**
  * PacketContainer for participants and spectators of an upcoming match
@@ -14,40 +14,27 @@ import java.util.Calendar;
  */
 public class Lobby {
 
+    private static long id;
+
+    private long lobbyId;
     Game activeGame;
-    private String name;
 
     private GameLoop gameLoop;
 
     private boolean matchCreationStarted;
 
     // --== Constructor ==--
-
-    /**
-     * instantiates a lobby with given name and user list
-     *
-     * @param name name of the lobby
-     */
-    public Lobby(String name) {
-        this.name = name;
+    public Lobby(User user) {
         this.matchCreationStarted = false;
-
-        activeGame = new Game();
+        activeGame = new Game(user);
+        lobbyId = id++;
     }
-
 
     // --== GameLoop ==--
 
-    /**
-     * Starts the GameLoop and setUps BallPositions
-     */
-
-
-    public void startMatch() {
+    public void startGame() {
 
     }
-
-
 
 
     /**
@@ -57,46 +44,7 @@ public class Lobby {
         Thread newAction = new Thread() {
             public void run() {
 
-                int timeout;
-                if (activeGame.getPhase() == PhaseType.BALLPHASE)
-                    timeout = GameEngine.getMatchConfig().getTimeouts().getPlayerTurnTimeout();
-                else
-                    timeout = GameEngine.getMatchConfig().getTimeouts().getFanTurnTimeout();
 
-                ResponsePacket action = gameLoop.getNextAction(timeout);
-                if (!(action instanceof MatchFinishPacket)) {
-                    broadcastToUsers(action);    //Broadcast next Action or deltaPacket in ballPhase
-                } else {//If gameIsOver
-                    broadcastToUsers(action);
-                    return;
-                }
-
-                //Timeout feststellen
-                long timerEnd = Calendar.getInstance().getTimeInMillis() + timeout;
-                long restTimer = 0;
-
-                if (!gameLoop.isWaitingForResponse()) {
-                    broadcastNextAction();
-                    return;
-                }
-
-                while (gameLoop.isWaitingForResponse()) {
-                    if (gameLoop.isGameOver()) {
-                        broadcastNextAction();
-                        return;
-                    } else if (gameLoop.isPaused()) {
-                        if (restTimer == 0)
-                            restTimer = timerEnd - Calendar.getInstance().getTimeInMillis();
-                    } else if (gameLoop.isContinued()) {
-                        timerEnd = Calendar.getInstance().getTimeInMillis() + restTimer;
-                        restTimer = 0;
-                        gameLoop.setContinued(false);
-                    } else if (timerEnd <= Calendar.getInstance().getTimeInMillis()) {
-                        broadcastToUsers(new GlobalDebugPacket("Timeout of " + timeout + " milliseconds exceeded. Next Action requested!"));
-                        broadcastNextAction();
-                        return;
-                    }
-                }
             }
         };
 
@@ -104,12 +52,27 @@ public class Lobby {
     }
 
     /**
-     * Gets called every time a valid DealtaRequest is received
-     *
-     * @param packet The DeltaRequest packet
+     * Gets called every time a valid throw is received
+     * @param t
      */
-    public void actionPerformed(DeltaRequestPacket packet) {
+    public void throwPerformed(Throw t) {
+        activeGame.performThrow(t);
+    }
 
+    public void undoThrow() {
+        activeGame.undoThrow();
+    }
+
+    public void addUser(User user) {
+        activeGame.addUser(user);
+    }
+
+    public void removeUser(User user){
+        activeGame.removeUser(user);
+    }
+
+    public void start(){
+        activeGame.start();
     }
 
     // --== Methods ==--
@@ -120,32 +83,16 @@ public class Lobby {
      * @param packet the packet that needs to be sent
      */
     public void broadcastToUsers(ResponsePacket packet) {
-        if (activeGame.getLeftUser() != null && activeGame.getLeftUser().isConnected())
-            activeGame.getLeftUser().sendMessage(packet);
-        if (activeGame.getRightUser() != null && activeGame.getRightUser().isConnected())
-            activeGame.getRightUser().sendMessage(packet);
-        for (User u : activeGame.getSpectators()) {
+        for (User u : activeGame.getUsers()) {
             if (u.isConnected())
                 u.sendMessage(packet);
         }
-    }
-
-    public ReconnectPacket getReconnectPacket() {
-        return new ReconnectPacket(this.getActiveGame().getMatchStart(), this.getActiveGame().getSnapshotPacket(), this.getGameLoop().getCurrentNext());
     }
 
     // --== Getter/Setter ==--
 
     public Game getActiveGame() {
         return activeGame;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public boolean isMatchCreationStarted() {
@@ -157,7 +104,7 @@ public class Lobby {
     }
 
     public User[] getUsers() {
-        return Arrays.stream(GameEngine.getUsers()).filter(user -> user.getLobbyName().equals(this.name)).toArray(User[]::new);
+        return Arrays.stream(GameEngine.getUsers()).filter(user -> user.getLobbyId() == this.id).toArray(User[]::new);
     }
 
     public GameLoop getGameLoop() {
@@ -168,4 +115,7 @@ public class Lobby {
         this.gameLoop = gameLoop;
     }
 
+    public long getLobbyId() {
+        return lobbyId;
+    }
 }

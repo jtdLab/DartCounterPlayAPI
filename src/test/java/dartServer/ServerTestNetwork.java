@@ -1,6 +1,6 @@
 package dartServer;
 
-import dartServer.model.snapshots.GameSnapshot;
+import dartServer.gameengine.model.snapshots.GameSnapshot;
 import dartServer.networking.artefacts.requests.*;
 import dartServer.networking.artefacts.responses.*;
 import helpers.TestClient;

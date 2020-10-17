@@ -30,8 +30,6 @@ public class GameEngine {
 
     /**
      * Initialize the GameEngine, resets a previously initialized GameEngine.
-     *
-     * @param config The match config for all games managed by the game engine.
      */
     public static void init() {
         lobbies.clear();
@@ -51,12 +49,6 @@ public class GameEngine {
         NetworkManager.registerListener(new ClientConnectListener());
         NetworkManager.registerListener(new ClientDisconnectListener());
         NetworkManager.registerListener(new UserJoinListener());
-        NetworkManager.registerListener(new TeamConfigListener());
-        NetworkManager.registerListener(new TeamFormationListener());
-        NetworkManager.registerListener(new DeltaPacketListener());
-        NetworkManager.registerListener(new DebugMessageListener());
-        NetworkManager.registerListener(new ReplayRequestListener());
-        NetworkManager.registerListener(new PauseHandlingListener());
         eventsRegistered = true;
     }
 

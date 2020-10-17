@@ -1,6 +1,6 @@
 package dartServer.gameengine.listeners;
 
-
+import dartServer.commons.packets.incoming.requests.CreateGamePacket;
 import dartServer.commons.packets.incoming.requests.JoinGamePacket;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.User;
@@ -11,20 +11,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Listener class for the event of a JoinRequest by a client.
+ * Listener class for server events.
  */
-public class UserJoinListener implements NetworkEventListener {
+public class ServerListener implements NetworkEventListener {
 
-    static final Logger logger = LogManager.getLogger(UserJoinListener.class);
+    static final Logger logger = LogManager.getLogger(ServerListener.class);
 
     /**
-     * Event called on a JoinRequest. Will validate the request and register the user in case of a valid request. Otherwise, the connection will be closed again (kick client).
-     *
-     * @param event
+     * @param event the event fired on createGame by a client
      */
     @Event
-    public void onJoinPacket(PacketReceiveEvent<JoinGamePacket> event) {
+    public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) {
 
+    }
+
+    /**
+     * @param event the event fired on joinGame by a client
+     */
+    @Event
+    public void onJoinGame(PacketReceiveEvent<JoinGamePacket> event) {
         User user = GameEngine.getUserByName(event.getPacket().getUserName());
         if (user != null) {
             // A user with that name already exists

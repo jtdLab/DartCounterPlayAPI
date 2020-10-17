@@ -3,7 +3,6 @@ package dartServer.gameengine;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.listeners.ClientConnectListener;
 import dartServer.gameengine.listeners.ClientDisconnectListener;
-import dartServer.gameengine.listeners.UserJoinListener;
 import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;
 import dartServer.networking.NetworkManager;

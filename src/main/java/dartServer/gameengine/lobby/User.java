@@ -1,12 +1,13 @@
 package dartServer.gameengine.lobby;
 
+import dartServer.commons.packets.outgoing.ResponsePacket;
+import dartServer.networking.Client;
+
 public class User {
+
     private String name;
     private String lobbyName;
     private String password;
-    private boolean isArtificialIntelligence;
-    private String[] mods;
-    private Team team;
     private boolean isPlayer;
 
     private Client client; // client for networking
@@ -30,39 +31,12 @@ public class User {
      * @param name                     name of the user
      * @param lobbyName                The name of the lobby
      * @param password                 password of the user
-     * @param isArtificialIntelligence AI tag
      */
-    public User(Client client, String name, String lobbyName, String password, boolean isArtificialIntelligence) {
+    public User(Client client, String name, String lobbyName, String password) {
         this.client = client;
         this.name = name;
         this.lobbyName = lobbyName;
         this.password = password;
-        this.isArtificialIntelligence = isArtificialIntelligence;
-
-        this.mods = null;
-        this.team = null;
-        this.isPlayer = false;
-    }
-
-    /**
-     * instantiates a user with known mods
-     *
-     * @param client                   client for networking
-     * @param name                     name of user
-     * @param lobbyName                The name of the lobby
-     * @param password                 password of the user
-     * @param isArtificialIntelligence AI tag
-     * @param mods                     definite list of valid game modifications
-     */
-    public User(Client client, String name, String lobbyName, String password, boolean isArtificialIntelligence, String[] mods) {
-        this.client = client;
-        this.name = name;
-        this.lobbyName = lobbyName;
-        this.password = password;
-        this.isArtificialIntelligence = isArtificialIntelligence;
-        this.mods = mods;
-
-        this.team = null;
         this.isPlayer = false;
     }
 
@@ -96,22 +70,6 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public boolean isArtificialIntelligence() {
-        return isArtificialIntelligence;
-    }
-
-    public String[] getMods() {
-        return mods;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 
     public boolean isPlayer() {

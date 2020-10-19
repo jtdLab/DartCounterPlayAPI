@@ -19,7 +19,7 @@ import java.util.List;
 public class GameEngine {
 
     private static HashMap<SocketAddress, User> users = new HashMap<>();
-    private static List<Lobby> lobbies = new ArrayList<Lobby>();
+    private static List<Lobby> lobbies = new ArrayList<>();
     private static boolean eventsRegistered;
 
     private GameEngine() {
@@ -52,7 +52,7 @@ public class GameEngine {
     public static void broadcastToLobby(long id, ResponsePacket packet) {
         Lobby lobby = getLobbyById(id);
         if (lobby == null)
-            throw new IllegalArgumentException("Name must correspond to a lobby.");
+            throw new IllegalArgumentException("Id must correspond to a lobby.");
         broadcastToLobby(lobby, packet);
     }
 

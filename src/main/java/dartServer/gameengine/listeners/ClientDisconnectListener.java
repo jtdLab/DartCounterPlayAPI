@@ -26,6 +26,8 @@ public class ClientDisconnectListener implements NetworkEventListener {
      */
     @Event
     public void onLeave(ClientDisconnectEvent event) {
+        logger.warn("onLeave");
+        /*
         User user = GameEngine.getUser(event.getClient().getAddress());
         if (user.isPlayer()) {
             //Inform GameLoop that protocol was violated by User
@@ -50,6 +52,7 @@ public class ClientDisconnectListener implements NetworkEventListener {
         } else {
             GameEngine.removeUser(event.getClient().getAddress());
         }
+         */
     }
 
 }

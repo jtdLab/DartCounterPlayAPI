@@ -26,7 +26,7 @@ public class PerformThrowPacket implements RequestPacket {
     @Override
     public String toString() {
         return "PerformThrow{" +
-                "t='" + toString() +'\'' +
+                "t='" + t.toString() +'\'' +
                 "}";
     }
 

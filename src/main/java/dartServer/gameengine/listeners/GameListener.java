@@ -19,7 +19,7 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onStartGame(PacketReceiveEvent<StartGamePacket> event) {
-
+        logger.warn("onStartGame");
     }
 
     /**
@@ -27,7 +27,7 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onCancelGame(PacketReceiveEvent<CancelGamePacket> event) {
-
+        logger.warn("onCancelGame");
     }
 
     /**
@@ -35,7 +35,7 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onExitGame(PacketReceiveEvent<ExitGamePacket> event) {
-
+        logger.warn("onExitGame");
     }
 
     /**
@@ -43,7 +43,7 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onPerformThrow(PacketReceiveEvent<PerformThrowPacket> event) {
-
+        logger.warn("onPerformThrow");
     }
 
     /**
@@ -51,7 +51,7 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onUndoThrow(PacketReceiveEvent<UndoThrowPacket> event) {
-
+        logger.warn("onUndoThrow");
     }
 
 }

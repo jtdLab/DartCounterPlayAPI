@@ -28,9 +28,9 @@ public class Leg {
      * @param t
      */
     public void performThrow(Throw t) {
-        pointsLeft[t.getPlayerIndex()] -= t.getPoints();
-        dartsThrown[t.getPlayerIndex()] += t.getDartsThrown();
-        dartsOnDouble[t.getPlayerIndex()] += t.getDartsOnDouble();
+        pointsLeft[t.getUserIndex()] -= t.getPoints();
+        dartsThrown[t.getUserIndex()] += t.getDartsThrown();
+        dartsOnDouble[t.getUserIndex()] += t.getDartsOnDouble();
         xThrows.add(t);
     }
 
@@ -42,9 +42,9 @@ public class Leg {
     public Throw undoThrow() {
         if (!xThrows.isEmpty()) {
             Throw last = xThrows.get(xThrows.size() - 1);
-            pointsLeft[last.getPlayerIndex()] += last.getPoints();
-            dartsThrown[last.getPlayerIndex()] -= last.getDartsThrown();
-            dartsOnDouble[last.getPlayerIndex()] -= last.getDartsOnDouble();
+            pointsLeft[last.getUserIndex()] += last.getPoints();
+            dartsThrown[last.getUserIndex()] -= last.getDartsThrown();
+            dartsOnDouble[last.getUserIndex()] -= last.getDartsOnDouble();
             xThrows.remove(xThrows.size() - 1);
 
             return last;

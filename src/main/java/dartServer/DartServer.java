@@ -1,6 +1,7 @@
 package dartServer;
 
 
+import dartServer.gameengine.GameEngine;
 import dartServer.networking.WebSocketServer;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +12,13 @@ import org.apache.logging.log4j.spi.StandardLevel;
 
 
 // {"payloadType":"authRequest","payload":{"username":"mrjosch","password":"sanoj050499"},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"createGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"joinGame","payload":{"gameCode":9999},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"startGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"cancelGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"exitGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"performThrow","payload":{"t":{"points":180,"dartsOnDouble":0,"dartsThrown":0,"userIndex":1}},"timestamp":"2020-10-17 03:38:16.44"} --
+// {"payloadType":"undoThrow","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
 
 /**
  * This is the main class to start the Dart server from the command line
@@ -30,7 +38,7 @@ class DartServer implements Runnable {
     private static int port = 9000;
 
     @CommandLine.Option(names = {"-v", "--verbosity"}, description = "Verbosity (0=off, 100=fatal, ..., 600=trace)")
-    private static int verbosity = 400;
+    private static int verbosity = 300;
 
     /**
      * Start the server by parsing the commandline options
@@ -68,7 +76,7 @@ class DartServer implements Runnable {
         System.out.println();
 
         logger.info("Initializing game engine...");
-        // TODO GameEngine.init(matchConfig);
+        GameEngine.init();
 
         try {
             logger.info("Starting websocket server...");

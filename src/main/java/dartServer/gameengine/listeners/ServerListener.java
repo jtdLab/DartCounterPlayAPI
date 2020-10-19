@@ -22,7 +22,7 @@ public class ServerListener implements NetworkEventListener {
      */
     @Event
     public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) {
-
+        logger.warn("onCreateGame");
     }
 
     /**
@@ -30,6 +30,9 @@ public class ServerListener implements NetworkEventListener {
      */
     @Event
     public void onJoinGame(PacketReceiveEvent<JoinGamePacket> event) {
+        logger.warn("onJoin");
+        /*
+
         User user = GameEngine.getUserByName(event.getPacket().getUserName());
         if (user != null) {
             // A user with that name already exists
@@ -55,6 +58,8 @@ public class ServerListener implements NetworkEventListener {
                 event.setRejected(true, "Login was denied because the lobby does not exist.");
             }
         }
+
+         */
     }
 
 }

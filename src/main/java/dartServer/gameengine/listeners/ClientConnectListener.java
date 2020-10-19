@@ -1,5 +1,9 @@
 package dartServer.gameengine.listeners;
 
+import com.google.gson.Gson;
+import dartServer.commons.packets.incoming.requests.*;
+import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
+import dartServer.gameengine.model.Throw;
 import dartServer.networking.events.ClientConnectEvent;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.EventPriority;
@@ -20,18 +24,8 @@ public class ClientConnectListener implements NetworkEventListener {
      * @param event the event fired on connection opening by a client
      */
     @Event
-    public void onJoin(ClientConnectEvent event) {
-        //event.getClient().sendPacket("Hello, nice to see you."));
-    }
-
-    /**
-     * Code example for priority on events.
-     *
-     * @param event the event fired on connection opening by a client
-     */
-    @Event(priority = EventPriority.HIGHEST)
-    public void onJoin2(ClientConnectEvent event) {
-        // This will be fired first (before the other listener)!
+    public void onConnect(ClientConnectEvent event) {
+      logger.warn("onConnect");
     }
 
 }

@@ -106,7 +106,7 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
         super.userEventTriggered(ctx, evt);
         String s = (String) evt;
         if (client != null && s.equals("upgraded")) {
-            NetworkManager.fireEvent(new ClientConnectEvent(client));
+            //NetworkManager.fireEvent(new ClientConnectEvent(client));
         }
        /* if (client != null && evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
             NetworkManager.fireEvent(new ClientConnectEvent(client));

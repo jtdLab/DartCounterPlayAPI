@@ -318,8 +318,13 @@ public class Game {
         return legs.get(legs.size() - 1);
     }
 
-    private User getCurrentTurn() {
+    public User getCurrentTurn() {
         return users.get(turnIndex);
+    }
+
+    public User getNextTurn() {
+        int i = (turnIndex+1)%users.size();
+        return users.get(i);
     }
 
     private String getAverageCurrentTurn() {

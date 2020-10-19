@@ -46,6 +46,14 @@ public class GameListener implements NetworkEventListener {
     @Event
     public void onCancelGame(PacketReceiveEvent<CancelGamePacket> event) {
         logger.warn("onCancelGame");
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.getLobbyById(user.getLobbyId());
+        if(user.getName().equals(lobby.getOwnerName())) {
+           for(User u : lobby.getUsers()) {
+               u.setLobbyId(-1);
+           }
+           GameEngine.removeLobby(lobby);
+        }
     }
 
     /**
@@ -53,7 +61,8 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onExitGame(PacketReceiveEvent<ExitGamePacket> event) {
-        logger.warn("onExitGame");
+        logger.warn("onExitGame TODO");
+        // TODO
     }
 
     /**
@@ -66,8 +75,11 @@ public class GameListener implements NetworkEventListener {
         Lobby lobby = GameEngine.getLobbyById(user.getLobbyId());
         Throw t = event.getPacket().getT();
 
-       // TODO if
-        lobby.performThrow(t);
+        if(user.equals(lobby.getActiveGame().getCurrentTurn())) {
+            if(lobby.performThrow(t)) {
+                lobby.broadcastToUsers(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
+            }
+        }
     }
 
     /**
@@ -76,6 +88,13 @@ public class GameListener implements NetworkEventListener {
     @Event
     public void onUndoThrow(PacketReceiveEvent<UndoThrowPacket> event) {
         logger.warn("onUndoThrow");
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.getLobbyById(user.getLobbyId());
+
+        if(user.equals(lobby.getActiveGame().getNextTurn())) {
+            lobby.getActiveGame().undoThrow();
+            lobby.broadcastToUsers(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
+        }
     }
 
 }

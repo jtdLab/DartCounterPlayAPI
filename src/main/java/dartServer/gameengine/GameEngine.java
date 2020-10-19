@@ -106,9 +106,21 @@ public class GameEngine {
         lobbies.add(l);
     }
 
+    public static void removeLobby(Lobby lobby) {
+        lobbies.remove(lobby);
+    }
+
     public static Lobby getLobbyById(long id) {
         for (Lobby l : lobbies) {
             if (l.getLobbyId() == id)
+                return l;
+        }
+        return null;
+    }
+
+    public static Lobby getLobbyByCode(int code) {
+        for (Lobby l : lobbies) {
+            if (l.getCode() == code)
                 return l;
         }
         return null;

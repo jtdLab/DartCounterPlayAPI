@@ -2,7 +2,9 @@ package dartServer.gameengine.listeners;
 
 import dartServer.commons.packets.incoming.requests.CreateGamePacket;
 import dartServer.commons.packets.incoming.requests.JoinGamePacket;
+import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
 import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
+import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
@@ -43,6 +45,18 @@ public class ServerListener implements NetworkEventListener {
     @Event
     public void onJoinGame(PacketReceiveEvent<JoinGamePacket> event) {
         logger.warn("onJoin");
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        int code = event.getPacket().getGameCode();
+        Lobby lobby = GameEngine.getLobbyByCode(code);
+        if(lobby != null) {
+            if(lobby.addUser(user)) {
+                user.sendMessage(new JoinGameResponsePacket(true));
+                lobby.broadcastToUsers(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
+            }
+        } else {
+            user.sendMessage(new JoinGameResponsePacket(false));
+        }
+
         /*
         User user = GameEngine.getUserByName(event.getPacket().getUserName());
         if (user != null) {

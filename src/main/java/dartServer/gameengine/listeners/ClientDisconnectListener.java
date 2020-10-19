@@ -26,10 +26,12 @@ public class ClientDisconnectListener implements NetworkEventListener {
      */
     @Event
     public void onDisconnect(ClientDisconnectEvent event) {
-        logger.warn("onLeave");
+        logger.warn("onLeave TODO");
         for(User user : GameEngine.getUsers()) {
             logger.warn(user);
         }
+
+        // TODO
 
        /*
             User user = GameEngine.getUser(event.getClient().getAddress());

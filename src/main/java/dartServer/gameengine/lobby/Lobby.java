@@ -35,17 +35,20 @@ public class Lobby {
         activeGame.start();
     }
 
-    public void performThrow(Throw t) {
-        activeGame.performThrow(t);
+    public boolean performThrow(Throw t) {
+        return activeGame.performThrow(t);
     }
 
     public void undoThrow() {
         activeGame.undoThrow();
     }
 
-    public void addUser(User user) {
-        user.setLobbyId(lobbyId);
-        activeGame.addUser(user);
+    public boolean addUser(User user) {
+       if(activeGame.addUser(user)) {
+           user.setLobbyId(lobbyId);
+           return true;
+       }
+       return false;
     }
 
     public void removeUser(User user){
@@ -94,5 +97,9 @@ public class Lobby {
 
     public String getOwnerName() {
         return activeGame.getUsers().get(0).getName();
+    }
+
+    public int getCode() {
+        return (int)lobbyId+999;
     }
 }

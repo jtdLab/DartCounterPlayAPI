@@ -60,14 +60,25 @@ public class GameEngine {
         Arrays.stream(lobby.getUsers()).forEach(user -> user.sendMessage(packet));
     }
 
+
+    public static void addUser(User user) {
+        SocketAddress address = user.getClient().getAddress();
+        addUser(address, user);
+    }
+
     public static void addUser(SocketAddress address, User user) {
         users.put(address, user);
-        getLobbyById(user.getLobbyId()).getActiveGame().addUser(user);
     }
 
     public static void updateUserAddress(SocketAddress address, User user) {
-        users.remove(user);
+        users.remove(address);
         addUser(address, user);
+    }
+
+    public static void removeUser(User user) {
+        SocketAddress address = user.getClient().getAddress();
+        users.remove(address);
+        getLobbyById(user.getLobbyId()).getActiveGame().removeUser(user);
     }
 
     public static void removeUser(SocketAddress address) {

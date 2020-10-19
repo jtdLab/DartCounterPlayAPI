@@ -3,7 +3,6 @@ package dartServer.gameengine.lobby;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
-import dartServer.gameengine.GameLoop;
 import dartServer.gameengine.model.Throw;
 
 import java.util.Arrays;
@@ -14,12 +13,12 @@ import java.util.Arrays;
  */
 public class Lobby {
 
-    private static long id;
+    private static long id = 1;
 
     private long lobbyId;
     Game activeGame;
 
-    private GameLoop gameLoop;
+    //private GameLoop gameLoop;
 
     private boolean matchCreationStarted;
 
@@ -33,29 +32,10 @@ public class Lobby {
     // --== GameLoop ==--
 
     public void startGame() {
-
+        activeGame.start();
     }
 
-
-    /**
-     * Part of the gameloop in the lobby. Broadcasts the next required action to all Users in the Lobby
-     */
-    private void broadcastNextAction() {
-        Thread newAction = new Thread() {
-            public void run() {
-
-
-            }
-        };
-
-        newAction.start();
-    }
-
-    /**
-     * Gets called every time a valid throw is received
-     * @param t
-     */
-    public void throwPerformed(Throw t) {
+    public void performThrow(Throw t) {
         activeGame.performThrow(t);
     }
 
@@ -64,6 +44,7 @@ public class Lobby {
     }
 
     public void addUser(User user) {
+        user.setLobbyId(lobbyId);
         activeGame.addUser(user);
     }
 
@@ -71,8 +52,8 @@ public class Lobby {
         activeGame.removeUser(user);
     }
 
-    public void start(){
-        activeGame.start();
+    public boolean start(){
+        return activeGame.start();
     }
 
     // --== Methods ==--
@@ -107,15 +88,11 @@ public class Lobby {
         return Arrays.stream(GameEngine.getUsers()).filter(user -> user.getLobbyId() == this.id).toArray(User[]::new);
     }
 
-    public GameLoop getGameLoop() {
-        return gameLoop;
-    }
-
-    public void setGameLoop(GameLoop gameLoop) {
-        this.gameLoop = gameLoop;
-    }
-
     public long getLobbyId() {
         return lobbyId;
+    }
+
+    public String getOwnerName() {
+        return activeGame.getUsers().get(0).getName();
     }
 }

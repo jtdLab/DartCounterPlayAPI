@@ -2,7 +2,10 @@ package dartServer.gameengine.listeners;
 
 import dartServer.commons.packets.incoming.requests.CreateGamePacket;
 import dartServer.commons.packets.incoming.requests.JoinGamePacket;
+import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
+import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
@@ -23,6 +26,15 @@ public class ServerListener implements NetworkEventListener {
     @Event
     public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) {
         logger.warn("onCreateGame");
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        if(user.getLobbyId() == -1) {
+            Lobby lobby = new Lobby(user);
+            GameEngine.addLobby(lobby);
+            lobby.addUser(user);
+            user.sendMessage(new CreateGameResponsePacket(true));
+        } else {
+            user.sendMessage(new CreateGameResponsePacket(false));
+        }
     }
 
     /**
@@ -32,7 +44,6 @@ public class ServerListener implements NetworkEventListener {
     public void onJoinGame(PacketReceiveEvent<JoinGamePacket> event) {
         logger.warn("onJoin");
         /*
-
         User user = GameEngine.getUserByName(event.getPacket().getUserName());
         if (user != null) {
             // A user with that name already exists
@@ -58,7 +69,6 @@ public class ServerListener implements NetworkEventListener {
                 event.setRejected(true, "Login was denied because the lobby does not exist.");
             }
         }
-
          */
     }
 

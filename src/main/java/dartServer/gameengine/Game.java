@@ -49,11 +49,15 @@ public class Game {
         users.remove(user);
     }
 
-    public void start() {
-        createSet();
-        createLeg();
-        initusers();
-        status = GameStatus.RUNNING;
+    public boolean start() {
+        if(status == GameStatus.PENDING && users.size() > 2) {
+            createSet();
+            createLeg();
+            initusers();
+            status = GameStatus.RUNNING;
+            return true;
+        }
+        return false;
     }
 
     public boolean performThrow(Throw t) {

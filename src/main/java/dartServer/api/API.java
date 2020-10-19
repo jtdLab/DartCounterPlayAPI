@@ -2,6 +2,7 @@ package dartServer.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dartServer.commons.packets.incoming.requests.AuthRequestPacket;
 import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
 
 import java.io.IOException;
@@ -13,15 +14,15 @@ import java.net.http.HttpResponse;
 public class API {
 
     private static final String protocol = "http";
-    private static final String host = "127.0.0.1";//"192.168.2.110";
+    private static final String host = "192.168.2.110"; // "127.0.0.1";
     private static final int port = 8000;
 
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
-    public static AuthResponsePacket authenticate(AuthResponsePacket authRequest) {
+    public static AuthResponsePacket authenticate(AuthRequestPacket authRequest) {
         URI uri = URI.create(API.protocol + "://" + API.host + ":" + API.port + "/api/auth");
 
-        String body = gson.toJson(authRequest, AuthResponsePacket.class);
+        String body = gson.toJson(authRequest, AuthRequestPacket.class);
 
         HttpClient client = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)

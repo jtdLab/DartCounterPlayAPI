@@ -1,7 +1,10 @@
 package dartServer.gameengine.listeners;
 
+import dartServer.api.API;
 import dartServer.commons.packets.incoming.requests.AuthRequestPacket;
 import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
+import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
 import dartServer.networking.events.PacketReceiveEvent;
@@ -23,6 +26,14 @@ public class AuthenticationListener implements NetworkEventListener {
     @Event
     public void onAuth(PacketReceiveEvent<AuthRequestPacket> event) {
         logger.warn("onAuth");
+        AuthRequestPacket authRequest = event.getPacket();
+        AuthResponsePacket authResponse = API.authenticate(authRequest);
+        if(authResponse.getSuccessful()) {
+            User user = new User(authRequest.getUsername(), event.getClient());
+            GameEngine.addUser(user);
+        }
+
+        event.getClient().sendPacket(authResponse);
     }
 
 }

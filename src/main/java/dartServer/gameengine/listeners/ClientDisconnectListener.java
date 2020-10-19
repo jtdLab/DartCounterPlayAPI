@@ -25,10 +25,14 @@ public class ClientDisconnectListener implements NetworkEventListener {
      * @param event
      */
     @Event
-    public void onLeave(ClientDisconnectEvent event) {
+    public void onDisconnect(ClientDisconnectEvent event) {
         logger.warn("onLeave");
-        /*
-        User user = GameEngine.getUser(event.getClient().getAddress());
+        for(User user : GameEngine.getUsers()) {
+            logger.warn(user);
+        }
+
+       /*
+            User user = GameEngine.getUser(event.getClient().getAddress());
         if (user.isPlayer()) {
             //Inform GameLoop that protocol was violated by User
             Lobby lobby = GameEngine.getLobbyByName(user.getLobbyName());
@@ -52,7 +56,8 @@ public class ClientDisconnectListener implements NetworkEventListener {
         } else {
             GameEngine.removeUser(event.getClient().getAddress());
         }
-         */
+
+        */
     }
 
 }

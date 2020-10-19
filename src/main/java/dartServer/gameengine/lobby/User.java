@@ -2,17 +2,19 @@ package dartServer.gameengine.lobby;
 
 import dartServer.commons.artifacts.PlayerSnapshot;
 import dartServer.commons.packets.outgoing.ResponsePacket;
+import dartServer.commons.validators.Username;
 import dartServer.gameengine.model.Player;
 import dartServer.networking.Client;
 
 public class User {
 
+    @Username
     private String name;
     private String password;
 
     private boolean isPlayer;
 
-    private int lobbyId;
+    private long lobbyId;
 
     private Client client; // client for networking
 
@@ -26,24 +28,10 @@ public class User {
      *
      * @param client The client of the user
      */
-    public User(Client client) {
-        this.client = client;
-    }
-
-    /**
-     * instantiates a user with unknown or empty mods
-     * user is spectator, as long as team is null
-     *
-     * @param client                   client for networking
-     * @param name                     name of the user
-     * @param password                 password of the user
-     */
-    public User(Client client, String name, String password, int lobbyId) {
-        this.client = client;
+    public User(String name, Client client) {
         this.name = name;
-        this.password = password;
-        this.isPlayer = false;
-        this.lobbyId = lobbyId;
+        lobbyId = -1;
+        this.client = client;
     }
 
     // --== Methods ==--
@@ -82,11 +70,11 @@ public class User {
         return client != null;
     }
 
-    public int getLobbyId() {
+    public long getLobbyId() {
         return lobbyId;
     }
 
-    public void setLobbyId(int lobbyId) {
+    public void setLobbyId(long lobbyId) {
         this.lobbyId = lobbyId;
     }
 
@@ -168,5 +156,13 @@ public class User {
 
     public PlayerSnapshot getSnapshot() {
         return player.getSnapshot();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", lobbyId=" + lobbyId +
+                '}';
     }
 }

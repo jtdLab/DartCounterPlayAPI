@@ -3,6 +3,7 @@ package dartServer.gameengine.lobby;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.model.Player;
 import dartServer.gameengine.model.Throw;
 
 import java.util.Arrays;
@@ -26,6 +27,7 @@ public class Lobby {
     public Lobby(User user) {
         this.matchCreationStarted = false;
         activeGame = new Game(user);
+        user.setPlayer(new Player(user.getName()));
         lobbyId = id++;
     }
 
@@ -44,8 +46,9 @@ public class Lobby {
     }
 
     public boolean addUser(User user) {
+        user.setLobbyId(lobbyId);
+        user.setPlayer(new Player(user.getName()));
        if(activeGame.addUser(user)) {
-           user.setLobbyId(lobbyId);
            return true;
        }
        return false;

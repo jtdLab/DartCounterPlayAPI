@@ -13,12 +13,12 @@ import org.apache.logging.log4j.spi.StandardLevel;
 
 // {"payloadType":"authRequest","payload":{"username":"mrjosch","password":"sanoj050499"},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"createGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
-// {"payloadType":"joinGame","payload":{"gameCode":9999},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"joinGame","payload":{"gameCode":1000},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"startGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
-// {"payloadType":"cancelGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
-// {"payloadType":"exitGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
-// {"payloadType":"performThrow","payload":{"t":{"points":180,"dartsOnDouble":0,"dartsThrown":0,"userIndex":1}},"timestamp":"2020-10-17 03:38:16.44"} --
-// {"payloadType":"undoThrow","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"cancelGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"} --
+// {"payloadType":"exitGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"} --
+// {"payloadType":"performThrow","payload":{"t":{"points":180,"dartsOnDouble":0,"dartsThrown":3,"userIndex":0}},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"undoThrow","payload":{},"timestamp":"2020-10-17 03:38:16.44"} --
 
 /**
  * This is the main class to start the Dart server from the command line

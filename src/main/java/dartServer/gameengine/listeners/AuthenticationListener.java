@@ -25,12 +25,12 @@ public class AuthenticationListener implements NetworkEventListener {
      */
     @Event
     public void onAuth(PacketReceiveEvent<AuthRequestPacket> event) {
-        logger.warn("onAuth");
         AuthRequestPacket authRequest = event.getPacket();
         AuthResponsePacket authResponse = API.authenticate(authRequest);
         if(authResponse.getSuccessful()) {
             User user = new User(authRequest.getUsername(), event.getClient());
             GameEngine.addUser(user);
+            logger.warn(authRequest.getUsername() + " joined the server");
         }
 
         event.getClient().sendPacket(authResponse);

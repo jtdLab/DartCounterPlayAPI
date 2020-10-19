@@ -4,6 +4,7 @@ import dartServer.commons.packets.incoming.requests.*;
 import dartServer.commons.packets.outgoing.broadcasts.*;
 import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
+import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 
 /**
  * Enum list of all possible payload types
@@ -24,7 +25,7 @@ public enum PacketType {
     // unicast
     AUTH_RESPONSE("authResponse", AuthResponsePacket.class),
     CREATE_GAME_RESPONSE("createGameResponse", CreateGameResponsePacket.class),
-    JOINED_GAME_RESPONSE("joinedGameResponse", CreateGameResponsePacket.class),
+    JOIN_GAME_RESPONSE("joinGameResponse", JoinGameResponsePacket.class),
     // broadcast
     PLAYER_JOINED("playerJoined", PlayerJoinedPacket.class),
     PLAYER_EXITED("playerExited", PlayerExitedPacket.class),

@@ -26,14 +26,15 @@ public class ServerListener implements NetworkEventListener {
      * @param event the event fired on createGame by a client
      */
     @Event
-    public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) {
-        logger.warn("onCreateGame");
+    public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) { ;
         User user = GameEngine.getUser(event.getClient().getAddress());
         if(user.getLobbyId() == -1) {
             Lobby lobby = new Lobby(user);
             GameEngine.addLobby(lobby);
             lobby.addUser(user);
+            logger.warn(user.getName() + " created lobby " + lobby.getLobbyId() + "[Code = "+ lobby.getCode() + "]");
             user.sendMessage(new CreateGameResponsePacket(true));
+            user.sendMessage(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
         } else {
             user.sendMessage(new CreateGameResponsePacket(false));
         }
@@ -44,12 +45,12 @@ public class ServerListener implements NetworkEventListener {
      */
     @Event
     public void onJoinGame(PacketReceiveEvent<JoinGamePacket> event) {
-        logger.warn("onJoin");
         User user = GameEngine.getUser(event.getClient().getAddress());
         int code = event.getPacket().getGameCode();
         Lobby lobby = GameEngine.getLobbyByCode(code);
         if(lobby != null) {
             if(lobby.addUser(user)) {
+                logger.warn(user.getName() + " joined lobby " + lobby.getLobbyId() + "[Code = "+ lobby.getCode() + "]");
                 user.sendMessage(new JoinGameResponsePacket(true));
                 lobby.broadcastToUsers(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
             }

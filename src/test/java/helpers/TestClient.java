@@ -1,7 +1,7 @@
 package helpers;
 
-import dartServer.networking.artefacts.Container;
-import dartServer.networking.artefacts.Packet;
+import dartServer.commons.packets.Packet;
+import dartServer.commons.packets.PacketContainer;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
 
@@ -49,11 +49,11 @@ public class TestClient {
         socket.send(packet);
     }
 
-    public Container getLastReceived() {
+    public PacketContainer getLastReceived() {
         return socket.getLastReceived();
     }
 
-    public List<Container> getReceived() {
+    public List<PacketContainer> getReceived() {
         return socket.getReceived();
     }
 }

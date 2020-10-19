@@ -50,7 +50,7 @@ public class Game {
     }
 
     public boolean start() {
-        if(status == GameStatus.PENDING && users.size() > 2) {
+        if(status == GameStatus.PENDING && users.size() > 1) {
             createSet();
             createLeg();
             initusers();
@@ -322,8 +322,9 @@ public class Game {
         return users.get(turnIndex);
     }
 
-    public User getNextTurn() {
-        int i = (turnIndex+1)%users.size();
+    public User getPrevTurn() {
+        // TODO
+        int i = (turnIndex-1)%users.size();
         return users.get(i);
     }
 

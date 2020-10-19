@@ -22,10 +22,10 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import dartServer.networking.artefacts.Container;
-import dartServer.networking.handlers.codec.ContainerDecoder;
-import dartServer.networking.handlers.codec.ContainerEncoder;
-import dartServer.networking.artefacts.Packet;
+import com.google.gson.Gson;
+import dartServer.commons.JsonManager;
+import dartServer.commons.packets.Packet;
+import dartServer.commons.packets.PacketContainer;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
@@ -36,8 +36,8 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 @org.eclipse.jetty.websocket.api.annotations.WebSocket(maxTextMessageSize = 64 * 1024)
 public class SimpleWebSocket
 {
-    private Container lastReceived;
-    private List<Container> received;
+    private PacketContainer lastReceived;
+    private List<PacketContainer> received;
 
     private final CountDownLatch closeLatch;
     private Session session;
@@ -67,7 +67,8 @@ public class SimpleWebSocket
     @OnWebSocketMessage
     public void onMessage(String msg) {
         System.out.printf("Got msg: %s%n", msg);
-        Container container = ContainerDecoder.decode(msg);
+        Gson gson = JsonManager.getGson();
+        PacketContainer container = gson.fromJson(msg, PacketContainer.class);
         received.add(container);
         lastReceived = container;
     }
@@ -80,7 +81,8 @@ public class SimpleWebSocket
 
     public void send(Packet packet) {
         try {
-            String msg = ContainerEncoder.encode(packet);
+            Gson gson = JsonManager.getGson();
+            String msg = gson.toJson(new PacketContainer(packet), PacketContainer.class);
             Future<Void> fut = session.getRemote().sendStringByFuture(msg);
             fut.get(2, TimeUnit.SECONDS); // wait for send to complete.
         }
@@ -90,11 +92,11 @@ public class SimpleWebSocket
         }
     }
 
-    public Container getLastReceived() {
+    public PacketContainer getLastReceived() {
         return lastReceived;
     }
 
-    public List<Container> getReceived() {
+    public List<PacketContainer> getReceived() {
         return received;
     }
 

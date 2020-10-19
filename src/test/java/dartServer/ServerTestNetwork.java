@@ -1,14 +1,13 @@
+
 package dartServer;
 
-import dartServer.gameengine.model.snapshots.GameSnapshot;
-import dartServer.networking.artefacts.requests.*;
-import dartServer.networking.artefacts.responses.*;
+
 import helpers.TestClient;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ServerTestNetwork {
-
+/*
     @Test
     public void testAuth() throws Exception {
         TestClient testClient = new TestClient(9000);
@@ -120,4 +119,5 @@ class ServerTestNetwork {
         // TODO test
     }
 
+*/
 }

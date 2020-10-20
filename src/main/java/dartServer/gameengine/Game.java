@@ -54,7 +54,7 @@ public class Game {
     }
 
     public boolean start(Player player) {
-        Player owner = players.get(0);
+        Player owner = getOwner();
 
         if (owner.equals(player) && status == GameStatus.PENDING && players.size() > 1) {
             createSet();
@@ -67,7 +67,7 @@ public class Game {
     }
 
     public boolean performThrow(Player player, Throw t) {
-        Player currentTurn = players.get(turnIndex);
+        Player currentTurn = getCurrentTurn();
 
         if (status == GameStatus.RUNNING && currentTurn.equals(player)) {
             if (turnIndex == t.getPlayerIndex() && ThrowValidator.isValidThrow(t, getCurrentTurn().getPointsLeft())) {

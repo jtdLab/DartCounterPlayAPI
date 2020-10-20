@@ -1,14 +1,15 @@
-package dartServer.gameengine.model;
-
+package dartServer.gameengine.lobby;
 
 import dartServer.commons.artifacts.PlayerSnapshot;
-
-import java.util.UUID;
+import dartServer.commons.packets.outgoing.ResponsePacket;
+import dartServer.commons.validators.Username;
+import dartServer.networking.Client;
 
 public class Player {
 
-    private UUID id;
-    private String name;
+    @Username
+    private final String name; // unique name
+
     private boolean isNext;
 
     private int lastThrow;
@@ -21,29 +22,38 @@ public class Player {
     private String average;
     private String checkoutPercentage;
 
-    public Player(String name) {
-        id = UUID.randomUUID();
+    private Integer lobbyId; // id of lobby the player is part of or null
+
+    private Client client; // client for networking
+
+
+    // --== Constructors ==--
+
+    public Player(String name, Client client) {
         this.name = name;
+        this.client = client;
     }
+
+
+    // --== Methods ==--
+
+    public void sendMessage(ResponsePacket packet) {
+        client.sendPacket(packet);
+    }
+
+
+    // --== Getter/Setter ==--
 
     public PlayerSnapshot getSnapshot() {
         return new PlayerSnapshot(this);
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
+    public boolean isConnected() {
+        return client != null;
     }
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public boolean isNext() {
@@ -109,4 +119,37 @@ public class Player {
     public void setCheckoutPercentage(String checkoutPercentage) {
         this.checkoutPercentage = checkoutPercentage;
     }
+
+    public Integer getLobbyId() {
+        return lobbyId;
+    }
+
+    public void setLobbyId(Integer lobbyId) {
+        this.lobbyId = lobbyId;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", lobbyId=" + lobbyId +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return name.equals(player.getName());
+    }
+
 }

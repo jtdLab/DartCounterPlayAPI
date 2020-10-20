@@ -3,7 +3,8 @@ package dartServer.gameengine;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.listeners.*;
 import dartServer.gameengine.lobby.Lobby;
-import dartServer.gameengine.lobby.User;
+import dartServer.gameengine.lobby.Player;
+import dartServer.networking.Client;
 import dartServer.networking.NetworkManager;
 
 import java.net.SocketAddress;
@@ -14,11 +15,11 @@ import java.util.List;
 
 /**
  * Control class for the server-side game logic and infrastructure. Games take place in lobbies.
- * Users with their SocketAdress are managed via mapping.
+ * players with their SocketAdress are managed via mapping.
  */
 public class GameEngine {
 
-    private static final HashMap<SocketAddress, User> users = new HashMap<>();
+    private static final HashMap<SocketAddress, Player> players = new HashMap<>();
     private static final List<Lobby> lobbies = new ArrayList<>();
     private static boolean eventsRegistered;
 
@@ -31,7 +32,7 @@ public class GameEngine {
      */
     public static void init() {
         lobbies.clear();
-        users.clear();
+        players.clear();
         registerEvents();
     }
 
@@ -49,76 +50,75 @@ public class GameEngine {
         eventsRegistered = true;
     }
 
-    public static void broadcastToLobby(long id, ResponsePacket packet) {
-        Lobby lobby = getLobbyById(id);
-        if (lobby == null)
-            throw new IllegalArgumentException("Id must correspond to a lobby.");
-        broadcastToLobby(lobby, packet);
-    }
-
-    public static void broadcastToLobby(Lobby lobby, ResponsePacket packet) {
-        Arrays.stream(lobby.getUsers()).forEach(user -> user.sendMessage(packet));
-    }
-
-
-    public static void addUser(User user) {
-        SocketAddress address = user.getClient().getAddress();
-        addUser(address, user);
-    }
-
-    public static void addUser(SocketAddress address, User user) {
-        users.put(address, user);
-    }
-
-    public static void updateUserAddress(SocketAddress address, User user) {
-        users.remove(address);
-        addUser(address, user);
-    }
-
-    public static void removeUser(User user) {
-        SocketAddress address = user.getClient().getAddress();
-        users.remove(address);
-        getLobbyById(user.getLobbyId()).getActiveGame().removeUser(user);
-    }
-
-    public static void removeUser(SocketAddress address) {
-        User user = getUser(address);
-        users.remove(address);
-        getLobbyById(user.getLobbyId()).getActiveGame().removeUser(user);
-    }
-
-    public static User getUser(SocketAddress address) {
-        return users.get(address);
-    }
-
-    public static User getUserByName(String userName) {
-        return Arrays.stream(getUsers()).filter(user -> user.getName().equals(userName)).findFirst().orElse(null);
-    }
-
-    public static User[] getUsers() {
-        return users.values().toArray(new User[0]);
-    }
-
-
-    public static void addLobby(Lobby l) {
-        if (getLobbyById(l.getLobbyId()) != null)
-            throw new IllegalArgumentException("Lobby name must be unique!");
-        lobbies.add(l);
-    }
-
-    public static void removeLobby(Lobby lobby) {
-        lobbies.remove(lobby);
-    }
-
-    public static Lobby getLobbyById(long id) {
-        for (Lobby l : lobbies) {
-            if (l.getLobbyId() == id)
-                return l;
+    public static Player createPlayer(String name, Client client) {
+        Player player = new Player(name, client);
+        if(addPlayer(player)) {
+           return player;
         }
         return null;
     }
 
-    public static Lobby getLobbyByCode(int code) {
+    public static Lobby createLobby(Player player) {
+        if(player.getLobbyId() == null) {
+            Lobby lobby = new Lobby(player);
+            lobbies.add(new Lobby(player));
+            return lobby;
+        }
+        return null;
+    }
+
+    public static Lobby joinLobby(Player player, int code) {
+        if(player.getLobbyId() == null) {
+           Lobby lobby = getLobbyByCode(code);
+           if(lobby != null) {
+               if(lobby.addPlayer(player)) {
+                   return lobby;
+               }
+           }
+        }
+        return null;
+    }
+
+
+
+    public static Player getPlayer(SocketAddress address) {
+        return players.get(address);
+    }
+
+    public static Lobby getLobbyByPlayer(Player player) {
+        Integer lobbyId = player.getLobbyId();
+        if(lobbyId == null) return null;
+
+        for (Lobby lobby : lobbies) {
+            if (lobby.getId() == lobbyId)
+                return lobby;
+        }
+        return null;
+    }
+
+    public static Player[] getPlayers() {
+        return players.values().toArray(new Player[0]);
+    }
+
+
+
+
+
+
+
+
+
+    private static boolean addPlayer(Player player) {
+        SocketAddress address = player.getClient().getAddress();
+        if(!players.containsKey(address)) {
+            players.put(address, player);
+            return true;
+        }
+
+       return true;
+    }
+
+    private static Lobby getLobbyByCode(int code) {
         for (Lobby l : lobbies) {
             if (l.getCode() == code)
                 return l;
@@ -126,7 +126,41 @@ public class GameEngine {
         return null;
     }
 
-    public static boolean isLobby(long id) {
-        return getLobbyById(id) != null;
+
+
+
+
+
+
+
+
+    public static void broadcastToLobby(Lobby lobby, ResponsePacket packet) {
+        Arrays.stream(lobby.getPlayers()).forEach(player -> player.sendMessage(packet));
     }
+
+    public static void updatePlayerAddress(SocketAddress address, Player player) {
+        players.remove(address);
+        addPlayer(player);
+    }
+
+    public static void removePlayer(Player player) {
+       /* SocketAddress address = player.getClient().getAddress();
+        players.remove(address);
+        getLobbyById(player.getLobbyId()).getGame().removePlayer(player);*/
+    }
+
+    public static void removeUser(SocketAddress address) {
+        /*Player player = getUser(address);
+        players.remove(address);
+        getLobbyById(player.getLobbyId()).getGame().removePlayer(player);*/
+    }
+
+    public static Player getUserByName(String userName) {
+        return Arrays.stream(getPlayers()).filter(user -> user.getName().equals(userName)).findFirst().orElse(null);
+    }
+
+    public static void removeLobby(Lobby lobby) {
+        lobbies.remove(lobby);
+    }
+
 }

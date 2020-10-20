@@ -3,103 +3,87 @@ package dartServer.gameengine.lobby;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
-import dartServer.gameengine.model.Player;
 import dartServer.gameengine.model.Throw;
 
 import java.util.Arrays;
 
-/**
- * PacketContainer for participants and spectators of an upcoming match
- * Users are listed after logging into the Server
- */
 public class Lobby {
 
-    private static long id = 1;
+    private static int lobbyCount = 1;
 
-    private final long lobbyId;
-    Game activeGame;
-
-    //private GameLoop gameLoop;
-
-    private boolean matchCreationStarted;
+    private final int id;
+    
+    private Game game;
+    
 
     // --== Constructor ==--
-    public Lobby(User user) {
-        this.matchCreationStarted = false;
-        activeGame = new Game(user);
-        user.setPlayer(new Player(user.getName()));
-        lobbyId = id++;
+
+    public Lobby(Player player) {
+        game = new Game(player);
+        id = lobbyCount++;
     }
 
-    // --== GameLoop ==--
-
-    public void startGame() {
-        activeGame.start();
-    }
-
-    public boolean performThrow(Throw t) {
-        return activeGame.performThrow(t);
-    }
-
-    public void undoThrow() {
-        activeGame.undoThrow();
-    }
-
-    public boolean addUser(User user) {
-        user.setLobbyId(lobbyId);
-        user.setPlayer(new Player(user.getName()));
-        return activeGame.addUser(user);
-    }
-
-    public void removeUser(User user) {
-        activeGame.removeUser(user);
-    }
-
-    public boolean start() {
-        return activeGame.start();
-    }
 
     // --== Methods ==--
+
+    public boolean addPlayer(Player player) {
+        player.setLobbyId(id);
+        return game.addPlayer(player);
+    }
+
+    public void removePlayer(Player player) {
+        game.removePlayer(player);
+    }
+
+    public boolean startGame(Player player) {
+        return game.start(player);
+    }
+
+    public boolean performThrow(Player player, Throw t) {
+        return game.performThrow(player, t);
+    }
+
+    public boolean undoThrow(Player player) {
+        return game.undoThrow(player);
+    }
 
     /**
      * broadcasts the given packet to all Clients in the Lobby.
      *
      * @param packet the packet that needs to be sent
      */
-    public void broadcastToUsers(ResponsePacket packet) {
-        for (User u : activeGame.getUsers()) {
-            if (u.isConnected())
-                u.sendMessage(packet);
+    public void broadcastToPlayers(ResponsePacket packet) {
+        for (Player player: game.getPlayers()) {
+            if (player.isConnected())
+                player.sendMessage(packet);
         }
     }
 
+
     // --== Getter/Setter ==--
 
-    public Game getActiveGame() {
-        return activeGame;
+    public int getId() {
+        return id;
     }
 
-    public boolean isMatchCreationStarted() {
-        return matchCreationStarted;
+    public Game getGame() {
+        return game;
     }
 
-    public void setMatchCreationStarted(boolean matchCreationStarted) {
-        this.matchCreationStarted = matchCreationStarted;
-    }
-
-    public User[] getUsers() {
-        return Arrays.stream(GameEngine.getUsers()).filter(user -> user.getLobbyId() == id).toArray(User[]::new);
-    }
-
-    public long getLobbyId() {
-        return lobbyId;
-    }
-
-    public String getOwnerName() {
-        return activeGame.getUsers().get(0).getName();
+    public Player[] getPlayers() {
+        return Arrays.stream(GameEngine.getPlayers()).filter(player -> player.getLobbyId() == id).toArray(Player[]::new);
     }
 
     public int getCode() {
-        return (int) lobbyId + 999;
+        return id + 999;
     }
+
+    @Override
+    public String toString() {
+        return "Lobby{" +
+                "id=" + id +
+                "code=" + getCode() +
+                '}';
+    }
+
 }

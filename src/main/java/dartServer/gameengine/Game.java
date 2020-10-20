@@ -1,7 +1,7 @@
 package dartServer.gameengine;
 
 import dartServer.commons.artifacts.GameSnapshot;
-import dartServer.gameengine.lobby.User;
+import dartServer.gameengine.lobby.Player;
 import dartServer.gameengine.model.GameConfig;
 import dartServer.gameengine.model.Leg;
 import dartServer.gameengine.model.Set;
@@ -18,72 +18,77 @@ public class Game {
     private GameStatus status;
     private GameConfig config;
 
-    private final ArrayList<User> users;
+    private final ArrayList<Player> players;
     private final ArrayList<Set> sets;
 
     private int turnIndex;
 
-    public Game(User user) {
+
+    // --== Constructor ==--
+
+    public Game(Player player) {
         this.config = new GameConfig();
         this.status = GameStatus.PENDING;
-        users = new ArrayList<>();
+        players = new ArrayList<>();
         sets = new ArrayList<>();
         turnIndex = 0;
-        users.add(user);
+        players.add(player);
     }
 
 
-    public boolean addUser(User user) {
-        if (users.size() < 4) {
-            for (User u : users) {
-                if (u.getName().equals(user.getName())) return false;
+    // --== Methods ==--
+
+    public boolean addPlayer(Player player) {
+        if (players.size() < 4) {
+            for (Player u : players) {
+                if (u.getName().equals(player.getName())) return false;
             }
-            users.add(user);
+            players.add(player);
             return true;
         }
         return false;
     }
 
-    public void removeUser(int index) {
-        users.remove(index);
+    public void removePlayer(Player player) {
+        players.remove(player);
     }
 
-    public void removeUser(User user) {
-        users.remove(user);
-    }
+    public boolean start(Player player) {
+        Player owner = players.get(0);
 
-    public boolean start() {
-        if (status == GameStatus.PENDING && users.size() > 1) {
+        if (owner.equals(player) && status == GameStatus.PENDING && players.size() > 1) {
             createSet();
             createLeg();
-            initusers();
+            initPlayers();
             status = GameStatus.RUNNING;
             return true;
         }
         return false;
     }
 
-    public boolean performThrow(Throw t) {
-        if (status == GameStatus.RUNNING) {
-            if (turnIndex == t.getUserIndex() && ThrowValidator.isValidThrow(t, getCurrentTurn().getPointsLeft())) {
+    public boolean performThrow(Player player, Throw t) {
+        Player currentTurn = players.get(turnIndex);
+
+        if (status == GameStatus.RUNNING && currentTurn.equals(player)) {
+            if (turnIndex == t.getPlayerIndex() && ThrowValidator.isValidThrow(t, getCurrentTurn().getPointsLeft())) {
 
                 getCurrentTurn().setNext(false);
 
-                // sets the User who threw
-                t.setUserIndex(turnIndex);
+                // sets the Player who threw
+                t.setPlayerIndex(turnIndex);
 
                 // updates the leg data
                 getCurrentLeg().performThrow(t);
 
-                // updates the User data
+                // updates the Player data
                 getCurrentTurn().setLastThrow(t.getPoints());
                 getCurrentTurn().setPointsLeft(getCurrentTurn().getPointsLeft() - t.getPoints());
                 getCurrentTurn().setDartsThrown(getCurrentTurn().getDartsThrown() + t.getDartsThrown());
                 getCurrentTurn().setAverage(getAverageCurrentTurn());
                 getCurrentTurn().setCheckoutPercentage(getCheckoutPercentageCurrentTurn());
 
-                // updates the reference to the User who has next turn
-                // updates the User data and creates next leg and set when needed
+                // updates the reference to the Player who has next turn
+                // updates the Player data and creates next leg and set when needed
                 if (getCurrentLeg().getWinner() != -1) {
                     if (getCurrentSet().getWinner() != -1) {
                         int sets = -1;
@@ -105,35 +110,35 @@ public class Game {
                             status = GameStatus.FINISHED;
                         } else {
                             // CONTINUE NEW SET
-                            for (int i = 0; i < users.size(); i++) {
-                                User user = users.get(i);
-                                user.setPointsLeft(config.getStartingPoints());
-                                user.setDartsThrown(0);
-                                user.setLegs(0);
+                            for (int i = 0; i < players.size(); i++) {
+                                Player p = players.get(i);
+                                p.setPointsLeft(config.getStartingPoints());
+                                p.setDartsThrown(0);
+                                p.setLegs(0);
                             }
-                            turnIndex = (getCurrentSet().getStartIndex() + 1) % users.size();
+                            turnIndex = (getCurrentSet().getStartIndex() + 1) % players.size();
                             createSet();
                             createLeg();
                         }
                     } else {
                         // CONTINUE NEW LEG
-                        for (int i = 0; i < users.size(); i++) {
-                            User user = users.get(i);
-                            int legs = user.getLegs();
+                        for (int i = 0; i < players.size(); i++) {
+                            Player p = players.get(i);
+                            int legs = p.getLegs();
 
                             if (i == turnIndex) {
                                 legs += 1;
                             }
-                            user.setPointsLeft(config.getStartingPoints());
-                            user.setDartsThrown(0);
-                            user.setLegs(legs);
+                            p.setPointsLeft(config.getStartingPoints());
+                            p.setDartsThrown(0);
+                            p.setLegs(legs);
                         }
-                        turnIndex = (getCurrentLeg().getStartIndex() + 1) % users.size();
+                        turnIndex = (getCurrentLeg().getStartIndex() + 1) % players.size();
                         createLeg();
                     }
                 } else {
                     // CONTINUE
-                    turnIndex = (turnIndex + 1) % users.size();
+                    turnIndex = (turnIndex + 1) % players.size();
                 }
                 getCurrentTurn().setNext(true);
                 return true;
@@ -142,11 +147,13 @@ public class Game {
         return false;
     }
 
-    public void undoThrow() {
-        if (status == GameStatus.RUNNING) {
+    public boolean undoThrow(Player player) {
+        Player previous = getPreviousTurn();
+
+        if (status == GameStatus.RUNNING && previous.equals(player)) {
             if (sets.size() == 1 && sets.get(0).getLegs().size() == 1 && getCurrentLeg().getThrows().size() == 0) {
                 // NO THROW PERFORMED YET -> do nothing
-                return;
+                return false;
             }
 
             getCurrentTurn().setNext(false);
@@ -154,7 +161,7 @@ public class Game {
             if (sets.size() == 1 && sets.get(0).getLegs().size() == 1 && getCurrentLeg().getThrows().size() == 1) {
                 // UNDO FIRST THROW OF GAME
                 Throw last = getCurrentLeg().undoThrow();
-                turnIndex = last.getUserIndex();
+                turnIndex = last.getPlayerIndex();
                 getCurrentTurn().setLastThrow(-1);
                 getCurrentTurn().setPointsLeft(config.getStartingPoints());
                 getCurrentTurn().setDartsThrown(0);
@@ -164,20 +171,20 @@ public class Game {
                 // UNDO LAST THROW OF SET
                 sets.remove(sets.size() - 1);
                 Throw last = getCurrentLeg().undoThrow();
-                turnIndex = last.getUserIndex();
+                turnIndex = last.getPlayerIndex();
 
-                // restore User data
-                for (int i = 0; i < users.size(); i++) {
-                    User user = users.get(i);
+                // restore Player data
+                for (int i = 0; i < players.size(); i++) {
+                    Player p = players.get(i);
 
                     if (turnIndex == i) {
-                        user.setLastThrow(getCurrentLeg().getThrows().get(getCurrentLeg().getThrows().size() - users.size()).getPoints());
-                        user.setAverage(getAverageCurrentTurn());
-                        user.setCheckoutPercentage(getCheckoutPercentageCurrentTurn());
+                        p.setLastThrow(getCurrentLeg().getThrows().get(getCurrentLeg().getThrows().size() - players.size()).getPoints());
+                        p.setAverage(getAverageCurrentTurn());
+                        p.setCheckoutPercentage(getCheckoutPercentageCurrentTurn());
                     }
 
-                    user.setPointsLeft(getCurrentLeg().getPointsLeft()[i]);
-                    user.setDartsThrown(getCurrentLeg().getDartsThrown()[i]);
+                    p.setPointsLeft(getCurrentLeg().getPointsLeft()[i]);
+                    p.setDartsThrown(getCurrentLeg().getDartsThrown()[i]);
 
                     int s = 0;
                     int l = 0;
@@ -198,27 +205,27 @@ public class Game {
                         }
                     }
 
-                    user.setSets(s);
-                    user.setLegs(l);
+                    p.setSets(s);
+                    p.setLegs(l);
                 }
             } else if (getCurrentSet().getLegs().size() >= 2 && getCurrentLeg().getThrows().size() == 0) {
                 // UNDO LAST THROW OF LEG
                 getCurrentSet().getLegs().remove(getCurrentSet().getLegs().size() - 1);
                 Throw last = getCurrentLeg().undoThrow();
-                turnIndex = last.getUserIndex();
+                turnIndex = last.getPlayerIndex();
 
-                // restore user data
-                for (int i = 0; i < users.size(); i++) {
-                    User user = users.get(i);
+                // restore Player data
+                for (int i = 0; i < players.size(); i++) {
+                    Player p = players.get(i);
 
                     if (turnIndex == i) {
-                        user.setLastThrow(getCurrentLeg().getThrows().get(getCurrentLeg().getThrows().size() - users.size()).getPoints());
-                        user.setAverage(getAverageCurrentTurn());
-                        user.setCheckoutPercentage(getCheckoutPercentageCurrentTurn());
+                        p.setLastThrow(getCurrentLeg().getThrows().get(getCurrentLeg().getThrows().size() - players.size()).getPoints());
+                        p.setAverage(getAverageCurrentTurn());
+                        p.setCheckoutPercentage(getCheckoutPercentageCurrentTurn());
                     }
 
-                    user.setPointsLeft(getCurrentLeg().getPointsLeft()[i]);
-                    user.setDartsThrown(getCurrentLeg().getDartsThrown()[i]);
+                    p.setPointsLeft(getCurrentLeg().getPointsLeft()[i]);
+                    p.setDartsThrown(getCurrentLeg().getDartsThrown()[i]);
 
                     int l = 0;
                     for (Leg leg : getCurrentSet().getLegs()) {
@@ -227,13 +234,13 @@ public class Game {
                         }
                     }
 
-                    user.setLegs(l);
+                    p.setLegs(l);
                 }
             } else {
                 // UNDO STANDARD THROW
                 Throw last = getCurrentLeg().undoThrow();
-                turnIndex = last.getUserIndex();
-                getCurrentTurn().setLastThrow(getCurrentLeg().getThrows().get(getCurrentLeg().getThrows().size() - users.size()).getPoints());
+                turnIndex = last.getPlayerIndex();
+                getCurrentTurn().setLastThrow(getCurrentLeg().getThrows().get(getCurrentLeg().getThrows().size() - players.size()).getPoints());
                 getCurrentTurn().setPointsLeft(getCurrentTurn().getPointsLeft() + last.getPoints());
                 getCurrentTurn().setDartsThrown(getCurrentTurn().getDartsThrown() - last.getDartsThrown());
             }
@@ -241,27 +248,46 @@ public class Game {
             getCurrentTurn().setNext(true);
             getCurrentTurn().setAverage(getAverageCurrentTurn());
             getCurrentTurn().setCheckoutPercentage(getCheckoutPercentageCurrentTurn());
+            return true;
         }
+        return false;
     }
 
-    public User getWinner() {
+    public boolean updateConfig(Player player) {
+        // TODO
+        return false;
+    }
+
+    public GameSnapshot getSnapshot() {
+        return new GameSnapshot(getStatusAsString(), getDescription(), players.stream().map(player -> player.getSnapshot()).collect(Collectors.toList()));
+    }
+
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+
+
+
+
+    private Player getWinner() {
         switch (config.getType()) {
             case LEGS:
                 int legsNeededToWin;
                 switch (config.getMode()) {
                     case FIRST_TO:
                         legsNeededToWin = config.getSize();
-                        for (User user : users) {
-                            if (user.getLegs() == legsNeededToWin) {
-                                return user;
+                        for (Player player : players) {
+                            if (player.getLegs() == legsNeededToWin) {
+                                return player;
                             }
                         }
                         break;
                     case BEST_OF:
                         legsNeededToWin = Math.round(config.getSize() / 2) + 1;
-                        for (User user : users) {
-                            if (user.getLegs() == legsNeededToWin) {
-                                return user;
+                        for (Player player : players) {
+                            if (player.getLegs() == legsNeededToWin) {
+                                return player;
                             }
                         }
                         break;
@@ -272,17 +298,17 @@ public class Game {
                 switch (config.getMode()) {
                     case FIRST_TO:
                         setsNeededToWin = config.getSize();
-                        for (User user : users) {
-                            if (user.getSets() == setsNeededToWin) {
-                                return user;
+                        for (Player player : players) {
+                            if (player.getSets() == setsNeededToWin) {
+                                return player;
                             }
                         }
                         break;
                     case BEST_OF:
                         setsNeededToWin = Math.round(config.getSize() / 2) + 1;
-                        for (User user : users) {
-                            if (user.getSets() == setsNeededToWin) {
-                                return user;
+                        for (Player player : players) {
+                            if (player.getSets() == setsNeededToWin) {
+                                return player;
                             }
                         }
                         break;
@@ -292,24 +318,8 @@ public class Game {
         return null;
     }
 
-    public GameSnapshot getSnapshot() {
-        return new GameSnapshot(getStatusAsString(), getDescription(), users.stream().map(user -> user.getSnapshot()).collect(Collectors.toList()));
-    }
-
-    public String getDescription() {
+    private String getDescription() {
         return config.getModeAsString() + " " + config.getSize() + " " + config.getTypeAsString();
-    }
-
-    public void setConfig(GameConfig config) {
-        this.config = config;
-    }
-
-    public int getTurnIndex() {
-        return turnIndex;
-    }
-
-    public ArrayList<User> getUsers() {
-        return users;
     }
 
     private Set getCurrentSet() {
@@ -321,14 +331,18 @@ public class Game {
         return legs.get(legs.size() - 1);
     }
 
-    public User getCurrentTurn() {
-        return users.get(turnIndex);
+    private Player getCurrentTurn() {
+        return players.get(turnIndex);
     }
 
-    public User getPrevTurn() {
-        // TODO
-        int i = (turnIndex - 1) % users.size();
-        return users.get(i);
+    private Player getPreviousTurn() {
+        // TODO fix
+        int i = (turnIndex - 1) % players.size();
+        return players.get(i);
+    }
+
+    private Player getOwner() {
+        return players.get(0);
     }
 
     private String getAverageCurrentTurn() {
@@ -388,30 +402,25 @@ public class Game {
     }
 
     private void createLeg() {
-        getCurrentSet().getLegs().add(new Leg(turnIndex, users.size(), config.getStartingPoints()));
+        getCurrentSet().getLegs().add(new Leg(turnIndex, players.size(), config.getStartingPoints()));
     }
 
-    private void initusers() {
-        int index = 1;
-        for (User user : users) {
-            if (user.getName().equals("")) {
-                user.setName("User " + index);
-                index++;
-            }
-            user.setNext(false);
-            user.setLastThrow(-1);
-            user.setPointsLeft(config.getStartingPoints());
-            user.setDartsThrown(0);
+    private void initPlayers() {
+        for (Player player : players) {
+            player.setNext(false);
+            player.setLastThrow(-1);
+            player.setPointsLeft(config.getStartingPoints());
+            player.setDartsThrown(0);
             if (config.getType() == GameType.SETS) {
-                user.setSets(0);
+                player.setSets(0);
             } else {
-                user.setSets(-1);
+                player.setSets(-1);
             }
-            user.setLegs(0);
-            user.setAverage("0.00");
-            user.setCheckoutPercentage("0.00");
+            player.setLegs(0);
+            player.setAverage("0.00");
+            player.setCheckoutPercentage("0.00");
         }
-        users.get(turnIndex).setNext(true);
+        players.get(turnIndex).setNext(true);
     }
 
     private String getStatusAsString() {

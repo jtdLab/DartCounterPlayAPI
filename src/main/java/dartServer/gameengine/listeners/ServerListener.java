@@ -7,7 +7,7 @@ import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
-import dartServer.gameengine.lobby.User;
+import dartServer.gameengine.lobby.Player;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
 import dartServer.networking.events.PacketReceiveEvent;
@@ -26,16 +26,15 @@ public class ServerListener implements NetworkEventListener {
      */
     @Event
     public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) {
-        User user = GameEngine.getUser(event.getClient().getAddress());
-        if (user.getLobbyId() == -1) {
-            Lobby lobby = new Lobby(user);
-            GameEngine.addLobby(lobby);
-            lobby.addUser(user);
-            logger.warn(user.getName() + " created lobby " + lobby.getLobbyId() + "[Code = " + lobby.getCode() + "]");
-            user.sendMessage(new CreateGameResponsePacket(true));
-            user.sendMessage(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
+        Player player = GameEngine.getPlayer(event.getClient().getAddress());
+        Lobby lobby = GameEngine.createLobby(player);
+
+        if(lobby != null) {
+            player.sendMessage(new CreateGameResponsePacket(true));
+            player.sendMessage(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            logger.warn(player.getName() + " created lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
-            user.sendMessage(new CreateGameResponsePacket(false));
+            player.sendMessage(new CreateGameResponsePacket(false));
         }
     }
 
@@ -44,46 +43,17 @@ public class ServerListener implements NetworkEventListener {
      */
     @Event
     public void onJoinGame(PacketReceiveEvent<JoinGamePacket> event) {
-        User user = GameEngine.getUser(event.getClient().getAddress());
+        Player player = GameEngine.getPlayer(event.getClient().getAddress());
         int code = event.getPacket().getGameCode();
-        Lobby lobby = GameEngine.getLobbyByCode(code);
-        if (lobby != null) {
-            if (lobby.addUser(user)) {
-                logger.warn(user.getName() + " joined lobby " + lobby.getLobbyId() + "[Code = " + lobby.getCode() + "]");
-                user.sendMessage(new JoinGameResponsePacket(true));
-                lobby.broadcastToUsers(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
-            }
-        } else {
-            user.sendMessage(new JoinGameResponsePacket(false));
-        }
+        Lobby lobby = GameEngine.joinLobby(player, code);
 
-        /*
-        User user = GameEngine.getUserByName(event.getPacket().getUserName());
-        if (user != null) {
-            // A user with that name already exists
-            // We need to drop the old connection
-            logger.info("User " + user.getName() + " connected from a new client!");
-            user.getClient().sendPacket(new PrivateDebugPacket("You get kicked because you joined from another connection."));
-            user.getClient().disconnect();
-            user.setClient(event.getClient());
-            GameEngine.updateUserAddress(event.getClient().getAddress(), user);
-            GameEngine.broadcastToLobby(user.getLobbyName(), new LoginGreetingPacket(user.getName()));
-            // send ReconnectPacket
-            user.sendMessage(GameEngine.getLobbyByName(user.getLobbyName()).getReconnectPacket());
+        if(lobby != null) {
+            player.sendMessage(new JoinGameResponsePacket(true));
+            lobby.broadcastToPlayers(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            logger.warn(player.getName() + " joined lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
-            if (GameEngine.isLobby(event.getPacket().getLobby())) {
-                user = new User(event.getClient(), event.getPacket().getUserName(), event.getPacket().getLobby(), event.getPacket().getPassword(), event.getPacket().isArtificialIntelligence());
-                logger.info("New user " + user.getName() + " joined the game!");
-                logger.info("Valid lobby name, add user to lobby.");
-                GameEngine.addUser(event.getClient().getAddress(), user);
-                // TODO GameEngine.broadcastToLobby(event.getPacket().getLobby(), new LoginGreetingPacket(user.getName()));
-                user.sendMessage(new JoinGamePacket("Welcome to lobby " + event.getPacket().getLobby()));
-            } else {
-                logger.warn("User wanted to join unknown lobby!");
-                event.setRejected(true, "Login was denied because the lobby does not exist.");
-            }
+            player.sendMessage(new JoinGameResponsePacket(false));
         }
-         */
     }
 
 }

@@ -20,15 +20,15 @@ class LegTest {
     @Test
     void performThrow() {
         Leg leg = new Leg(0, 2, 501);
-        leg.performThrow(new Throw(180, 0, 3, 0));
+        leg.performThrow(new Throw(180, 0, 3));
         assertArrayEquals(new int[]{321, 501}, leg.getPointsLeft());
         assertArrayEquals(new int[]{3, 0}, leg.getDartsThrown());
         assertArrayEquals(new int[]{0, 0}, leg.getDartsOnDouble());
         assertEquals(1, leg.getThrows().size());
-        leg.performThrow(new Throw(180, 0, 3, 1));
-        leg.performThrow(new Throw(180, 0, 3, 0));
-        leg.performThrow(new Throw(180, 0, 3, 1));
-        leg.performThrow(new Throw(141, 1, 3, 0));
+        leg.performThrow(new Throw(180, 0, 3));
+        leg.performThrow(new Throw(180, 0, 3));
+        leg.performThrow(new Throw(180, 0, 3));
+        leg.performThrow(new Throw(141, 1, 3));
         assertArrayEquals(new int[]{0, 141}, leg.getPointsLeft());
         assertArrayEquals(new int[]{9, 6}, leg.getDartsThrown());
         assertArrayEquals(new int[]{1, 0}, leg.getDartsOnDouble());
@@ -38,12 +38,12 @@ class LegTest {
     @Test
     void undoThrow() {
         Leg leg = new Leg(0, 2, 501);
-        leg.performThrow(new Throw(180, 0, 3, 0));
-        leg.performThrow(new Throw(180, 0, 3, 1));
-        leg.performThrow(new Throw(180, 0, 3, 0));
-        Throw t1 = new Throw(180, 0, 3, 1);
+        leg.performThrow(new Throw(180, 0, 3));
+        leg.performThrow(new Throw(180, 0, 3));
+        leg.performThrow(new Throw(180, 0, 3));
+        Throw t1 = new Throw(180, 0, 3);
         leg.performThrow(t1);
-        Throw t2 = new Throw(141, 1, 3, 0);
+        Throw t2 = new Throw(141, 1, 3);
         leg.performThrow(t2);
         Throw undoneThrow = leg.undoThrow();
         assertEquals(t2.getPoints(), undoneThrow.getPoints());
@@ -64,15 +64,15 @@ class LegTest {
     @Test
     void getWinner() {
         Leg leg = new Leg(0, 2, 501);
-        leg.performThrow(new Throw(180, 0, 3, 0));
+        leg.performThrow(new Throw(180, 0, 3));
         assertEquals(-1, leg.getWinner());
-        leg.performThrow(new Throw(180, 0, 3, 1));
+        leg.performThrow(new Throw(180, 0, 3));
         assertEquals(-1, leg.getWinner());
-        leg.performThrow(new Throw(180, 0, 3, 0));
+        leg.performThrow(new Throw(180, 0, 3));
         assertEquals(-1, leg.getWinner());
-        leg.performThrow(new Throw(180, 0, 3, 1));
+        leg.performThrow(new Throw(180, 0, 3));
         assertEquals(-1, leg.getWinner());
-        leg.performThrow(new Throw(141, 1, 3, 0));
+        leg.performThrow(new Throw(141, 1, 3));
         assertEquals(0, leg.getWinner());
     }
 

@@ -5,13 +5,13 @@ public class Throw {
     private int points;
     private int dartsOnDouble;
     private int dartsThrown;
-    private int userIndex;
+    private int playerIndex;
 
-    public Throw(int points, int dartsOnDouble, int dartsThrown, int playerIndex) {
+    public Throw(int points, int dartsOnDouble, int dartsThrown) {
         this.points = points;
         this.dartsOnDouble = dartsOnDouble;
         this.dartsThrown = dartsThrown;
-        this.userIndex = playerIndex;
+        this.playerIndex = playerIndex;
     }
 
     public int getPoints() {
@@ -38,11 +38,11 @@ public class Throw {
         this.dartsThrown = dartsThrown;
     }
 
-    public int getUserIndex() {
-        return userIndex;
+    public int getPlayerIndex() {
+        return playerIndex;
     }
 
-    public void setUserIndex(int userIndex) {
-        this.userIndex = userIndex;
+    public void setPlayerIndex(int playerIndex) {
+        this.playerIndex = playerIndex;
     }
 }

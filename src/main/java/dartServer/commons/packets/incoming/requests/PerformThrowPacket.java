@@ -19,14 +19,14 @@ public class PerformThrowPacket implements RequestPacket {
         this.t = t;
     }
 
-    public Throw getT() {
+    public Throw getThrow() {
         return t;
     }
 
     @Override
     public String toString() {
         return "PerformThrow{" +
-                "t='" + t.toString() + '\'' +
+                "throw='" + t.toString() + '\'' +
                 "}";
     }
 

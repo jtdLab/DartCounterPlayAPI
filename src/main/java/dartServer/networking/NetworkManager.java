@@ -22,12 +22,12 @@ public class NetworkManager {
     /**
      * HashMap containing a {@link NetworkEvent} name together with a list of event handlers to call
      */
-    private static HashMap<String, List<EventHandler>> listenerMethods = new HashMap<>();
+    private static final HashMap<String, List<EventHandler>> listenerMethods = new HashMap<>();
 
     /**
      * HashMap containing a {@link dartServer.commons.packets.Packet} name together with a list of event handlers to call
      */
-    private static HashMap<String, List<EventHandler>> packetListenerMethods = new HashMap<>();
+    private static final HashMap<String, List<EventHandler>> packetListenerMethods = new HashMap<>();
 
     /**
      * Fire all event listeners for a specific {@link NetworkEvent}

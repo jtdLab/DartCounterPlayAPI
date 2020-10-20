@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 public class Set {
 
-    private ArrayList<Leg> legs;
-    private int legsNeededToWin;
-    private int startIndex;
+    private final ArrayList<Leg> legs;
+    private final int legsNeededToWin;
+    private final int startIndex;
 
     public Set(int startIndex, int legsNeededToWin) {
         this.legs = new ArrayList<>();

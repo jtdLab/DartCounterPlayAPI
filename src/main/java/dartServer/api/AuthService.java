@@ -11,7 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class API {
+public class AuthService {
 
     private static final String protocol = "http";
     private static final String host = "127.0.0.1"; // "192.168.2.110"; //
@@ -20,7 +20,7 @@ public class API {
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
     public static AuthResponsePacket authenticate(AuthRequestPacket authRequest) {
-        URI uri = URI.create(API.protocol + "://" + API.host + ":" + API.port + "/api/auth");
+        URI uri = URI.create(AuthService.protocol + "://" + AuthService.host + ":" + AuthService.port + "/api/auth");
 
         String body = gson.toJson(authRequest, AuthRequestPacket.class);
 

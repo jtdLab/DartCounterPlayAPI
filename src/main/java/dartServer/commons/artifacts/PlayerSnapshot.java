@@ -9,29 +9,29 @@ import javax.validation.constraints.PositiveOrZero;
 public class PlayerSnapshot {
 
     @Username
-    private String name;
+    private final String name;
 
     @NotNull
-    private Boolean isNext;
+    private final Boolean isNext;
 
-    private int lastThrow;
-
-    @PositiveOrZero
-    private int pointsLeft;
+    private final int lastThrow;
 
     @PositiveOrZero
-    private int dartsThrown;
-
-    private int sets;
+    private final int pointsLeft;
 
     @PositiveOrZero
-    private int legs;
+    private final int dartsThrown;
+
+    private final int sets;
+
+    @PositiveOrZero
+    private final int legs;
 
     @NotNull
-    private String average;
+    private final String average;
 
     @NotNull
-    private String checkoutPercentage;
+    private final String checkoutPercentage;
 
     public PlayerSnapshot(Player player) {
         name = player.getName();

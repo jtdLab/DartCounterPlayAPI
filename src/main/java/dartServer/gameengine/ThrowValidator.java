@@ -27,9 +27,7 @@ public class ThrowValidator {
         if (t.getDartsOnDouble() == 2 && (isThreeDartFinish(pointsLeft) && !isOneDartFinish(pointsLeft) && !isTwoDartFinish(pointsLeft)))
             return false;
         if (t.getDartsOnDouble() == 3 && !isOneDartFinish(pointsLeft)) return false;
-        if (pointsLeft == 2 && t.getDartsOnDouble() != t.getDartsThrown()) return false;
-
-        return true;
+        return pointsLeft != 2 || t.getDartsOnDouble() == t.getDartsThrown();
     }
 
     /**
@@ -38,9 +36,7 @@ public class ThrowValidator {
      */
     public static boolean isThreeDartFinish(int points) {
         if (points < 2 || points > 170) return false;
-        if (List.of(159, 162, 163, 165, 166, 168, 169).contains(points)) return false;
-
-        return true;
+        return !List.of(159, 162, 163, 165, 166, 168, 169).contains(points);
     }
 
     /**
@@ -49,9 +45,7 @@ public class ThrowValidator {
      */
     public static boolean isTwoDartFinish(int points) {
         if (points < 2 || points > 110) return false;
-        if (List.of(99, 102, 103, 105, 106, 108, 109).contains(points)) return false;
-
-        return true;
+        return !List.of(99, 102, 103, 105, 106, 108, 109).contains(points);
     }
 
     /**

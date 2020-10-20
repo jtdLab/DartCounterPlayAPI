@@ -13,7 +13,7 @@ public class PerformThrowPacket implements RequestPacket {
     // TODO add throw validation annotation
 
     @NotNull
-    private Throw t;
+    private final Throw t;
 
     public PerformThrowPacket(Throw t) {
         this.t = t;
@@ -26,7 +26,7 @@ public class PerformThrowPacket implements RequestPacket {
     @Override
     public String toString() {
         return "PerformThrow{" +
-                "t='" + t.toString() +'\'' +
+                "t='" + t.toString() + '\'' +
                 "}";
     }
 

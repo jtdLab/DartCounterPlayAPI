@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class TestClient {
 
-    private int port;
+    private final int port;
 
     private WebSocketClient client;
     private SimpleWebSocket socket;
@@ -31,8 +31,7 @@ public class TestClient {
             ClientUpgradeRequest request = new ClientUpgradeRequest();
             client.connect(socket, uri, request).get(2, TimeUnit.SECONDS);
             System.out.printf("Connecting to : %s%n", uri);
-        }
-        catch (Throwable t) {
+        } catch (Throwable t) {
             t.printStackTrace();
         }
     }

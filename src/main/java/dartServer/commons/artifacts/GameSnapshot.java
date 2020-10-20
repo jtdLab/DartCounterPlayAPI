@@ -6,13 +6,13 @@ import java.util.List;
 public class GameSnapshot {
 
     @NotNull
-    private String status;
+    private final String status;
 
     @NotNull
-    private String description;
+    private final String description;
 
     @NotNull
-    private List<PlayerSnapshot> players;
+    private final List<PlayerSnapshot> players;
 
     public GameSnapshot(String status, String description, List<PlayerSnapshot> players) {
         this.status = status;

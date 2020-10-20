@@ -11,9 +11,9 @@ import javax.validation.constraints.NotBlank;
 public class AuthRequestPacket implements RequestPacket {
 
     @Username
-    private String username;
+    private final String username;
     @NotBlank
-    private String password;
+    private final String password;
 
     public AuthRequestPacket(String username, String password) {
         this.username = username;

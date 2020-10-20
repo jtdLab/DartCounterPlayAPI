@@ -16,7 +16,7 @@ public class Lobby {
 
     private static long id = 1;
 
-    private long lobbyId;
+    private final long lobbyId;
     Game activeGame;
 
     //private GameLoop gameLoop;
@@ -48,17 +48,14 @@ public class Lobby {
     public boolean addUser(User user) {
         user.setLobbyId(lobbyId);
         user.setPlayer(new Player(user.getName()));
-       if(activeGame.addUser(user)) {
-           return true;
-       }
-       return false;
+        return activeGame.addUser(user);
     }
 
-    public void removeUser(User user){
+    public void removeUser(User user) {
         activeGame.removeUser(user);
     }
 
-    public boolean start(){
+    public boolean start() {
         return activeGame.start();
     }
 
@@ -91,7 +88,7 @@ public class Lobby {
     }
 
     public User[] getUsers() {
-        return Arrays.stream(GameEngine.getUsers()).filter(user -> user.getLobbyId() == this.id).toArray(User[]::new);
+        return Arrays.stream(GameEngine.getUsers()).filter(user -> user.getLobbyId() == id).toArray(User[]::new);
     }
 
     public long getLobbyId() {
@@ -103,6 +100,6 @@ public class Lobby {
     }
 
     public int getCode() {
-        return (int)lobbyId+999;
+        return (int) lobbyId + 999;
     }
 }

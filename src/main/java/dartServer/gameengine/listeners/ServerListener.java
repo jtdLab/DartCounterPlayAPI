@@ -5,7 +5,6 @@ import dartServer.commons.packets.incoming.requests.JoinGamePacket;
 import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
 import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
-import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;
@@ -26,13 +25,13 @@ public class ServerListener implements NetworkEventListener {
      * @param event the event fired on createGame by a client
      */
     @Event
-    public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) { ;
+    public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) {
         User user = GameEngine.getUser(event.getClient().getAddress());
-        if(user.getLobbyId() == -1) {
+        if (user.getLobbyId() == -1) {
             Lobby lobby = new Lobby(user);
             GameEngine.addLobby(lobby);
             lobby.addUser(user);
-            logger.warn(user.getName() + " created lobby " + lobby.getLobbyId() + "[Code = "+ lobby.getCode() + "]");
+            logger.warn(user.getName() + " created lobby " + lobby.getLobbyId() + "[Code = " + lobby.getCode() + "]");
             user.sendMessage(new CreateGameResponsePacket(true));
             user.sendMessage(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
         } else {
@@ -48,9 +47,9 @@ public class ServerListener implements NetworkEventListener {
         User user = GameEngine.getUser(event.getClient().getAddress());
         int code = event.getPacket().getGameCode();
         Lobby lobby = GameEngine.getLobbyByCode(code);
-        if(lobby != null) {
-            if(lobby.addUser(user)) {
-                logger.warn(user.getName() + " joined lobby " + lobby.getLobbyId() + "[Code = "+ lobby.getCode() + "]");
+        if (lobby != null) {
+            if (lobby.addUser(user)) {
+                logger.warn(user.getName() + " joined lobby " + lobby.getLobbyId() + "[Code = " + lobby.getCode() + "]");
                 user.sendMessage(new JoinGameResponsePacket(true));
                 lobby.broadcastToUsers(new SnapshotPacket(lobby.getActiveGame().getSnapshot()));
             }

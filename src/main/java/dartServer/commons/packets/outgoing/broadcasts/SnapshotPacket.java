@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 public class SnapshotPacket implements ResponsePacket {
 
     @NotNull
-    private GameSnapshot snapshot;
+    private final GameSnapshot snapshot;
 
     public SnapshotPacket(GameSnapshot snapshot) {
         this.snapshot = snapshot;
@@ -24,7 +24,7 @@ public class SnapshotPacket implements ResponsePacket {
     @Override
     public String toString() {
         return "Snapshot{" +
-                "snapshot='" + snapshot.toString() +'\'' +
+                "snapshot='" + snapshot.toString() + '\'' +
                 "}";
     }
 }

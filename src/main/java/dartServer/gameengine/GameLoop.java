@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 public class GameLoop {
 
     static final Logger logger = LogManager.getLogger(GameLoop.class);
-    private Game game;
+    private final Game game;
 
     private boolean paused;
     private boolean continued;

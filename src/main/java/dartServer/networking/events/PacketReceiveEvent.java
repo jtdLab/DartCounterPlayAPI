@@ -7,8 +7,8 @@ import dartServer.networking.Client;
 
 public class PacketReceiveEvent<T extends RequestPacket> extends NetworkEvent {
 
-    private T packet;
-    private PacketType type;
+    private final T packet;
+    private final PacketType type;
 
     /**
      * Whether the event is rejected, meaning the client gets kicked

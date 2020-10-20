@@ -5,10 +5,10 @@ import dartServer.gameengine.model.enums.GameType;
 
 public class GameConfig {
 
-    private GameMode mode;
-    private GameType type;
-    private int size;
-    private int startingPoints;
+    private final GameMode mode;
+    private final GameType type;
+    private final int size;
+    private final int startingPoints;
 
     public GameConfig() {
         mode = GameMode.FIRST_TO;

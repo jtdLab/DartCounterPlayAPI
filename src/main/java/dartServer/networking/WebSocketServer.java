@@ -12,7 +12,7 @@ public class WebSocketServer {
     /**
      * The server port
      */
-    private int port;
+    private final int port;
 
     /**
      * @param port The port the server should run on

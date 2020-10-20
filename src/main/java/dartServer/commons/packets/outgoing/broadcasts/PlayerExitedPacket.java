@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class PlayerExitedPacket implements ResponsePacket {
 
     @NotNull
-    private String username;
+    private final String username;
 
     public PlayerExitedPacket(String username) {
         this.username = username;
@@ -23,7 +23,7 @@ public class PlayerExitedPacket implements ResponsePacket {
     @Override
     public String toString() {
         return "PlayerExited{" +
-                "username='" + username +'\'' +
+                "username='" + username + '\'' +
                 "}";
     }
 }

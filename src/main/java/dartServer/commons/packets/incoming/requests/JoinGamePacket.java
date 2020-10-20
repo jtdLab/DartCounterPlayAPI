@@ -7,7 +7,7 @@ import dartServer.commons.packets.incoming.RequestPacket;
  */
 public class JoinGamePacket implements RequestPacket {
 
-    private Integer gameCode;
+    private final Integer gameCode;
 
     public JoinGamePacket(Integer gameCode) {
         this.gameCode = gameCode;

@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class GameEngine {
 
-    private static HashMap<SocketAddress, User> users = new HashMap<>();
-    private static List<Lobby> lobbies = new ArrayList<>();
+    private static final HashMap<SocketAddress, User> users = new HashMap<>();
+    private static final List<Lobby> lobbies = new ArrayList<>();
     private static boolean eventsRegistered;
 
     private GameEngine() {
@@ -39,7 +39,7 @@ public class GameEngine {
      * Register all events for the GameEngine.
      */
     private static void registerEvents() {
-        if(eventsRegistered)
+        if (eventsRegistered)
             return;
         NetworkManager.registerListener(new ClientConnectListener());
         NetworkManager.registerListener(new ClientDisconnectListener());

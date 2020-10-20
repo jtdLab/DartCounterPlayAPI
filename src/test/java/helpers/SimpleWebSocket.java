@@ -16,12 +16,6 @@ package helpers;//
 //  ========================================================================
 //
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
 import com.google.gson.Gson;
 import dartServer.commons.JsonManager;
 import dartServer.commons.packets.Packet;
@@ -32,19 +26,24 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketError;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
 
 @org.eclipse.jetty.websocket.api.annotations.WebSocket(maxTextMessageSize = 64 * 1024)
-public class SimpleWebSocket
-{
+public class SimpleWebSocket {
     private PacketContainer lastReceived;
-    private List<PacketContainer> received;
+    private final List<PacketContainer> received;
 
     private final CountDownLatch closeLatch;
     private Session session;
 
     public SimpleWebSocket() {
-       this.closeLatch = new CountDownLatch(1);
-       received = new ArrayList<>();
+        this.closeLatch = new CountDownLatch(1);
+        received = new ArrayList<>();
     }
 
     public boolean awaitClose(int duration, TimeUnit unit) throws InterruptedException {
@@ -85,9 +84,7 @@ public class SimpleWebSocket
             String msg = gson.toJson(new PacketContainer(packet), PacketContainer.class);
             Future<Void> fut = session.getRemote().sendStringByFuture(msg);
             fut.get(2, TimeUnit.SECONDS); // wait for send to complete.
-        }
-        catch (Throwable t)
-        {
+        } catch (Throwable t) {
             t.printStackTrace();
         }
     }

@@ -11,7 +11,7 @@ public abstract class NetworkEvent {
     /**
      * The client that caused the event
      */
-    private Client client;
+    private final Client client;
 
     public NetworkEvent(Client client) {
         this.client = client;

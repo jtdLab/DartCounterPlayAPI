@@ -35,10 +35,10 @@ class DartServer implements Runnable {
     private static boolean help;
 
     @CommandLine.Option(names = {"-p", "--port"}, description = "Server Port (default=4488)")
-    private static int port = 9000;
+    private static final int port = 9000;
 
     @CommandLine.Option(names = {"-v", "--verbosity"}, description = "Verbosity (0=off, 100=fatal, ..., 600=trace)")
-    private static int verbosity = 300;
+    private static final int verbosity = 300;
 
     /**
      * Start the server by parsing the commandline options

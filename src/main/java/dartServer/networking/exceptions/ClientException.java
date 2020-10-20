@@ -4,7 +4,7 @@ import dartServer.networking.events.ClientExceptionEvent;
 
 public class ClientException extends Exception {
 
-    private ClientExceptionEvent.ProtocolExceptionReason reason;
+    private final ClientExceptionEvent.ProtocolExceptionReason reason;
 
     public ClientException(ClientExceptionEvent.ProtocolExceptionReason reason) {
         this.reason = reason;

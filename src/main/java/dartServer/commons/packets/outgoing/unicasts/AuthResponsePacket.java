@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class AuthResponsePacket implements ResponsePacket {
 
     @NotNull
-    private Boolean successful;
+    private final Boolean successful;
 
     public AuthResponsePacket(Boolean successful) {
         this.successful = successful;

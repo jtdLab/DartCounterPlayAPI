@@ -1,12 +1,7 @@
 package dartServer.gameengine.listeners;
 
-import com.google.gson.Gson;
-import dartServer.commons.packets.incoming.requests.*;
-import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
-import dartServer.gameengine.model.Throw;
 import dartServer.networking.events.ClientConnectEvent;
 import dartServer.networking.events.Event;
-import dartServer.networking.events.EventPriority;
 import dartServer.networking.events.NetworkEventListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +20,7 @@ public class ClientConnectListener implements NetworkEventListener {
      */
     @Event
     public void onConnect(ClientConnectEvent event) {
-      // logger.warn("onConnect");
+        // logger.warn("onConnect");
         // TODO
     }
 

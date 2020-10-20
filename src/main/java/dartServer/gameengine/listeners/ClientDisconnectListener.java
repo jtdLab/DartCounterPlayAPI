@@ -1,8 +1,6 @@
 package dartServer.gameengine.listeners;
 
-import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
-import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.ClientDisconnectEvent;
 import dartServer.networking.events.Event;
@@ -27,7 +25,7 @@ public class ClientDisconnectListener implements NetworkEventListener {
     @Event
     public void onDisconnect(ClientDisconnectEvent event) {
         logger.warn("onLeave TODO");
-        for(User user : GameEngine.getUsers()) {
+        for (User user : GameEngine.getUsers()) {
             logger.warn(user);
         }
 

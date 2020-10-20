@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 public class CreateGameResponsePacket implements ResponsePacket {
 
     @NotNull
-    private Boolean successful;
+    private final Boolean successful;
 
     public CreateGameResponsePacket(Boolean successful) {
         this.successful = successful;

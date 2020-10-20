@@ -2,7 +2,10 @@ package dartServer.gameengine;
 
 import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.gameengine.lobby.User;
-import dartServer.gameengine.model.*;
+import dartServer.gameengine.model.GameConfig;
+import dartServer.gameengine.model.Leg;
+import dartServer.gameengine.model.Set;
+import dartServer.gameengine.model.Throw;
 import dartServer.gameengine.model.enums.GameMode;
 import dartServer.gameengine.model.enums.GameStatus;
 import dartServer.gameengine.model.enums.GameType;
@@ -15,8 +18,8 @@ public class Game {
     private GameStatus status;
     private GameConfig config;
 
-    private ArrayList<User> users;
-    private ArrayList<Set> sets;
+    private final ArrayList<User> users;
+    private final ArrayList<Set> sets;
 
     private int turnIndex;
 
@@ -50,7 +53,7 @@ public class Game {
     }
 
     public boolean start() {
-        if(status == GameStatus.PENDING && users.size() > 1) {
+        if (status == GameStatus.PENDING && users.size() > 1) {
             createSet();
             createLeg();
             initusers();
@@ -324,7 +327,7 @@ public class Game {
 
     public User getPrevTurn() {
         // TODO
-        int i = (turnIndex-1)%users.size();
+        int i = (turnIndex - 1) % users.size();
         return users.get(i);
     }
 

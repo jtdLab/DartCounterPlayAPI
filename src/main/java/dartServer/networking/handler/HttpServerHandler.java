@@ -8,8 +8,6 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 
-;
-
 public class HttpServerHandler extends ChannelInboundHandlerAdapter {
 
     WebSocketServerHandshaker handshaker;

@@ -39,7 +39,12 @@ public class PacketContainerDeserializer implements JsonDeserializer {
         PacketContainer container = new PacketContainer(p);
 
         // If timestamp is invalid throw JsonParseException
-        Date timestamp = JsonManager.getGson().fromJson(json.getAsJsonObject().get("timestamp"), Date.class);
+        Date timestamp = null;
+        try {
+             timestamp = JsonManager.getGson().fromJson(json.getAsJsonObject().get("timestamp"), Date.class);
+        } catch (JsonSyntaxException e) {
+            // invalid timestamp
+        }
 
         if (timestamp == null) {
             throw new JsonParseException("Invalid timestamp format.");

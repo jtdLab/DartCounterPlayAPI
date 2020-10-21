@@ -1,14 +1,5 @@
 package dartServer.gameengine;
 
-import dartServer.gameengine.lobby.Player;
-import dartServer.gameengine.model.GameConfig;
-import dartServer.gameengine.model.Throw;
-import dartServer.gameengine.model.enums.GameMode;
-import dartServer.gameengine.model.enums.GameType;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 class GameTest {
 /*
     @Test

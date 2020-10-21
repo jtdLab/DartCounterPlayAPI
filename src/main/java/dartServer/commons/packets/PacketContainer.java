@@ -4,6 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * This class represents a "container" for network packets from the standardization document.
@@ -65,4 +66,15 @@ public class PacketContainer {
                 ", payload=" + payload +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PacketContainer container = (PacketContainer) o;
+        return Objects.equals(timestamp, container.timestamp) &&
+                payloadType == container.payloadType &&
+                Objects.equals(payload, container.payload);
+    }
+
 }

@@ -2,6 +2,7 @@ package dartServer.commons.artifacts;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 public class GameSnapshot {
 
@@ -31,4 +32,15 @@ public class GameSnapshot {
     public List<PlayerSnapshot> getPlayers() {
         return players;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GameSnapshot that = (GameSnapshot) o;
+        return Objects.equals(status, that.status) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(players, that.players);
+    }
+
 }

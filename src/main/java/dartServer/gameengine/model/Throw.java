@@ -1,5 +1,7 @@
 package dartServer.gameengine.model;
 
+import java.util.Objects;
+
 public class Throw {
 
     private int points;
@@ -32,4 +34,16 @@ public class Throw {
     public void setPlayerIndex(int playerIndex) {
         this.playerIndex = playerIndex;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Throw aThrow = (Throw) o;
+        return points == aThrow.points &&
+                dartsOnDouble == aThrow.dartsOnDouble &&
+                dartsThrown == aThrow.dartsThrown &&
+                playerIndex == aThrow.playerIndex;
+    }
+
 }

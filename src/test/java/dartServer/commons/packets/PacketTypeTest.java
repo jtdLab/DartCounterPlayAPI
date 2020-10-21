@@ -7,7 +7,7 @@ import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PacketTypeTest {
 

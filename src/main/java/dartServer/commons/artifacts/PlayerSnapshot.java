@@ -5,6 +5,7 @@ import dartServer.gameengine.lobby.Player;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.Objects;
 
 public class PlayerSnapshot {
 
@@ -80,4 +81,21 @@ public class PlayerSnapshot {
     public String getCheckoutPercentage() {
         return checkoutPercentage;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerSnapshot that = (PlayerSnapshot) o;
+        return lastThrow == that.lastThrow &&
+                pointsLeft == that.pointsLeft &&
+                dartsThrown == that.dartsThrown &&
+                sets == that.sets &&
+                legs == that.legs &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(isNext, that.isNext) &&
+                Objects.equals(average, that.average) &&
+                Objects.equals(checkoutPercentage, that.checkoutPercentage);
+    }
+
 }

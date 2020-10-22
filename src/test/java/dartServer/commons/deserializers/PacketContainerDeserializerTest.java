@@ -1,6 +1,8 @@
 package dartServer.commons.deserializers;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
 import dartServer.commons.JsonManager;
 import dartServer.commons.packets.PacketContainer;
 import dartServer.commons.packets.incoming.requests.CreateGamePacket;
@@ -19,16 +21,16 @@ class PacketContainerDeserializerTest {
         // invalid timestamp
         // timestamp null
         String timestamp = "null";
-        JsonElement jsonElement1 = gson.fromJson(" {\"payloadType\":\"createGame\",\"payload\":{},\"timestamp\":\""+ timestamp + "\"}", JsonElement.class);
+        JsonElement jsonElement1 = gson.fromJson(" {\"payloadType\":\"createGame\",\"payload\":{},\"timestamp\":\"" + timestamp + "\"}", JsonElement.class);
         Assertions.assertThrows(JsonParseException.class, () -> {
-            deserializer.deserialize(jsonElement1,null, null);
+            deserializer.deserialize(jsonElement1, null, null);
         });
 
         // wrong format
         timestamp = "31.12.2020 9:32";
-        JsonElement jsonElement2 = gson.fromJson(" {\"payloadType\":\"createGame\",\"payload\":{},\"timestamp\":\""+ timestamp + "\"}", JsonElement.class);
+        JsonElement jsonElement2 = gson.fromJson(" {\"payloadType\":\"createGame\",\"payload\":{},\"timestamp\":\"" + timestamp + "\"}", JsonElement.class);
         Assertions.assertThrows(JsonParseException.class, () -> {
-            deserializer.deserialize(jsonElement2,null, null);
+            deserializer.deserialize(jsonElement2, null, null);
         });
 
         // TODO test this
@@ -43,16 +45,16 @@ class PacketContainerDeserializerTest {
         // invalid payloadType
         // payloadType null
         String payloadType = "null";
-        JsonElement jsonElement4 = gson.fromJson("{\"payloadType\":\"" +payloadType + "\",\"payload\":{},\"timestamp\":\"2020-10-17 03:38:16.44\"}", JsonElement.class);
+        JsonElement jsonElement4 = gson.fromJson("{\"payloadType\":\"" + payloadType + "\",\"payload\":{},\"timestamp\":\"2020-10-17 03:38:16.44\"}", JsonElement.class);
         Assertions.assertThrows(JsonParseException.class, () -> {
-            deserializer.deserialize(jsonElement4,null, null);
+            deserializer.deserialize(jsonElement4, null, null);
         });
 
         // payloadType not existing
         payloadType = "notExistingPacketType";
-        JsonElement jsonElement5 = gson.fromJson("{\"payloadType\":\"" +payloadType + "\",\"payload\":{},\"timestamp\":\"2020-10-17 03:38:16.44\"}", JsonElement.class);
+        JsonElement jsonElement5 = gson.fromJson("{\"payloadType\":\"" + payloadType + "\",\"payload\":{},\"timestamp\":\"2020-10-17 03:38:16.44\"}", JsonElement.class);
         Assertions.assertThrows(JsonParseException.class, () -> {
-            deserializer.deserialize(jsonElement5,null, null);
+            deserializer.deserialize(jsonElement5, null, null);
         });
 
 

@@ -20,8 +20,8 @@ public class StartGamePacket implements RequestPacket {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if(o == null) return false;
-        if(getClass() == o.getClass()) return true;
+        if (o == null) return false;
+        if (getClass() == o.getClass()) return true;
         return false;
     }
 }

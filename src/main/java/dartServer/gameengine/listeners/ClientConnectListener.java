@@ -20,7 +20,7 @@ public class ClientConnectListener implements NetworkEventListener {
      */
     @Event
     public void onConnect(ClientConnectEvent event) {
-         logger.warn("onConnect");
+        logger.warn("onConnect");
         // TODO
     }
 

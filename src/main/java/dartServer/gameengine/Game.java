@@ -267,9 +267,6 @@ public class Game {
     }
 
 
-
-
-
     private Player getWinner() {
         switch (config.getType()) {
             case LEGS:

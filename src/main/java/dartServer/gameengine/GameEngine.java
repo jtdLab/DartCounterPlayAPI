@@ -52,14 +52,14 @@ public class GameEngine {
 
     public static Player createPlayer(String name, Client client) {
         Player player = new Player(name, client);
-        if(addPlayer(player)) {
-           return player;
+        if (addPlayer(player)) {
+            return player;
         }
         return null;
     }
 
     public static Lobby createLobby(Player player) {
-        if(player.getLobbyId() == null) {
+        if (player.getLobbyId() == null) {
             Lobby lobby = new Lobby(player);
             lobbies.add(new Lobby(player));
             return lobby;
@@ -68,17 +68,16 @@ public class GameEngine {
     }
 
     public static Lobby joinLobby(Player player, int code) {
-        if(player.getLobbyId() == null) {
-           Lobby lobby = getLobbyByCode(code);
-           if(lobby != null) {
-               if(lobby.addPlayer(player)) {
-                   return lobby;
-               }
-           }
+        if (player.getLobbyId() == null) {
+            Lobby lobby = getLobbyByCode(code);
+            if (lobby != null) {
+                if (lobby.addPlayer(player)) {
+                    return lobby;
+                }
+            }
         }
         return null;
     }
-
 
 
     public static Player getPlayer(SocketAddress address) {
@@ -87,7 +86,7 @@ public class GameEngine {
 
     public static Lobby getLobbyByPlayer(Player player) {
         Integer lobbyId = player.getLobbyId();
-        if(lobbyId == null) return null;
+        if (lobbyId == null) return null;
 
         for (Lobby lobby : lobbies) {
             if (lobby.getId() == lobbyId)
@@ -101,21 +100,14 @@ public class GameEngine {
     }
 
 
-
-
-
-
-
-
-
     private static boolean addPlayer(Player player) {
         SocketAddress address = player.getClient().getAddress();
-        if(!players.containsKey(address)) {
+        if (!players.containsKey(address)) {
             players.put(address, player);
             return true;
         }
 
-       return true;
+        return true;
     }
 
     private static Lobby getLobbyByCode(int code) {
@@ -125,13 +117,6 @@ public class GameEngine {
         }
         return null;
     }
-
-
-
-
-
-
-
 
 
     public static void broadcastToLobby(Lobby lobby, ResponsePacket packet) {

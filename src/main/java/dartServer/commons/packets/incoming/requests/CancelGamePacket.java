@@ -2,8 +2,6 @@ package dartServer.commons.packets.incoming.requests;
 
 import dartServer.commons.packets.incoming.RequestPacket;
 
-import java.util.Objects;
-
 /**
  * Packet for a owner of a game to request canceling it.
  * Note: The CancelGamePacket is an empty packet.

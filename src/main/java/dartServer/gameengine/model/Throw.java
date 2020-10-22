@@ -1,7 +1,5 @@
 package dartServer.gameengine.model;
 
-import java.util.Objects;
-
 public class Throw {
 
     private int points;

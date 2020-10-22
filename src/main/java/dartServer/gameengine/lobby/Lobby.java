@@ -12,9 +12,9 @@ public class Lobby {
     private static int lobbyCount = 1;
 
     private final int id;
-    
+
     private Game game;
-    
+
 
     // --== Constructor ==--
 
@@ -53,7 +53,7 @@ public class Lobby {
      * @param packet the packet that needs to be sent
      */
     public void broadcastToPlayers(ResponsePacket packet) {
-        for (Player player: game.getPlayers()) {
+        for (Player player : game.getPlayers()) {
             if (player.isConnected())
                 player.sendMessage(packet);
         }

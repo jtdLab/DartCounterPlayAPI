@@ -42,7 +42,7 @@ public class PacketContainerDeserializer implements JsonDeserializer {
 
         Date timestamp = null;
         try {
-             timestamp = JsonManager.getGson().fromJson(json.getAsJsonObject().get("timestamp"), Date.class);
+            timestamp = JsonManager.getGson().fromJson(json.getAsJsonObject().get("timestamp"), Date.class);
         } catch (JsonSyntaxException e) {
             // invalid timestamp
         }

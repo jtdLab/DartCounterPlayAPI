@@ -16,6 +16,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.DecoderException;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -106,11 +107,11 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
         super.userEventTriggered(ctx, evt);
         String s = (String) evt;
         if (client != null && s.equals("upgraded")) {
-            //NetworkManager.fireEvent(new ClientConnectEvent(client));
-        }
-       /* if (client != null && evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
             NetworkManager.fireEvent(new ClientConnectEvent(client));
-        }*/
+        }
+       if (client != null && evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            NetworkManager.fireEvent(new ClientConnectEvent(client));
+        }
     }
 
     @Override

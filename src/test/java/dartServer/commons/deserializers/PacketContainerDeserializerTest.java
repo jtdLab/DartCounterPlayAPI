@@ -16,7 +16,7 @@ class PacketContainerDeserializerTest {
         PacketContainerDeserializer deserializer = new PacketContainerDeserializer();
         Gson gson = new Gson();
 
-        // invalid packet (invalid timestamp)
+        // invalid timestamp
         // timestamp null
         String timestamp = "null";
         JsonElement jsonElement1 = gson.fromJson(" {\"payloadType\":\"createGame\",\"payload\":{},\"timestamp\":\""+ timestamp + "\"}", JsonElement.class);
@@ -40,7 +40,7 @@ class PacketContainerDeserializerTest {
         });*/
 
 
-        // invalid packet (invalid payloadType)
+        // invalid payloadType
         // payloadType null
         String payloadType = "null";
         JsonElement jsonElement4 = gson.fromJson("{\"payloadType\":\"" +payloadType + "\",\"payload\":{},\"timestamp\":\"2020-10-17 03:38:16.44\"}", JsonElement.class);
@@ -56,7 +56,7 @@ class PacketContainerDeserializerTest {
         });
 
 
-        // invalid packet (invalid payload)
+        // invalid payload
         // TODO test this
        /* // payload null
         String payload = "null";

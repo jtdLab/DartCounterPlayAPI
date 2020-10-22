@@ -5,7 +5,6 @@ import dartServer.networking.codec.ContainerToPacketDecoder;
 import dartServer.networking.codec.JsonToContainerDecoder;
 import dartServer.networking.codec.PacketToContainerEncoder;
 import dartServer.networking.handler.WebSocketServerHandler;
-import dartServer.networking.handler.WebsocketHandshakeHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -30,7 +29,6 @@ public class WebSocketServerChannelInitializer extends ChannelInitializer<Channe
         pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(65536));
         pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
 
-        //pipeline.addLast("websocketHandshakeHandler", new WebsocketHandshakeHandler());
         pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler("",true));
 
         // Decoders

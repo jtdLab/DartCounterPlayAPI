@@ -28,6 +28,8 @@ public class WebSocketServerChannelInitializer extends ChannelInitializer<Channe
         pipeline.addLast("httpServerCodec", new HttpServerCodec());
         pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(65536));
         pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
+
+
         pipeline.addLast("websocketHandshakeHandler", new WebsocketHandshakeHandler());
 
         // Decoders

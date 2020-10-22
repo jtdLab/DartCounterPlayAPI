@@ -16,6 +16,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.DecoderException;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.err.println("channelRead");
         if (!(msg instanceof Packet)) {
             logger.warn("Invalid object reached the server handler (only packets allowed here). That should not happen!");
             logger.trace(msg.getClass());
@@ -63,11 +65,13 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        System.err.println("channelRegistered");
         client = new Client(ctx.channel());
     }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        System.err.println("channelUnregistered");
         NetworkManager.fireEvent(new ClientDisconnectEvent(client));
         client = null;
     }
@@ -79,6 +83,7 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        System.err.println("exceptionCaught");
         if (cause instanceof CorruptedFrameException) {
             logger.warn(ctx.channel().remoteAddress() + " sent invalid JSON and gets disconnected!");
             exceptionCaught(ctx, new InvalidJsonException());
@@ -96,24 +101,23 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.err.println("channelActive");
         super.channelActive(ctx);
         client = new Client(ctx.channel());
     }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        System.err.println("userEventTriggered");
         super.userEventTriggered(ctx, evt);
-        String s = (String) evt;
-        if (client != null && s.equals("upgraded")) {
+        if (client != null && evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
             NetworkManager.fireEvent(new ClientConnectEvent(client));
         }
-      /* if (client != null && evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
-            NetworkManager.fireEvent(new ClientConnectEvent(client));
-        }*/
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        System.err.println("channelInactive");
         super.channelInactive(ctx);
         NetworkManager.fireEvent(new ClientDisconnectEvent(client));
         client = null;

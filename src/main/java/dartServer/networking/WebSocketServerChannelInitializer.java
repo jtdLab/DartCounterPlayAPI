@@ -11,6 +11,7 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
 
@@ -29,8 +30,8 @@ public class WebSocketServerChannelInitializer extends ChannelInitializer<Channe
         pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(65536));
         pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
 
-
-        pipeline.addLast("websocketHandshakeHandler", new WebsocketHandshakeHandler());
+        //pipeline.addLast("websocketHandshakeHandler", new WebsocketHandshakeHandler());
+        pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler("",true));
 
         // Decoders
         pipeline.addLast("jsonDecoder", new JsonToContainerDecoder());

@@ -65,7 +65,6 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         client = new Client(ctx.channel());
-        NetworkManager.fireEvent(new ClientConnectEvent(client));
     }
 
     @Override
@@ -109,9 +108,9 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
         if (client != null && s.equals("upgraded")) {
             NetworkManager.fireEvent(new ClientConnectEvent(client));
         }
-       if (client != null && evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+      /* if (client != null && evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
             NetworkManager.fireEvent(new ClientConnectEvent(client));
-        }
+        }*/
     }
 
     @Override

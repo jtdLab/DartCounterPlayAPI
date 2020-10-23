@@ -1,11 +1,22 @@
 package dartServer.networking;
 
+import dartServer.networking.codec.ContainerToJsonEncoder;
+import dartServer.networking.codec.ContainerToPacketDecoder;
+import dartServer.networking.codec.JsonToContainerDecoder;
+import dartServer.networking.codec.PacketToContainerEncoder;
+import dartServer.networking.handler.WebSocketServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.HttpServerCodec;
+import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.stream.ChunkedWriteHandler;
 
 public class WebSocketServer {
 
@@ -34,7 +45,30 @@ public class WebSocketServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler())
-                    .childHandler(new WebSocketServerChannelInitializer());
+                    .childHandler(new ChannelInitializer<>() {
+                        @Override
+                        protected void initChannel(Channel ch) throws Exception {
+                            ChannelPipeline pipeline = ch.pipeline();
+                            // webSocket
+                            pipeline.addLast("httpServerCodec", new HttpServerCodec());
+                            pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(65536));
+                            pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
+
+                            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler("",true));
+
+                            // Decoders
+                            pipeline.addLast("jsonDecoder", new JsonToContainerDecoder());
+                            //pipeline.addLast("containerValidator", new IncomingPacketContainerValidator());
+                            pipeline.addLast("containerDecoder", new ContainerToPacketDecoder());
+
+                            // Encoders
+                            pipeline.addLast("jsonEncoder", new ContainerToJsonEncoder());
+                            pipeline.addLast("containerEncoder", new PacketToContainerEncoder());
+
+                            // Handlers
+                            pipeline.addLast("websocketHandler", new WebSocketServerHandler());
+                        }
+                    });
 
             Channel ch = b.bind(port).sync().channel();
 

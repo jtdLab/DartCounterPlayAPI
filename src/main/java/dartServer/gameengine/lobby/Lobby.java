@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Lobby {
 
-    private static int lobbyCount = 1;
+    private static int lobbyCount = 0;
 
     private final int id;
 

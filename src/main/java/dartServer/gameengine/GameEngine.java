@@ -144,4 +144,7 @@ public class GameEngine {
         lobbies.remove(lobby);
     }
 
+    public static List<Lobby> getLobbies() {
+        return lobbies;
+    }
 }

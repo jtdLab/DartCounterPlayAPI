@@ -1,5 +1,8 @@
 package dartServer.networking.events;
 
+import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.Lobby;
+import dartServer.gameengine.lobby.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,6 +41,7 @@ public class EventHandler implements Comparable<EventHandler> {
     public void fire(NetworkEvent event) {
         try {
             eventMethod.invoke(listener, event);
+            printServerState();
         } catch (InvocationTargetException e) {
             logger.warn("Error in event listener!", e.getTargetException());
         } catch (Exception e) {
@@ -63,5 +67,22 @@ public class EventHandler implements Comparable<EventHandler> {
                 ", eventMethod=" + eventMethod +
                 ", annotation=" + annotation +
                 '}';
+    }
+
+
+    private void printServerState() {
+        logger.warn("");
+        logger.warn("======================================");
+        logger.warn("Players: " + GameEngine.getPlayers().length + " (online)");
+        for(Player player : GameEngine.getPlayers()) {
+            logger.warn(player);
+        }
+        logger.warn("");
+        logger.warn("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
+        for(Lobby lobby : GameEngine.getLobbies()) {
+            logger.warn(lobby);
+        }
+        logger.warn("======================================");
+        logger.warn("");
     }
 }

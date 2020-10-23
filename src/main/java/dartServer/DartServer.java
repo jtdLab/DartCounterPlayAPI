@@ -20,8 +20,6 @@ import org.apache.logging.log4j.spi.StandardLevel;
 // {"payloadType":"performThrow","payload":{"t":{"points":180,"dartsOnDouble":0,"dartsThrown":3,"userIndex":0}},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"undoThrow","payload":{},"timestamp":"2020-10-17 03:38:16.44"} --
 
-// https://netty.io/4.1/xref/io/netty/example/http/websocketx/server/WebSocketServerInitializer.html
-
 /**
  * This is the main class to start the Dart server from the command line
  * Commandline Options are implemented with picocli

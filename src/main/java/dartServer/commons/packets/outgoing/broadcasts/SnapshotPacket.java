@@ -3,6 +3,7 @@ package dartServer.commons.packets.outgoing.broadcasts;
 import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ import java.util.Objects;
 public class SnapshotPacket implements ResponsePacket {
 
     @NotNull
+    @Valid
     private final GameSnapshot snapshot;
 
     public SnapshotPacket(GameSnapshot snapshot) {

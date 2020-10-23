@@ -2,21 +2,19 @@ package dartServer.gameengine.lobby;
 
 import dartServer.commons.artifacts.PlayerSnapshot;
 import dartServer.commons.packets.outgoing.ResponsePacket;
-import dartServer.commons.validators.Username;
 import dartServer.networking.Client;
 
 public class Player {
 
-    @Username
     private final String name; // unique name
 
     private boolean isNext;
 
-    private int lastThrow;
+    private Integer lastThrow;
     private int pointsLeft;
     private int dartsThrown;
 
-    private int sets;
+    private Integer sets;
     private int legs;
 
     private String average;
@@ -66,11 +64,11 @@ public class Player {
         isNext = next;
     }
 
-    public int getLastThrow() {
+    public Integer getLastThrow() {
         return lastThrow;
     }
 
-    public void setLastThrow(int lastThrow) {
+    public void setLastThrow(Integer lastThrow) {
         this.lastThrow = lastThrow;
     }
 
@@ -90,11 +88,11 @@ public class Player {
         this.dartsThrown = dartsThrown;
     }
 
-    public int getSets() {
+    public Integer getSets() {
         return sets;
     }
 
-    public void setSets(int sets) {
+    public void setSets(Integer sets) {
         this.sets = sets;
     }
 

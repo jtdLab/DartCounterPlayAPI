@@ -15,7 +15,7 @@ public class PlayerSnapshot {
     @NotNull
     private final Boolean isNext;
 
-    private final int lastThrow;
+    private final Integer lastThrow;
 
     @PositiveOrZero
     private final int pointsLeft;
@@ -23,7 +23,7 @@ public class PlayerSnapshot {
     @PositiveOrZero
     private final int dartsThrown;
 
-    private final int sets;
+    private final Integer sets;
 
     @PositiveOrZero
     private final int legs;
@@ -54,7 +54,7 @@ public class PlayerSnapshot {
         return isNext;
     }
 
-    public int getLastThrow() {
+    public Integer getLastThrow() {
         return lastThrow;
     }
 

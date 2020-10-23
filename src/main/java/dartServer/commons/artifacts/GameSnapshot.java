@@ -1,27 +1,34 @@
 package dartServer.commons.artifacts;
 
+import com.google.gson.annotations.SerializedName;
+import dartServer.gameengine.model.enums.GameStatus;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Objects;
 
 public class GameSnapshot {
 
     @NotNull
-    private final String status;
+    private final GameStatus status;
 
-    @NotNull
+    @NotBlank
     private final String description;
 
     @NotNull
+    @Size(min = 2, max = 4)
     private final List<PlayerSnapshot> players;
 
-    public GameSnapshot(String status, String description, List<PlayerSnapshot> players) {
+    public GameSnapshot(GameStatus status, String description, List<PlayerSnapshot> players) {
         this.status = status;
         this.description = description;
         this.players = players;
     }
 
-    public String getStatus() {
+    public GameStatus getStatus() {
         return status;
     }
 

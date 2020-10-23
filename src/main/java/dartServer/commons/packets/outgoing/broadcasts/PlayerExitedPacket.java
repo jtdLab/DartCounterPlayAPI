@@ -1,6 +1,7 @@
 package dartServer.commons.packets.outgoing.broadcasts;
 
 import dartServer.commons.packets.outgoing.ResponsePacket;
+import dartServer.commons.validators.Username;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -11,6 +12,7 @@ import java.util.Objects;
 public class PlayerExitedPacket implements ResponsePacket {
 
     @NotNull
+    @Username
     private final String username;
 
     public PlayerExitedPacket(String username) {

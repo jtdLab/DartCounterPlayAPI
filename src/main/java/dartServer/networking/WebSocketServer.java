@@ -1,9 +1,6 @@
 package dartServer.networking;
 
-import dartServer.networking.codec.ContainerToJsonEncoder;
-import dartServer.networking.codec.ContainerToPacketDecoder;
-import dartServer.networking.codec.JsonToContainerDecoder;
-import dartServer.networking.codec.PacketToContainerEncoder;
+import dartServer.networking.codec.*;
 import dartServer.networking.handler.WebSocketServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -58,7 +55,7 @@ public class WebSocketServer {
 
                             // Decoders
                             pipeline.addLast("jsonDecoder", new JsonToContainerDecoder());
-                            //pipeline.addLast("containerValidator", new IncomingPacketContainerValidator());
+                            pipeline.addLast("containerValidator", new IncomingPacketContainerValidator());
                             pipeline.addLast("containerDecoder", new ContainerToPacketDecoder());
 
                             // Encoders

@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * The annotated element must be of the user name type.
  */
 @NotNull
-@Size(min = 3, max = 20)
+@Size(min = 3, max = 12)
 @Pattern(regexp = "[a-zA-Z0-9]*")
 
 @Target({FIELD, METHOD, PARAMETER, ANNOTATION_TYPE, TYPE_USE})

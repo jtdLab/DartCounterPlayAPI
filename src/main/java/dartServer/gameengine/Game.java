@@ -91,10 +91,12 @@ public class Game {
                 // updates the Player data and creates next leg and set when needed
                 if (getCurrentLeg().getWinner() != -1) {
                     if (getCurrentSet().getWinner() != -1) {
-                        int sets = -1;
+                        Integer sets = null;
+
                         if (config.getType() == GameType.SETS) {
                             sets = getCurrentTurn().getSets() + 1;
                         }
+
                         int legs;
                         if (config.getType() == GameType.LEGS) {
                             legs = getCurrentTurn().getLegs() + 1;
@@ -162,7 +164,7 @@ public class Game {
                 // UNDO FIRST THROW OF GAME
                 Throw last = getCurrentLeg().undoThrow();
                 turnIndex = last.getPlayerIndex();
-                getCurrentTurn().setLastThrow(-1);
+                getCurrentTurn().setLastThrow(null);
                 getCurrentTurn().setPointsLeft(config.getStartingPoints());
                 getCurrentTurn().setDartsThrown(0);
                 getCurrentTurn().setAverage("0.00");
@@ -186,7 +188,7 @@ public class Game {
                     p.setPointsLeft(getCurrentLeg().getPointsLeft()[i]);
                     p.setDartsThrown(getCurrentLeg().getDartsThrown()[i]);
 
-                    int s = 0;
+                    Integer s = 0;
                     int l = 0;
 
                     for (Set set : sets) {
@@ -195,7 +197,7 @@ public class Game {
                                 s += 1;
                             }
                         } else {
-                            s = -1;
+                            s = null;
                         }
                     }
 
@@ -259,7 +261,7 @@ public class Game {
     }
 
     public GameSnapshot getSnapshot() {
-        return new GameSnapshot(getStatusAsString(), getDescription(), players.stream().map(player -> player.getSnapshot()).collect(Collectors.toList()));
+        return new GameSnapshot(status, getDescription(), players.stream().map(player -> player.getSnapshot()).collect(Collectors.toList()));
     }
 
     public ArrayList<Player> getPlayers() {
@@ -405,13 +407,13 @@ public class Game {
     private void initPlayers() {
         for (Player player : players) {
             player.setNext(false);
-            player.setLastThrow(-1);
+            player.setLastThrow(null);
             player.setPointsLeft(config.getStartingPoints());
             player.setDartsThrown(0);
             if (config.getType() == GameType.SETS) {
                 player.setSets(0);
             } else {
-                player.setSets(-1);
+                player.setSets(null);
             }
             player.setLegs(0);
             player.setAverage("0.00");
@@ -419,18 +421,6 @@ public class Game {
             player.setPlaying(true);
         }
         players.get(turnIndex).setNext(true);
-    }
-
-    private String getStatusAsString() {
-        switch (status) {
-            case PENDING:
-                return "pending";
-            case RUNNING:
-                return "running";
-            case FINISHED:
-                return "finished";
-        }
-        return null;
     }
 
 }

@@ -8,6 +8,7 @@ import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 import dartServer.gameengine.lobby.Player;
 import dartServer.gameengine.model.Throw;
+import dartServer.gameengine.model.enums.GameStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class PacketsTest {
         assertEquals(new GameStartedPacket(), new GameStartedPacket());
         assertEquals(new PlayerExitedPacket("mrjosch"), new PlayerExitedPacket("mrjosch"));
         assertEquals(new PlayerJoinedPacket("mrjosch"), new PlayerJoinedPacket("mrjosch"));
-        assertEquals(new SnapshotPacket(new GameSnapshot("running", "first to 3 legs", List.of(new Player("mrjosch", null).getSnapshot(), new Player("needs00", null).getSnapshot()))), new SnapshotPacket(new GameSnapshot("running", "first to 3 legs", List.of(new Player("mrjosch", null).getSnapshot(), new Player("needs00", null).getSnapshot()))));
+        assertEquals(new SnapshotPacket(new GameSnapshot(GameStatus.RUNNING, "first to 3 legs", List.of(new Player("mrjosch", null).getSnapshot(), new Player("needs00", null).getSnapshot()))), new SnapshotPacket(new GameSnapshot(GameStatus.RUNNING, "first to 3 legs", List.of(new Player("mrjosch", null).getSnapshot(), new Player("needs00", null).getSnapshot()))));
 
         // unicasts
         assertEquals(new AuthResponsePacket(true), new AuthResponsePacket(true));

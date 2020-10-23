@@ -1,5 +1,11 @@
 package dartServer.gameengine.model.enums;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum GameMode {
-    FIRST_TO, BEST_OF
+    @SerializedName("first to")
+    FIRST_TO,
+
+    @SerializedName("best of")
+    BEST_OF
 }

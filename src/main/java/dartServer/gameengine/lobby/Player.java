@@ -26,6 +26,8 @@ public class Player {
 
     private Client client; // client for networking
 
+    private boolean playing;
+
 
     // --== Constructors ==--
 
@@ -134,6 +136,14 @@ public class Player {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public void setPlaying(boolean playing) {
+        this.playing = playing;
     }
 
     @Override

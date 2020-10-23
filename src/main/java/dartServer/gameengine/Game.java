@@ -416,6 +416,7 @@ public class Game {
             player.setLegs(0);
             player.setAverage("0.00");
             player.setCheckoutPercentage("0.00");
+            player.setPlaying(true);
         }
         players.get(turnIndex).setNext(true);
     }

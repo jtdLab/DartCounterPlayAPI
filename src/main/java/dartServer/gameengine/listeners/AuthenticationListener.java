@@ -32,7 +32,7 @@ public class AuthenticationListener implements NetworkEventListener {
             Player player = GameEngine.createPlayer(authRequest.getUsername(), event.getClient());
             if (player != null) {
                 player.sendMessage(new AuthResponsePacket(true));
-                logger.warn(authRequest.getUsername() + " joined the server");
+                logger.warn(authRequest.getUsername() + " joined");
             } else {
                 event.getClient().sendPacket(new AuthResponsePacket(false));
             }

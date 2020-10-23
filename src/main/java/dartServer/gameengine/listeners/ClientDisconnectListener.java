@@ -1,6 +1,8 @@
 package dartServer.gameengine.listeners;
 
+import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.Player;
 import dartServer.networking.events.ClientDisconnectEvent;
 import dartServer.networking.events.Event;
@@ -24,40 +26,27 @@ public class ClientDisconnectListener implements NetworkEventListener {
      */
     @Event
     public void onDisconnect(ClientDisconnectEvent event) {
-        logger.warn("onLeave TODO");
-        for (Player player : GameEngine.getPlayers()) {
-            logger.warn(player);
+        Player player = GameEngine.getPlayer(event.getClient().getAddress());
+
+        if(player == null) {
+            logger.trace(event.getClient().getAddress() + " disconnected");
+            return;
         }
 
-        // TODO
-
-       /*
-            User user = GameEngine.getUser(event.getClient().getAddress());
-        if (user.isPlayer()) {
-            //Inform GameLoop that protocol was violated by User
-            Lobby lobby = GameEngine.getLobbyByName(user.getLobbyName());
-            if (lobby.getGameLoop() != null)
-                GameEngine.getLobbyByName(user.getLobbyName()).getGameLoop().protocolViolatedBy(user);
-
+        if (player.isPlaying()) {
+            Lobby lobby = GameEngine.getLobbyByPlayer(player);
+            // TODO find out what to do here semantically
             if (event.getClient().isKicked()) {
-
-                Game game = GameEngine.getLobbyByName(user.getLobbyName()).getActiveGame();
-
-                if (game.getLeftUser().getName().equals(user.getName())) {                //left player kicked
-                    GameEngine.broadcastToLobby(user.getLobbyName(), new MatchFinishPacket(game.getRoundNumber(), game.getScore()[0], game.getScore()[1], game.getRightUser().getName(), VictoryReasonType.DISQUALIFICATION));
-                } else {                //right player kicked
-                    GameEngine.broadcastToLobby(user.getLobbyName(), new MatchFinishPacket(game.getRoundNumber(), game.getScore()[0], game.getScore()[1], game.getLeftUser().getName(), VictoryReasonType.DISQUALIFICATION));
-                }
-                GameEngine.removeUser(event.getClient().getAddress());
-
+                GameEngine.removePlayer(player);
+                logger.warn(player.getName() + " got kicked");
             } else {
-                user.setClient(null); //remove client because disconnected
+                player.setClient(null); // remove client because disconnected
+                logger.warn(player.getName() + " left");
             }
         } else {
-            GameEngine.removeUser(event.getClient().getAddress());
+            GameEngine.removePlayer(player);
+            logger.warn(player.getName() + " left");
         }
-
-        */
     }
 
 }

@@ -129,19 +129,15 @@ public class GameEngine {
     }
 
     public static void removePlayer(Player player) {
-       /* SocketAddress address = player.getClient().getAddress();
+        SocketAddress address = player.getClient().getAddress();
         players.remove(address);
-        getLobbyById(player.getLobbyId()).getGame().removePlayer(player);*/
+        if(player.getLobbyId() != null) {
+            getLobbyByPlayer(player).getGame().removePlayer(player);
+        }
     }
 
-    public static void removeUser(SocketAddress address) {
-        /*Player player = getUser(address);
-        players.remove(address);
-        getLobbyById(player.getLobbyId()).getGame().removePlayer(player);*/
-    }
-
-    public static Player getUserByName(String userName) {
-        return Arrays.stream(getPlayers()).filter(user -> user.getName().equals(userName)).findFirst().orElse(null);
+    public static Player getPlayerByName(String name) {
+        return Arrays.stream(getPlayers()).filter(player -> player.getName().equals(name)).findFirst().orElse(null);
     }
 
     public static void removeLobby(Lobby lobby) {

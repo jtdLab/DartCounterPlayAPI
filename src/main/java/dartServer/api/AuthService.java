@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
 public class AuthService {
 
     private static final String protocol = "http";
-    private static final String host = "192.168.2.110"; //"127.0.0.1"; //
+    private static final String host = "127.0.0.1"; //"192.168.2.110";
     private static final int port = 8000;
 
     private static final Gson gson = new GsonBuilder().serializeNulls().create();

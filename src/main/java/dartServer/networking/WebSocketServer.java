@@ -76,13 +76,4 @@ public class WebSocketServer {
         }
     }
 
-    /**
-     * Get the port of the server
-     *
-     * @return Server port
-     */
-    public int getPort() {
-        return port;
-    }
-
 }

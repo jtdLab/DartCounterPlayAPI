@@ -3,6 +3,7 @@ package dartServer.networking;
 import dartServer.commons.packets.Packet;
 import dartServer.commons.packets.PacketType;
 import dartServer.commons.packets.outgoing.ResponsePacket;
+import dartServer.commons.validators.JsonValidator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import org.apache.logging.log4j.LogManager;
@@ -45,10 +46,10 @@ public class Client {
     public void sendPackets(ResponsePacket... packets) {
         if (channel.isOpen() && channel.isActive() && channel.isWritable()) {
             for (Packet p : packets) {
-         /*       if (!JsonValidator.isPacketValid(p)) {
+               if (!JsonValidator.isPacketValid(p)) {
                     logger.fatal("Refusing to send invalid packet to client!");
                     continue;
-                }*/
+                }
                 channel.writeAndFlush(p).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE); // get errors
                 logger.debug("Sent " + PacketType.forClass(p.getClass()) + " packet to " + this);
             }

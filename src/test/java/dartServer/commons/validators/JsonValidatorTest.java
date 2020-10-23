@@ -1,8 +1,13 @@
 package dartServer.commons.validators;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import dartServer.commons.JsonManager;
 import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.commons.artifacts.PlayerSnapshot;
 import dartServer.commons.packets.PacketContainer;
+import dartServer.commons.packets.PacketType;
 import dartServer.commons.packets.incoming.requests.*;
 import dartServer.commons.packets.outgoing.broadcasts.*;
 import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
@@ -11,8 +16,11 @@ import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 import dartServer.gameengine.lobby.Player;
 import dartServer.gameengine.model.Throw;
 import dartServer.gameengine.model.enums.GameStatus;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import javax.validation.ValidationException;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -22,7 +30,43 @@ class JsonValidatorTest {
 
     @Test
     public void testIsPacketContainerValid() {
+        // valid containerPackets
+        // incoming
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new AuthRequestPacket("Mrjosch99", "sanoj050499"))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new CancelGamePacket())));
         assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new CreateGamePacket())));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new ExitGamePacket())));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new JoinGamePacket(5000))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new PerformThrowPacket(new Throw(180,0,3)))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new StartGamePacket())));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new UndoThrowPacket())));
+
+        // outgoing
+        // broadcasts
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new GameCanceledPacket())));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new GameStartedPacket())));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new PlayerExitedPacket("Mrjosch99"))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new PlayerJoinedPacket("Mrjosch99"))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new SnapshotPacket(new GameSnapshot(GameStatus.PENDING, "first to 3 legs", List.of(new Player("Mrjosch99", null).getSnapshot(), new Player("Needs00", null).getSnapshot()))))));
+
+        // unicasts
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new AuthResponsePacket(true))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new CreateGameResponsePacket(true))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new JoinGameResponsePacket(true))));
+
+        // invalid containerPackets
+        // timestamp null
+        assertFalse(JsonValidator.isPacketContainerValid(new PacketContainer(null, PacketType.CREATE_GAME, new CreateGamePacket())));
+        // timestamp future
+        assertFalse(JsonValidator.isPacketContainerValid(new PacketContainer(new Date(System.currentTimeMillis() + 10000), PacketType.CREATE_GAME, new CreateGamePacket())));
+        // payloadType null
+        assertFalse(JsonValidator.isPacketContainerValid(new PacketContainer(new Date(), null, new CreateGamePacket())));
+        // payloadType not existing
+        // TODO
+        // payload null
+        assertFalse(JsonValidator.isPacketContainerValid(new PacketContainer(new Date(), PacketType.CREATE_GAME, null)));
+        // payload invalid
+        // TODO
     }
 
     @Test

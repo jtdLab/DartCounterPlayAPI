@@ -1,8 +1,6 @@
 package dartServer.commons.artifacts;
 
-import com.google.gson.annotations.SerializedName;
 import dartServer.gameengine.model.enums.GameStatus;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

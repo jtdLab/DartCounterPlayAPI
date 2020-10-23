@@ -32,12 +32,20 @@ public class PacketContainer {
     @Valid
     private Packet payload;
 
+
     public PacketContainer(Packet payload) {
         this.timestamp = new Date();
         if (payload != null) {
             this.payloadType = PacketType.forClass(payload.getClass());
             this.payload = payload;
         }
+    }
+
+    // Constructor for testing
+    public PacketContainer(Date timestamp, PacketType payloadType, Packet payload) {
+        this.timestamp = timestamp;
+        this.payloadType = payloadType;
+        this.payload = payload;
     }
 
     public PacketType getPayloadType() {

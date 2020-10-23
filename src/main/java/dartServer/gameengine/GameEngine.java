@@ -131,7 +131,7 @@ public class GameEngine {
     public static void removePlayer(Player player) {
         SocketAddress address = player.getClient().getAddress();
         players.remove(address);
-        if(player.getLobbyId() != null) {
+        if (player.getLobbyId() != null) {
             getLobbyByPlayer(player).getGame().removePlayer(player);
         }
     }

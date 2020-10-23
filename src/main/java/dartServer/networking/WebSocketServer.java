@@ -51,7 +51,7 @@ public class WebSocketServer {
                             pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(65536));
                             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());
 
-                            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler("",true));
+                            pipeline.addLast("webSocketServerProtocolHandler", new WebSocketServerProtocolHandler("", true));
 
                             // Decoders
                             pipeline.addLast("jsonDecoder", new JsonToContainerDecoder());

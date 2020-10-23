@@ -4,7 +4,6 @@ import dartServer.commons.packets.incoming.RequestPacket;
 import dartServer.commons.validators.Username;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -31,11 +30,12 @@ public class AuthRequestPacket implements RequestPacket {
         return password;
     }
 
+    @Override
     public String toString() {
-        return "AuthRequest{" +
+        return "AuthRequestPacket{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                "}";
+                '}';
     }
 
     @Override

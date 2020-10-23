@@ -25,9 +25,9 @@ public class JoinGamePacket implements RequestPacket {
 
     @Override
     public String toString() {
-        return "JoinGame{" +
-                "gameCode=" + gameCode + '\'' +
-                "}";
+        return "JoinGamePacket{" +
+                "gameCode=" + gameCode +
+                '}';
     }
 
     @Override

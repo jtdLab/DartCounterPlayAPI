@@ -39,6 +39,15 @@ public class GameSnapshot {
     }
 
     @Override
+    public String toString() {
+        return "GameSnapshot{" +
+                "status=" + status +
+                ", description='" + description + '\'' +
+                ", players=" + players +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

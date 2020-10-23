@@ -83,6 +83,21 @@ public class PlayerSnapshot {
     }
 
     @Override
+    public String toString() {
+        return "PlayerSnapshot{" +
+                "name='" + name + '\'' +
+                ", isNext=" + isNext +
+                ", lastThrow=" + lastThrow +
+                ", pointsLeft=" + pointsLeft +
+                ", dartsThrown=" + dartsThrown +
+                ", sets=" + sets +
+                ", legs=" + legs +
+                ", average='" + average + '\'' +
+                ", checkoutPercentage='" + checkoutPercentage + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

@@ -1,6 +1,5 @@
 package dartServer.gameengine.listeners;
 
-import dartServer.gameengine.Game;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.Player;
@@ -28,7 +27,7 @@ public class ClientDisconnectListener implements NetworkEventListener {
     public void onDisconnect(ClientDisconnectEvent event) {
         Player player = GameEngine.getPlayer(event.getClient().getAddress());
 
-        if(player == null) {
+        if (player == null) {
             logger.trace(event.getClient().getAddress() + " disconnected");
             return;
         }

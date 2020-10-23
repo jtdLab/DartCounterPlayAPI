@@ -12,7 +12,12 @@ public class ArtifactsTest {
 
     @Test
     public void testToString() {
-        // TODO
+        PlayerSnapshot playerSnapshot1 = new Player("Mrjosch99", null).getSnapshot();
+        assertEquals("PlayerSnapshot{name='Mrjosch99', isNext=false, lastThrow=null, pointsLeft=0, dartsThrown=0, sets=null, legs=0, average='null', checkoutPercentage='null'}",
+                playerSnapshot1.toString());
+        PlayerSnapshot playerSnapshot2 = new Player("Needs00", null).getSnapshot();
+        assertEquals("GameSnapshot{status=RUNNING, description='first to 3 legs', players=[PlayerSnapshot{name='Mrjosch99', isNext=false, lastThrow=null, pointsLeft=0, dartsThrown=0, sets=null, legs=0, average='null', checkoutPercentage='null'}, PlayerSnapshot{name='Needs00', isNext=false, lastThrow=null, pointsLeft=0, dartsThrown=0, sets=null, legs=0, average='null', checkoutPercentage='null'}]}",
+                new GameSnapshot(GameStatus.RUNNING, "first to 3 legs", List.of(playerSnapshot1, playerSnapshot2)).toString());
     }
 
     @Test

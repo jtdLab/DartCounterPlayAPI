@@ -31,7 +31,7 @@ class JsonValidatorTest {
         assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new CreateGamePacket())));
         assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new ExitGamePacket())));
         assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new JoinGamePacket(5000))));
-        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new PerformThrowPacket(new Throw(180,0,3)))));
+        assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new PerformThrowPacket(new Throw(180, 0, 3)))));
         assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new StartGamePacket())));
         assertTrue(JsonValidator.isPacketContainerValid(new PacketContainer(new UndoThrowPacket())));
 

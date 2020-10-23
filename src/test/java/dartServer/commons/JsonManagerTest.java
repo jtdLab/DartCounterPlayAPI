@@ -1,17 +1,23 @@
 package dartServer.commons;
 
+import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JsonManagerTest {
 
     @Test
     public void testGetGson() {
-        // TODO
-    }
+        Gson gson = JsonManager.getGson();
 
-    @Test
-    public void testMakeJsonPacket() {
-        // TODO consider if this method is needed
+        // serialize Nulls
+        assertTrue(gson.serializeNulls());
+
+        // timestamp format yyyy-MM-dd HH:mm:ss.SSS
+        // TODO
+        // typeAdapters PacketTypeSerializer, PacketContainerDeserializer
+        // TODO
     }
 
 }

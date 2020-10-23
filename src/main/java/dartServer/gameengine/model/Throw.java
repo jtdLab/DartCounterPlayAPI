@@ -5,7 +5,7 @@ public class Throw {
     private int points;
     private int dartsOnDouble;
     private int dartsThrown;
-    private int playerIndex;
+    private Integer playerIndex;
 
     public Throw(int points, int dartsOnDouble, int dartsThrown) {
         this.points = points;
@@ -25,12 +25,22 @@ public class Throw {
         return dartsThrown;
     }
 
-    public int getPlayerIndex() {
+    public Integer getPlayerIndex() {
         return playerIndex;
     }
 
     public void setPlayerIndex(int playerIndex) {
         this.playerIndex = playerIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "Throw{" +
+                "points=" + points +
+                ", dartsOnDouble=" + dartsOnDouble +
+                ", dartsThrown=" + dartsThrown +
+                ", playerIndex=" + playerIndex +
+                '}';
     }
 
     @Override

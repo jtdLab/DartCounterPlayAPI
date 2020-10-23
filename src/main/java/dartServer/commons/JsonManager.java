@@ -34,8 +34,4 @@ public class JsonManager {
         return gson.create();
     }
 
-    public static String makeJsonPacket(PacketContainer c) {
-        return getGson().toJson(c);
-    }
-
 }

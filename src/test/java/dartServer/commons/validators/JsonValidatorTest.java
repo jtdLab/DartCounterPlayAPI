@@ -1,9 +1,5 @@
 package dartServer.commons.validators;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import dartServer.commons.JsonManager;
 import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.commons.artifacts.PlayerSnapshot;
 import dartServer.commons.packets.PacketContainer;
@@ -16,10 +12,8 @@ import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 import dartServer.gameengine.lobby.Player;
 import dartServer.gameengine.model.Throw;
 import dartServer.gameengine.model.enums.GameStatus;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.validation.ValidationException;
 import java.util.Date;
 import java.util.List;
 

@@ -33,7 +33,6 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println(msg);
         if (!(msg instanceof Packet)) {
             logger.warn("Invalid object reached the server handler (only packets allowed here). That should not happen!");
             logger.trace(msg.getClass());

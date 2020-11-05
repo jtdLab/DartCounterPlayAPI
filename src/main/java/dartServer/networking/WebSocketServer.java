@@ -15,6 +15,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
+import java.net.InetSocketAddress;
+
 public class WebSocketServer {
 
     /**
@@ -67,7 +69,7 @@ public class WebSocketServer {
                         }
                     });
 
-            Channel ch = b.bind(port).sync().channel();
+            Channel ch = b.bind(new InetSocketAddress("0.0.0.0", Integer.valueOf(port))).sync().channel();
 
             ch.closeFuture().sync();
         } finally {

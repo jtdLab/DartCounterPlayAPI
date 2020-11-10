@@ -13,7 +13,7 @@ public class Lobby {
 
     private final int id;
 
-    private Game game;
+    private final Game game;
 
 
     // --== Constructor ==--

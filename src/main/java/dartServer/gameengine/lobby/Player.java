@@ -29,6 +29,10 @@ public class Player {
 
     // --== Constructors ==--
 
+    public Player(String name) {
+        this.name = name;
+    }
+
     public Player(String name, Client client) {
         this.name = name;
         this.client = client;
@@ -143,7 +147,6 @@ public class Player {
     public void setPlaying(boolean playing) {
         this.playing = playing;
     }
-
 
 
     @Override

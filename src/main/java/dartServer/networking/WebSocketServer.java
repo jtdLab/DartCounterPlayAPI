@@ -1,7 +1,7 @@
 package dartServer.networking;
 
 import dartServer.networking.codec.*;
-import dartServer.networking.handler.Lo;
+import dartServer.networking.handler.ByteMessageLogger;
 import dartServer.networking.handler.WebSocketServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -50,7 +50,7 @@ public class WebSocketServer {
                         protected void initChannel(Channel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
                             // webSocket
-                            pipeline.addLast("lo", new Lo());
+                            pipeline.addLast("logger", new ByteMessageLogger());
                             pipeline.addLast("httpServerCodec", new HttpServerCodec());
                             pipeline.addLast("httpObjectAggregator", new HttpObjectAggregator(65536));
                             pipeline.addLast("chunkedWriteHandler", new ChunkedWriteHandler());

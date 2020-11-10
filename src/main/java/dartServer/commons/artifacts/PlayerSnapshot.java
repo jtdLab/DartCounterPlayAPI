@@ -66,7 +66,7 @@ public class PlayerSnapshot {
         return dartsThrown;
     }
 
-    public int getSets() {
+    public Integer getSets() {
         return sets;
     }
 

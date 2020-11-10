@@ -46,7 +46,7 @@ public class Client {
     public void sendPackets(ResponsePacket... packets) {
         if (channel.isOpen() && channel.isActive() && channel.isWritable()) {
             for (Packet p : packets) {
-               if (!JsonValidator.isPacketValid(p)) {
+                if (!JsonValidator.isPacketValid(p)) {
                     logger.fatal("Refusing to send invalid packet to client!");
                     continue;
                 }

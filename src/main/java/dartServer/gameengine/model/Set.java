@@ -15,7 +15,7 @@ public class Set {
         this.startIndex = startIndex;
     }
 
-    public int getWinner() {
+    public Integer getWinner() {
         ArrayList<Integer> winners = new ArrayList<>();
         for (Leg leg : legs) {
             winners.add(leg.getWinner());
@@ -36,7 +36,7 @@ public class Set {
             }
         }
 
-        return -1;
+        return null;
     }
 
     public ArrayList<Leg> getLegs() {

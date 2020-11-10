@@ -55,14 +55,14 @@ public class Leg {
     /**
      * @return index of winner or -1
      */
-    public int getWinner() {
+    public Integer getWinner() {
         for (int i = 0; i < pointsLeft.length; i++) {
             if (pointsLeft[i] == 0) {
                 return i;
             }
         }
 
-        return -1;
+        return null;
     }
 
     public int[] getPointsLeft() {

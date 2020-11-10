@@ -74,12 +74,12 @@ public class EventHandler implements Comparable<EventHandler> {
         logger.warn("");
         logger.warn("======================================");
         logger.warn("Players: " + GameEngine.getPlayers().length + " (online)");
-        for(Player player : GameEngine.getPlayers()) {
+        for (Player player : GameEngine.getPlayers()) {
             logger.warn(player);
         }
         logger.warn("");
         logger.warn("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
-        for(Lobby lobby : GameEngine.getLobbies()) {
+        for (Lobby lobby : GameEngine.getLobbies()) {
             logger.warn(lobby);
         }
         logger.warn("======================================");

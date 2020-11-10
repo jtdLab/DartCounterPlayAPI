@@ -20,10 +20,6 @@ public class PacketReceiveEvent<T extends RequestPacket> extends NetworkEvent {
      */
     private String message;
 
-    public PacketReceiveEvent(Client client) {
-        this(client, null);
-    }
-
     public PacketReceiveEvent(Client client, T packet) {
         super(client);
         this.packet = packet;

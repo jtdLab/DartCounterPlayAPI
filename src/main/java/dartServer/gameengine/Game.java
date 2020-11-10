@@ -40,8 +40,8 @@ public class Game {
 
     public boolean addPlayer(Player player) {
         if (players.size() < 4) {
-            for (Player u : players) {
-                if (u.getName().equals(player.getName())) return false;
+            for (Player p : players) {
+                if (p.getName().equals(player.getName())) return false;
             }
             players.add(player);
             return true;
@@ -68,14 +68,20 @@ public class Game {
 
     public boolean performThrow(Player player, Throw t) {
         Player currentTurn = getCurrentTurn();
+        // sets the Player who threw
+
+        Integer index = indexOf(player);
+        if (index == null) {
+            return false;
+        }
+
+        t.setPlayerIndex(index);
+
 
         if (status == GameStatus.RUNNING && currentTurn.equals(player)) {
             if (turnIndex == t.getPlayerIndex() && ThrowValidator.isValidThrow(t, getCurrentTurn().getPointsLeft())) {
 
                 getCurrentTurn().setNext(false);
-
-                // sets the Player who threw
-                t.setPlayerIndex(turnIndex);
 
                 // updates the leg data
                 getCurrentLeg().performThrow(t);
@@ -89,8 +95,8 @@ public class Game {
 
                 // updates the reference to the Player who has next turn
                 // updates the Player data and creates next leg and set when needed
-                if (getCurrentLeg().getWinner() != -1) {
-                    if (getCurrentSet().getWinner() != -1) {
+                if (getCurrentLeg().getWinner() != null) {
+                    if (getCurrentSet().getWinner() != null) {
                         Integer sets = null;
 
                         if (config.getType() == GameType.SETS) {
@@ -255,8 +261,11 @@ public class Game {
         return false;
     }
 
-    public boolean updateConfig(Player player) {
-        // TODO
+    public boolean updateConfig(Player player, GameConfig config) {
+        if (player.equals(getOwner())) {
+            this.config = config;
+            return true;
+        }
         return false;
     }
 
@@ -269,7 +278,7 @@ public class Game {
     }
 
 
-    private Player getWinner() {
+    public Player getWinner() {
         switch (config.getType()) {
             case LEGS:
                 int legsNeededToWin;
@@ -335,8 +344,7 @@ public class Game {
     }
 
     private Player getPreviousTurn() {
-        // TODO fix
-        int i = (turnIndex - 1) % players.size();
+        int i = Math.floorMod(turnIndex - 1, players.size());
         return players.get(i);
     }
 
@@ -367,7 +375,7 @@ public class Game {
         int totalDartsOnDouble = 0;
         for (Set set : sets) {
             for (Leg leg : set.getLegs()) {
-                if (leg.getWinner() == turnIndex) {
+                if (leg.getWinner() != null && leg.getWinner() == turnIndex) {
                     totalLegsWon++;
                 }
                 totalDartsOnDouble += leg.getDartsOnDouble()[turnIndex];
@@ -381,7 +389,6 @@ public class Game {
         double checkoutPercentage = (totalLegsWon / (double) totalDartsOnDouble) * 100;
         String rawString = String.format("%f", checkoutPercentage);
         return rawString.substring(0, rawString.indexOf(",") + 3).replace(",", ".");
-
     }
 
     private void createSet() {
@@ -421,6 +428,16 @@ public class Game {
             player.setPlaying(true);
         }
         players.get(turnIndex).setNext(true);
+    }
+
+    private Integer indexOf(Player player) {
+        for (int i = 0; i < players.size(); i++) {
+            if (player.equals(players.get(i))) {
+                return i;
+            }
+        }
+
+        return null;
     }
 
 }

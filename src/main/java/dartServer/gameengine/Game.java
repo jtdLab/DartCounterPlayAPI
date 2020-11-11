@@ -166,8 +166,8 @@ public class Game {
 
             getCurrentTurn().setNext(false);
 
-            if (sets.size() == 1 && sets.get(0).getLegs().size() == 1 && getCurrentLeg().getThrows().size() == 1) {
-                // UNDO FIRST THROW OF GAME
+            if (sets.size() == 1 && sets.get(0).getLegs().size() == 1 && getCurrentLeg().getThrows().size() <= players.size()) {
+                // UNDO FIRST THROW OF GAME OF PLAYER
                 Throw last = getCurrentLeg().undoThrow();
                 turnIndex = last.getPlayerIndex();
                 getCurrentTurn().setLastThrow(null);
@@ -199,7 +199,7 @@ public class Game {
 
                     for (Set set : sets) {
                         if (config.getType() == GameType.SETS) {
-                            if (set.getWinner() == i) {
+                            if (set.getWinner() != null && set.getWinner() == i) {
                                 s += 1;
                             }
                         } else {
@@ -208,7 +208,7 @@ public class Game {
                     }
 
                     for (Leg leg : getCurrentSet().getLegs()) {
-                        if (leg.getWinner() == i) {
+                        if (leg.getWinner() != null && leg.getWinner() == i) {
                             l += 1;
                         }
                     }
@@ -237,7 +237,7 @@ public class Game {
 
                     int l = 0;
                     for (Leg leg : getCurrentSet().getLegs()) {
-                        if (leg.getWinner() == i) {
+                        if (leg.getWinner() != null && leg.getWinner() == i) {
                             l += 1;
                         }
                     }
@@ -248,6 +248,7 @@ public class Game {
                 // UNDO STANDARD THROW
                 Throw last = getCurrentLeg().undoThrow();
                 turnIndex = last.getPlayerIndex();
+
                 getCurrentTurn().setLastThrow(getCurrentLeg().getThrows().get(getCurrentLeg().getThrows().size() - players.size()).getPoints());
                 getCurrentTurn().setPointsLeft(getCurrentTurn().getPointsLeft() + last.getPoints());
                 getCurrentTurn().setDartsThrown(getCurrentTurn().getDartsThrown() - last.getDartsThrown());

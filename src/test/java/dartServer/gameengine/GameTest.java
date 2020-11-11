@@ -345,11 +345,90 @@ class GameTest {
         assertEquals("0.00", playerSnapshot2.getAverage());
         assertEquals("0.00", playerSnapshot2.getCheckoutPercentage());
 
-        // first throw > 2nd leg in leg mode
-        // TODO
+        // undo last throw of finished leg in leg mode
+        player1 = new Player("Jonas");
+        player2 = new Player("David");
+        game = new Game(player1);
+        game.addPlayer(player2);
+        config = new GameConfig(GameMode.FIRST_TO, GameType.LEGS, 2, 501);
+        game.updateConfig(player1, config);
+        game.start(player1);
+        game.performThrow(player1, new Throw(180, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(180, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(141, 1, 3));
+        assertTrue(game.undoThrow(player1));
+        playerSnapshot1 = game.getSnapshot().getPlayers().get(0);
+        assertEquals("Jonas", playerSnapshot1.getName());
+        assertTrue(playerSnapshot1.isNext());
+        assertEquals(180, playerSnapshot1.getLastThrow());
+        assertEquals(141, playerSnapshot1.getPointsLeft());
+        assertEquals(6, playerSnapshot1.getDartsThrown());
+        assertEquals(null, playerSnapshot1.getSets());
+        assertEquals(0, playerSnapshot1.getLegs());
+        assertEquals("180.00", playerSnapshot1.getAverage());
+        assertEquals("0.00", playerSnapshot1.getCheckoutPercentage());
+        playerSnapshot2 = game.getSnapshot().getPlayers().get(1);
+        assertEquals("David", playerSnapshot2.getName());
+        assertFalse(playerSnapshot2.isNext());
+        assertEquals(0, playerSnapshot2.getLastThrow());
+        assertEquals(501, playerSnapshot2.getPointsLeft());
+        assertEquals(6, playerSnapshot2.getDartsThrown());
+        assertEquals(null, playerSnapshot2.getSets());
+        assertEquals(0, playerSnapshot2.getLegs());
+        assertEquals("0.00", playerSnapshot2.getAverage());
+        assertEquals("0.00", playerSnapshot2.getCheckoutPercentage());
 
-        // first throw first leg set mode >2n set
-        // TODO
+        // first throw first leg set mode >=2nd set
+        player1 = new Player("Jonas");
+        player2 = new Player("David");
+        game = new Game(player1);
+        game.addPlayer(player2);
+        config = new GameConfig(GameMode.FIRST_TO, GameType.SETS, 2, 501);
+        game.updateConfig(player1, config);
+        game.start(player1);
+        game.performThrow(player1, new Throw(180, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(180, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(141, 1, 3));
+
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(180, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(180, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(141, 1, 3));
+
+        game.performThrow(player1, new Throw(167, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(167, 0, 3));
+        game.performThrow(player2, new Throw(0, 0, 3));
+        game.performThrow(player1, new Throw(167, 1, 3));
+
+        assertTrue(game.undoThrow(player1));
+
+        playerSnapshot1 = game.getSnapshot().getPlayers().get(0);
+        assertEquals("Jonas", playerSnapshot1.getName());
+        assertTrue(playerSnapshot1.isNext());
+        assertEquals(167, playerSnapshot1.getLastThrow());
+        assertEquals(167, playerSnapshot1.getPointsLeft());
+        assertEquals(6, playerSnapshot1.getDartsThrown());
+        assertEquals(0, playerSnapshot1.getSets());
+        assertEquals(2, playerSnapshot1.getLegs());
+        assertEquals("167.00", playerSnapshot1.getAverage());
+        assertEquals("100.00", playerSnapshot1.getCheckoutPercentage());
+        playerSnapshot2 = game.getSnapshot().getPlayers().get(1);
+        assertEquals("David", playerSnapshot2.getName());
+        assertFalse(playerSnapshot2.isNext());
+        assertEquals(0, playerSnapshot2.getLastThrow());
+        assertEquals(501, playerSnapshot2.getPointsLeft());
+        assertEquals(6, playerSnapshot2.getDartsThrown());
+        assertEquals(0, playerSnapshot2.getSets());
+        assertEquals(0, playerSnapshot2.getLegs());
+        assertEquals("0.00", playerSnapshot2.getAverage());
+        assertEquals("0.00", playerSnapshot2.getCheckoutPercentage());
 
         // last throw after game is finished
         player1 = new Player("Jonas");
@@ -365,8 +444,111 @@ class GameTest {
         game.performThrow(player2, new Throw(0, 0, 3));
         game.performThrow(player1, new Throw(167, 1, 3));
         assertEquals(player1, game.getWinner());
-        // TODO multiple undos ( more undos than throws per leg)
-        assertEquals(player1, game.getWinner());
+        assertFalse(game.undoThrow(player1));
+
+        // multiple undos ( more undos than throws per leg)
+        player1 = new Player("Jonas");
+        player2 = new Player("David");
+        game = new Game(player1);
+        game.addPlayer(player2);
+        config = new GameConfig(GameMode.FIRST_TO, GameType.LEGS, 1, 501);
+        game.updateConfig(player1, config);
+        game.start(player1);
+        game.performThrow(player1, new Throw(100, 0, 3));
+        game.performThrow(player2, new Throw(50, 0, 3));
+        game.performThrow(player1, new Throw(100, 0, 3));
+        game.performThrow(player2, new Throw(50, 0, 3));
+        game.performThrow(player1, new Throw(100, 0, 3));
+        game.undoThrow(player1);
+        game.undoThrow(player2);
+        game.undoThrow(player1);
+        game.undoThrow(player2);
+        game.undoThrow(player1);
+
+        playerSnapshot1 = game.getSnapshot().getPlayers().get(0);
+        assertEquals("Jonas", playerSnapshot1.getName());
+        assertTrue(playerSnapshot1.isNext());
+        assertEquals(null, playerSnapshot1.getLastThrow());
+        assertEquals(501, playerSnapshot1.getPointsLeft());
+        assertEquals(0, playerSnapshot1.getDartsThrown());
+        assertEquals(null, playerSnapshot1.getSets());
+        assertEquals(0, playerSnapshot1.getLegs());
+        assertEquals("0.00", playerSnapshot1.getAverage());
+        assertEquals("0.00", playerSnapshot1.getCheckoutPercentage());
+        playerSnapshot2 = game.getSnapshot().getPlayers().get(1);
+        assertEquals("David", playerSnapshot2.getName());
+        assertFalse(playerSnapshot2.isNext());
+        assertEquals(null, playerSnapshot2.getLastThrow());
+        assertEquals(501, playerSnapshot2.getPointsLeft());
+        assertEquals(0, playerSnapshot2.getDartsThrown());
+        assertEquals(null, playerSnapshot2.getSets());
+        assertEquals(0, playerSnapshot2.getLegs());
+        assertEquals("0.00", playerSnapshot2.getAverage());
+        assertEquals("0.00", playerSnapshot2.getCheckoutPercentage());
+
+        assertFalse(game.undoThrow(player2));
+        assertFalse(game.undoThrow(player1));
+
+        // multiple undos ( more undos than throws per leg) < 2 Players
+        player1 = new Player("Jonas");
+        player2 = new Player("David");
+        Player player3 = new Player("Pontius");
+        game = new Game(player1);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        config = new GameConfig(GameMode.FIRST_TO, GameType.LEGS, 1, 501);
+        game.updateConfig(player1, config);
+        game.start(player1);
+        game.performThrow(player1, new Throw(100, 0, 3));
+        game.performThrow(player2, new Throw(50, 0, 3));
+        game.performThrow(player3, new Throw(25, 0, 3));
+        game.performThrow(player1, new Throw(100, 0, 3));
+        game.performThrow(player2, new Throw(50, 0, 3));
+        game.performThrow(player3, new Throw(25, 0, 3));
+        game.performThrow(player1, new Throw(100, 0, 3));
+        game.undoThrow(player1);
+        game.undoThrow(player3);
+        game.undoThrow(player2);
+        game.undoThrow(player1);
+        game.undoThrow(player3);
+        game.undoThrow(player2);
+        game.undoThrow(player1);
+
+        playerSnapshot1 = game.getSnapshot().getPlayers().get(0);
+        assertEquals("Jonas", playerSnapshot1.getName());
+        assertTrue(playerSnapshot1.isNext());
+        assertEquals(null, playerSnapshot1.getLastThrow());
+        assertEquals(501, playerSnapshot1.getPointsLeft());
+        assertEquals(0, playerSnapshot1.getDartsThrown());
+        assertEquals(null, playerSnapshot1.getSets());
+        assertEquals(0, playerSnapshot1.getLegs());
+        assertEquals("0.00", playerSnapshot1.getAverage());
+        assertEquals("0.00", playerSnapshot1.getCheckoutPercentage());
+        playerSnapshot2 = game.getSnapshot().getPlayers().get(1);
+        assertEquals("David", playerSnapshot2.getName());
+        assertFalse(playerSnapshot2.isNext());
+        assertEquals(null, playerSnapshot2.getLastThrow());
+        assertEquals(501, playerSnapshot2.getPointsLeft());
+        assertEquals(0, playerSnapshot2.getDartsThrown());
+        assertEquals(null, playerSnapshot2.getSets());
+        assertEquals(0, playerSnapshot2.getLegs());
+        assertEquals("0.00", playerSnapshot2.getAverage());
+        assertEquals("0.00", playerSnapshot2.getCheckoutPercentage());
+
+        PlayerSnapshot playerSnapshot3 = game.getSnapshot().getPlayers().get(2);
+        assertEquals("Pontius", playerSnapshot3.getName());
+        assertFalse(playerSnapshot3.isNext());
+        assertEquals(null, playerSnapshot3.getLastThrow());
+        assertEquals(501, playerSnapshot3.getPointsLeft());
+        assertEquals(0, playerSnapshot3.getDartsThrown());
+        assertEquals(null, playerSnapshot3.getSets());
+        assertEquals(0, playerSnapshot3.getLegs());
+        assertEquals("0.00", playerSnapshot3.getAverage());
+        assertEquals("0.00", playerSnapshot3.getCheckoutPercentage());
+
+        assertFalse(game.undoThrow(player3));
+        assertFalse(game.undoThrow(player2));
+        assertFalse(game.undoThrow(player1));
     }
 
     @Test

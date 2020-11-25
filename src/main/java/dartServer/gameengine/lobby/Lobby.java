@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 public class Lobby {
 
-    private static int lobbyCount = 0;
+    private static int lobbyCount = 1;
 
     private final int id;
 
@@ -27,7 +27,6 @@ public class Lobby {
     // --== Methods ==--
 
     public boolean addPlayer(Player player) {
-        player.setLobbyId(id);
         return game.addPlayer(player);
     }
 
@@ -81,7 +80,7 @@ public class Lobby {
     @Override
     public String toString() {
         return "Lobby{" +
-                "id=" + id +
+                "id=" + id + ", " +
                 "code=" + getCode() +
                 '}';
     }

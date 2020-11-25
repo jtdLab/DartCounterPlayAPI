@@ -20,7 +20,8 @@ public class AuthService {
     private static final Gson gson = new GsonBuilder().serializeNulls().create();
 
     public static boolean authenticate(AuthRequestPacket authRequest) {
-        URI uri = URI.create(AuthService.protocol + "://" + AuthService.host + ":" + AuthService.port + "/api/auth");
+        return true;
+        /*URI uri = URI.create(AuthService.protocol + "://" + AuthService.host + ":" + AuthService.port + "/api/auth");
 
         String body = gson.toJson(authRequest, AuthRequestPacket.class);
 
@@ -51,7 +52,7 @@ public class AuthService {
             }
         }
 
-        return false;
+        return false;*/
     }
 
 }

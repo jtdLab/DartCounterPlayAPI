@@ -489,7 +489,7 @@ class GameTest {
         assertFalse(game.undoThrow(player2));
         assertFalse(game.undoThrow(player1));
 
-        // multiple undos ( more undos than throws per leg) < 2 Players
+        // multiple undos ( more undos than throws per leg) > 2 Players
         player1 = new Player("Jonas");
         player2 = new Player("David");
         Player player3 = new Player("Pontius");

@@ -66,7 +66,7 @@ public class Game {
         return false;
     }
 
-    public boolean performThrow(Player player, Throw t) {
+    public boolean performThrow(Player player, Throw t)  {
         Player currentTurn = getCurrentTurn();
         // sets the Player who threw
 

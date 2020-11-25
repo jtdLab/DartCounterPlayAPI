@@ -61,7 +61,8 @@ public class GameEngine {
     public static Lobby createLobby(Player player) {
         if (player.getLobbyId() == null) {
             Lobby lobby = new Lobby(player);
-            lobbies.add(new Lobby(player));
+            player.setLobbyId(lobby.getId());
+            lobbies.add(lobby);
             return lobby;
         }
         return null;
@@ -72,6 +73,7 @@ public class GameEngine {
             Lobby lobby = getLobbyByCode(code);
             if (lobby != null) {
                 if (lobby.addPlayer(player)) {
+                    player.setLobbyId(lobby.getId());
                     return lobby;
                 }
             }

@@ -36,9 +36,13 @@ public class Lobby {
     // --== Methods ==--
 
     public boolean addUser(User user) {
-        users.add(user);
-        Player player = user.getPlayer();
-        return game.addPlayer(player);
+        Player player = new Player(user.getUsername());
+        boolean added = game.addPlayer(player);
+        if(added) {
+            users.add(user);
+        }
+
+        return added;
     }
 
     public void removeUser(User user) {

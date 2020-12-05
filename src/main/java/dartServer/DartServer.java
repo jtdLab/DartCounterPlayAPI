@@ -1,5 +1,8 @@
 package dartServer;
 
+import dartServer.commons.packets.PacketContainer;
+import dartServer.commons.packets.incoming.requests.JoinGamePacket;
+import dartServer.commons.parsing.JsonManager;
 import dartServer.gameengine.GameEngine;
 import dartServer.networking.WebSocketServer;
 import org.apache.logging.log4j.Level;
@@ -9,7 +12,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.apache.logging.log4j.spi.StandardLevel;
 
-// {"payloadType":"authRequest","payload":{"uid":"qoufRHdI7TasDLTaltS1ZJAtKHg2","username":"mrjosch"},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"authRequest","payload":{"uid":"48umt23tIPNWpZW0OeJvmZ8irUM2","username":"needs00"},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"createGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"joinGame","payload":{"gameCode":1000},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"startGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
@@ -44,7 +47,6 @@ class DartServer implements Runnable {
      * @param args Run arguments
      */
     public static void main(String... args) {
-        System.setProperty("java.net.preferIPv4Stack" , "true");
 
         System.out.println(
                 " _____             _    _____                          \n" +

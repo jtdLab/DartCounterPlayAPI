@@ -1,6 +1,6 @@
 package dartServer.commons.artifacts;
 
-import dartServer.commons.validators.Username;
+import dartServer.commons.parsing.validators.Username;
 import dartServer.gameengine.lobby.Player;
 
 import javax.validation.constraints.NotNull;

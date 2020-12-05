@@ -1,8 +1,8 @@
-package dartServer.commons.deserializers;
+package dartServer.commons.parsing.deserializers;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import dartServer.commons.JsonManager;
+import dartServer.commons.parsing.JsonManager;
 import dartServer.commons.packets.Packet;
 import dartServer.commons.packets.PacketContainer;
 import dartServer.commons.packets.PacketType;

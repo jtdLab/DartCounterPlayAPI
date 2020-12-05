@@ -1,4 +1,4 @@
-package dartServer.commons.validators;
+package dartServer.commons.parsing.validators;
 
 import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.commons.artifacts.PlayerSnapshot;

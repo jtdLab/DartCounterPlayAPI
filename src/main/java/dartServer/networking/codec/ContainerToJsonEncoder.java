@@ -1,7 +1,7 @@
 package dartServer.networking.codec;
 
 import com.google.gson.Gson;
-import dartServer.commons.JsonManager;
+import dartServer.commons.parsing.JsonManager;
 import dartServer.commons.packets.PacketContainer;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;

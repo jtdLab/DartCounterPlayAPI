@@ -1,4 +1,4 @@
-package dartServer.commons.validators;
+package dartServer.commons.parsing.validators;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

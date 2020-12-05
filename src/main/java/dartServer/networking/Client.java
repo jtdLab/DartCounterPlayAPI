@@ -3,7 +3,7 @@ package dartServer.networking;
 import dartServer.commons.packets.Packet;
 import dartServer.commons.packets.PacketType;
 import dartServer.commons.packets.outgoing.ResponsePacket;
-import dartServer.commons.validators.JsonValidator;
+import dartServer.commons.parsing.validators.JsonValidator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import org.apache.logging.log4j.LogManager;

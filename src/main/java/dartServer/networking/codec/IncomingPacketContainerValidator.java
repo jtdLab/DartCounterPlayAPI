@@ -1,7 +1,7 @@
 package dartServer.networking.codec;
 
 import dartServer.commons.packets.PacketContainer;
-import dartServer.commons.validators.JsonValidator;
+import dartServer.commons.parsing.validators.JsonValidator;
 import dartServer.networking.exceptions.ProtocolViolationException;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;

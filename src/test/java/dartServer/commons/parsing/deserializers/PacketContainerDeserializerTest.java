@@ -1,9 +1,9 @@
-package dartServer.commons.deserializers;
+package dartServer.commons.parsing.deserializers;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import dartServer.commons.JsonManager;
+import dartServer.commons.parsing.JsonManager;
 import dartServer.commons.packets.PacketContainer;
 import dartServer.commons.packets.incoming.requests.CreateGamePacket;
 import org.junit.jupiter.api.Assertions;

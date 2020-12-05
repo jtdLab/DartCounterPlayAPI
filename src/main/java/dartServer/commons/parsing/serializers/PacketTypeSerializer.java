@@ -1,4 +1,4 @@
-package dartServer.commons.serializers;
+package dartServer.commons.parsing.serializers;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;

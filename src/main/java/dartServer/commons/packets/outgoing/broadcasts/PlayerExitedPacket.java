@@ -1,7 +1,7 @@
 package dartServer.commons.packets.outgoing.broadcasts;
 
 import dartServer.commons.packets.outgoing.ResponsePacket;
-import dartServer.commons.validators.Username;
+import dartServer.commons.parsing.validators.Username;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;

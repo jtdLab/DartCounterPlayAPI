@@ -1,4 +1,4 @@
-package dartServer.commons.validators;
+package dartServer.commons.parsing.validators;
 
 import dartServer.commons.packets.Packet;
 import dartServer.commons.packets.PacketContainer;

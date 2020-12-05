@@ -2,6 +2,7 @@ package dartServer.gameengine;
 
 import dartServer.commons.artifacts.PlayerSnapshot;
 import dartServer.gameengine.lobby.Player;
+import dartServer.gameengine.model.Game;
 import dartServer.gameengine.model.GameConfig;
 import dartServer.gameengine.model.Throw;
 import dartServer.gameengine.model.enums.GameMode;

@@ -1,7 +1,7 @@
 package dartServer.gameengine.lobby;
 
 import dartServer.commons.packets.outgoing.ResponsePacket;
-import dartServer.gameengine.Game;
+import dartServer.gameengine.model.Game;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.model.Throw;
 

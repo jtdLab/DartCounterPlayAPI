@@ -1,11 +1,7 @@
-package dartServer.gameengine;
+package dartServer.gameengine.model;
 
 import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.gameengine.lobby.Player;
-import dartServer.gameengine.model.GameConfig;
-import dartServer.gameengine.model.Leg;
-import dartServer.gameengine.model.Set;
-import dartServer.gameengine.model.Throw;
 import dartServer.gameengine.model.enums.GameMode;
 import dartServer.gameengine.model.enums.GameStatus;
 import dartServer.gameengine.model.enums.GameType;

@@ -1,4 +1,4 @@
-package dartServer.gameengine;
+package dartServer.gameengine.model;
 
 import dartServer.gameengine.model.Throw;
 

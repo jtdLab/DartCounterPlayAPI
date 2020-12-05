@@ -1,6 +1,7 @@
 package dartServer.gameengine;
 
 import dartServer.gameengine.model.Throw;
+import dartServer.gameengine.model.ThrowValidator;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;

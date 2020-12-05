@@ -3,9 +3,12 @@ package dartServer.gameengine.lobby;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.model.Game;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.model.Player;
 import dartServer.gameengine.model.Throw;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Lobby {
 
@@ -13,12 +16,18 @@ public class Lobby {
 
     private final int id;
 
+    private final ArrayList<User> users;
+
     private final Game game;
 
 
     // --== Constructor ==--
 
-    public Lobby(Player player) {
+    public Lobby(User user) {
+        users = new ArrayList<>();
+        users.add(user);
+        Player player = new Player(user.getUsername());
+        user.setPlayer(player);
         game = new Game(player);
         id = lobbyCount++;
     }
@@ -26,23 +35,30 @@ public class Lobby {
 
     // --== Methods ==--
 
-    public boolean addPlayer(Player player) {
+    public boolean addUser(User user) {
+        users.add(user);
+        Player player = user.getPlayer();
         return game.addPlayer(player);
     }
 
-    public void removePlayer(Player player) {
+    public void removeUser(User user) {
+        users.remove(user);
+        Player player = user.getPlayer();
         game.removePlayer(player);
     }
 
-    public boolean startGame(Player player) {
+    public boolean startGame(User user) {
+        Player player = user.getPlayer();
         return game.start(player);
     }
 
-    public boolean performThrow(Player player, Throw t) {
+    public boolean performThrow(User user, Throw t) {
+        Player player = user.getPlayer();
         return game.performThrow(player, t);
     }
 
-    public boolean undoThrow(Player player) {
+    public boolean undoThrow(User user) {
+        Player player = user.getPlayer();
         return game.undoThrow(player);
     }
 
@@ -51,10 +67,11 @@ public class Lobby {
      *
      * @param packet the packet that needs to be sent
      */
-    public void broadcastToPlayers(ResponsePacket packet) {
-        for (Player player : game.getPlayers()) {
-            if (player.isConnected())
-                player.sendMessage(packet);
+    public void broadcastToUsers(ResponsePacket packet) {
+        for (User user : users) {
+            if (user.isConnected()) {
+                user.sendMessage(packet);
+            }
         }
     }
 
@@ -69,8 +86,8 @@ public class Lobby {
         return game;
     }
 
-    public Player[] getPlayers() {
-        return Arrays.stream(GameEngine.getPlayers()).filter(player -> player.getLobbyId() == id).toArray(Player[]::new);
+    public User[] getUsers() {
+        return Arrays.stream(GameEngine.getUsers()).filter(user -> user.getLobbyId() == id).toArray(User[]::new);
     }
 
     public int getCode() {
@@ -81,7 +98,8 @@ public class Lobby {
     public String toString() {
         return "Lobby{" +
                 "id=" + id + ", " +
-                "code=" + getCode() +
+                "code=" + getCode() + ", " +
+                "users=" + users.stream().map(user -> user.getUsername()).collect(Collectors.toList()) +
                 '}';
     }
 

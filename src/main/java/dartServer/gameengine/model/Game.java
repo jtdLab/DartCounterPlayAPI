@@ -1,7 +1,6 @@
 package dartServer.gameengine.model;
 
 import dartServer.commons.artifacts.GameSnapshot;
-import dartServer.gameengine.lobby.Player;
 import dartServer.gameengine.model.enums.GameMode;
 import dartServer.gameengine.model.enums.GameStatus;
 import dartServer.gameengine.model.enums.GameType;
@@ -17,7 +16,7 @@ public class Game {
     private final ArrayList<Player> players;
     private final ArrayList<Set> sets;
 
-    private int turnIndex;
+    private Integer turnIndex;
 
 
     // --== Constructor ==--
@@ -27,7 +26,6 @@ public class Game {
         this.status = GameStatus.PENDING;
         players = new ArrayList<>();
         sets = new ArrayList<>();
-        turnIndex = 0;
         players.add(player);
     }
 
@@ -422,7 +420,6 @@ public class Game {
             player.setLegs(0);
             player.setAverage("0.00");
             player.setCheckoutPercentage("0.00");
-            player.setPlaying(true);
         }
         players.get(turnIndex).setNext(true);
     }

@@ -2,6 +2,7 @@ package dartServer.gameengine.lobby;
 
 import dartServer.commons.artifacts.PlayerSnapshot;
 import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
+import dartServer.gameengine.model.Player;
 import dartServer.networking.Client;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.jupiter.api.Test;

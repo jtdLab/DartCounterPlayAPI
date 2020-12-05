@@ -1,12 +1,10 @@
-package dartServer.gameengine.lobby;
+package dartServer.gameengine.model;
 
 import dartServer.commons.artifacts.PlayerSnapshot;
-import dartServer.commons.packets.outgoing.ResponsePacket;
-import dartServer.networking.Client;
 
 public class Player {
 
-    private final String name; // unique name
+    private final String name;
 
     private boolean isNext;
 
@@ -31,40 +29,16 @@ public class Player {
     private int hundredSixtyPlus;
     private int hundredEighty;
 
-    private Integer lobbyId; // id of lobby the player is part of or null
-
-    private Client client; // client for networking
-
-    private boolean playing;
-
-
     // --== Constructors ==--
 
     public Player(String name) {
         this.name = name;
     }
 
-    public Player(String name, Client client) {
-        this.name = name;
-        this.client = client;
-    }
-
-
-    // --== Methods ==--
-
-    public void sendMessage(ResponsePacket packet) {
-        client.sendPacket(packet);
-    }
-
-
     // --== Getter/Setter ==--
 
     public PlayerSnapshot getSnapshot() {
         return new PlayerSnapshot(this);
-    }
-
-    public boolean isConnected() {
-        return client != null;
     }
 
     public String getName() {
@@ -207,36 +181,11 @@ public class Player {
         this.hundredEighty = hundredEighty;
     }
 
-    public Integer getLobbyId() {
-        return lobbyId;
-    }
-
-    public void setLobbyId(Integer lobbyId) {
-        this.lobbyId = lobbyId;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public boolean isPlaying() {
-        return playing;
-    }
-
-    public void setPlaying(boolean playing) {
-        this.playing = playing;
-    }
-
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Player{" +
                 "name='" + name + '\'' +
-                ", lobbyId=" + lobbyId +
                 '}';
     }
 

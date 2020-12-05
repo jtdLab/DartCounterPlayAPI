@@ -3,10 +3,10 @@ package dartServer.gameengine.listeners;
 import dartServer.commons.packets.incoming.requests.*;
 import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
 import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
+import dartServer.gameengine.lobby.User;
 import dartServer.gameengine.model.Game;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
-import dartServer.gameengine.lobby.Player;
 import dartServer.gameengine.model.Throw;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
@@ -26,16 +26,16 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onStartGame(PacketReceiveEvent<StartGamePacket> event) {
-        Player player = GameEngine.getPlayer(event.getClient().getAddress());
-        Lobby lobby = GameEngine.getLobbyByPlayer(player);
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.getLobbyByUser(user);
 
-        if (lobby.startGame(player)) {
-            player.sendMessage(new CreateGameResponsePacket(true));
-            player.sendMessage(new SnapshotPacket(lobby.getGame().getSnapshot()));
+        if (lobby.startGame(user)) {
+            user.sendMessage(new CreateGameResponsePacket(true));
+            user.sendMessage(new SnapshotPacket(lobby.getGame().getSnapshot()));
             logger.warn("Game " + lobby.getId() + " started");
             return;
         }
-        player.sendMessage(new CreateGameResponsePacket(false));
+        user.sendMessage(new CreateGameResponsePacket(false));
     }
 
     /**
@@ -71,14 +71,14 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onPerformThrow(PacketReceiveEvent<PerformThrowPacket> event) {
-        Player player = GameEngine.getPlayer(event.getClient().getAddress());
-        Lobby lobby = GameEngine.getLobbyByPlayer(player);
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.getLobbyByUser(user);
         Throw t = event.getPacket().getThrow();
 
-        if (lobby.performThrow(player, t)) {
+        if (lobby.performThrow(user, t)) {
             Game game = lobby.getGame();
-            lobby.broadcastToPlayers(new SnapshotPacket(game.getSnapshot()));
-            logger.warn(player.getName() + " scored " + t.toString());
+            lobby.broadcastToUsers(new SnapshotPacket(game.getSnapshot()));
+            logger.warn(user.getUsername() + " scored " + t.toString());
         }
     }
 
@@ -87,13 +87,13 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onUndoThrow(PacketReceiveEvent<UndoThrowPacket> event) {
-        Player player = GameEngine.getPlayer(event.getClient().getAddress());
-        Lobby lobby = GameEngine.getLobbyByPlayer(player);
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.getLobbyByUser(user);
 
-        if (lobby.undoThrow(player)) {
+        if (lobby.undoThrow(user)) {
             Game game = lobby.getGame();
-            lobby.broadcastToPlayers(new SnapshotPacket(game.getSnapshot()));
-            logger.warn("Undo throw by " + player.getName());
+            lobby.broadcastToUsers(new SnapshotPacket(game.getSnapshot()));
+            logger.warn("Undo throw by " + user.getUsername());
         }
     }
 

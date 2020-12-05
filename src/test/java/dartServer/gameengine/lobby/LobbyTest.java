@@ -1,5 +1,6 @@
 package dartServer.gameengine.lobby;
 
+import dartServer.gameengine.model.Player;
 import dartServer.networking.Client;
 import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.jupiter.api.Test;

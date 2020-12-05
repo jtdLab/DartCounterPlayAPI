@@ -1,10 +1,7 @@
 package dartServer.commons.artifacts;
 
-import dartServer.gameengine.lobby.Player;
-import dartServer.gameengine.model.enums.GameStatus;
+import dartServer.gameengine.model.Player;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

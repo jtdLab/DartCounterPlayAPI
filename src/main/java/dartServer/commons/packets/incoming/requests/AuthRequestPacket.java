@@ -20,7 +20,6 @@ public class AuthRequestPacket implements RequestPacket {
     public AuthRequestPacket(String uid, String username) {
         this.uid = uid;
         this.username = username;
-
     }
 
     public String getUid() {

@@ -2,7 +2,7 @@ package dartServer.gameengine.listeners;
 
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
-import dartServer.gameengine.lobby.Player;
+import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.ClientDisconnectEvent;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
@@ -25,26 +25,26 @@ public class ClientDisconnectListener implements NetworkEventListener {
      */
     @Event
     public void onDisconnect(ClientDisconnectEvent event) {
-        Player player = GameEngine.getPlayer(event.getClient().getAddress());
+        User user = GameEngine.getUser(event.getClient().getAddress());
 
-        if (player == null) {
+        if (user == null) {
             logger.trace(event.getClient().getAddress() + " disconnected");
             return;
         }
 
-        if (player.isPlaying()) {
-            Lobby lobby = GameEngine.getLobbyByPlayer(player);
+        if (user.isPlaying()) {
+            Lobby lobby = GameEngine.getLobbyByUser(user);
             // TODO find out what to do here semantically
             if (event.getClient().isKicked()) {
-                GameEngine.removePlayer(player);
-                logger.warn(player.getName() + " got kicked");
+                GameEngine.removeUser(user);
+                logger.warn(user.getUsername() + " got kicked");
             } else {
-                player.setClient(null); // remove client because disconnected
-                logger.warn(player.getName() + " left");
+                user.setClient(null); // remove client because disconnected
+                logger.warn(user.getUsername() + " left");
             }
         } else {
-            GameEngine.removePlayer(player);
-            logger.warn(player.getName() + " left");
+            GameEngine.removeUser(user);
+            logger.warn(user.getUsername() + " left");
         }
     }
 

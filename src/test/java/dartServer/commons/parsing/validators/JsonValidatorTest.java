@@ -9,7 +9,7 @@ import dartServer.commons.packets.outgoing.broadcasts.*;
 import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
-import dartServer.gameengine.lobby.Player;
+import dartServer.gameengine.model.Player;
 import dartServer.gameengine.model.Throw;
 import dartServer.gameengine.model.enums.GameStatus;
 import org.junit.jupiter.api.Test;

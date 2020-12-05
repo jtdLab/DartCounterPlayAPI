@@ -1,6 +1,5 @@
 package dartServer.gameengine.listeners;
 
-import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.commons.packets.incoming.requests.CreateGamePacket;
 import dartServer.commons.packets.incoming.requests.JoinGamePacket;
 import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
@@ -8,7 +7,7 @@ import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
-import dartServer.gameengine.lobby.Player;
+import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
 import dartServer.networking.events.PacketReceiveEvent;
@@ -27,15 +26,15 @@ public class ServerListener implements NetworkEventListener {
      */
     @Event
     public void onCreateGame(PacketReceiveEvent<CreateGamePacket> event) {
-        Player player = GameEngine.getPlayer(event.getClient().getAddress());
-        Lobby lobby = GameEngine.createLobby(player);
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.createLobby(user);
 
         if (lobby != null) {
-            player.sendMessage(new CreateGameResponsePacket(true));
-            player.sendMessage(new SnapshotPacket(lobby.getGame().getSnapshot()));
-            logger.warn(player.getName() + " created lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            user.sendMessage(new CreateGameResponsePacket(true));
+            user.sendMessage(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            logger.warn(user.getUsername() + " created lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
-            player.sendMessage(new CreateGameResponsePacket(false));
+            user.sendMessage(new CreateGameResponsePacket(false));
         }
     }
 
@@ -44,16 +43,16 @@ public class ServerListener implements NetworkEventListener {
      */
     @Event
     public void onJoinGame(PacketReceiveEvent<JoinGamePacket> event) {
-        Player player = GameEngine.getPlayer(event.getClient().getAddress());
+        User user = GameEngine.getUser(event.getClient().getAddress());
         int code = event.getPacket().getGameCode();
-        Lobby lobby = GameEngine.joinLobby(player, code);
+        Lobby lobby = GameEngine.joinLobby(user, code);
 
         if (lobby != null) {
-            player.sendMessage(new JoinGameResponsePacket(true));
-            lobby.broadcastToPlayers(new SnapshotPacket(lobby.getGame().getSnapshot()));
-            logger.warn(player.getName() + " joined lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            user.sendMessage(new JoinGameResponsePacket(true));
+            lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            logger.warn(user.getUsername() + " joined lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
-            player.sendMessage(new JoinGameResponsePacket(false));
+            user.sendMessage(new JoinGameResponsePacket(false));
         }
     }
 

@@ -46,6 +46,8 @@ class DartServer implements Runnable {
      * @param args Run arguments
      */
     public static void main(String... args) {
+        System.setProperty("java.net.preferIPv4Stack" , "true");
+
         System.out.println(
                 " _____             _    _____                          \n" +
                         "|  __ \\           | |  / ____|                         \n" +
@@ -71,9 +73,7 @@ class DartServer implements Runnable {
         System.out.println("> Server port: " + port);
         Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
         System.out.println("> Logging verbosity: " + level.name());
-        logger.fatal("MICH SIEHT MAN NICHT auf m server");
         Configurator.setLevel(System.getProperty("log4j.logger"), level);
-        logger.fatal("MICH SIEHT MAN NICHT auf m server3434");
 
         System.out.println();
 

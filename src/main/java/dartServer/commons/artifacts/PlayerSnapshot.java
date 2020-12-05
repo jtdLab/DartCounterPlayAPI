@@ -34,6 +34,34 @@ public class PlayerSnapshot {
     @NotNull
     private final String checkoutPercentage;
 
+    @PositiveOrZero
+    private final int firstNine;
+
+    @PositiveOrZero
+    private final int fourtyPlus;
+
+    @PositiveOrZero
+    private final int sixtyPlus;
+
+    @PositiveOrZero
+    private final int eightyPlus;
+
+    @PositiveOrZero
+    private final int hundredPlus;
+
+    @PositiveOrZero
+    private final int hundredTwentyPlus;
+
+    @PositiveOrZero
+    private final int hundredFourtyPlus;
+
+    @PositiveOrZero
+    private final int hundredSixtyPlus;
+
+    @PositiveOrZero
+    private final int hundredEighty;
+
+
     public PlayerSnapshot(Player player) {
         name = player.getName();
         isNext = player.isNext();
@@ -44,6 +72,15 @@ public class PlayerSnapshot {
         legs = player.getLegs();
         average = player.getAverage();
         checkoutPercentage = player.getCheckoutPercentage();
+        firstNine = player.getFirstNine();
+        fourtyPlus = player.getFourtyPlus();
+        sixtyPlus = player.getSixtyPlus();
+        eightyPlus = player.getEightyPlus();
+        hundredPlus = player.getHundredPlus();
+        hundredTwentyPlus = player.getHundredTwentyPlus();
+        hundredFourtyPlus = player.getHundredFourtyPlus();
+        hundredSixtyPlus = player.getHundredSixtyPlus();
+        hundredEighty = player.getHundredEighty();
     }
 
     public String getName() {
@@ -94,6 +131,15 @@ public class PlayerSnapshot {
                 ", legs=" + legs +
                 ", average='" + average + '\'' +
                 ", checkoutPercentage='" + checkoutPercentage + '\'' +
+                ", firstNine=" + firstNine +
+                ", fourtyPlus=" + fourtyPlus +
+                ", sixtyPlus=" + sixtyPlus +
+                ", eightyPlus=" + eightyPlus +
+                ", hundredPlus=" + hundredPlus +
+                ", hundredTwentyPlus=" + hundredTwentyPlus +
+                ", hundredFourtyPlus=" + hundredFourtyPlus +
+                ", hundredSixtyPlus=" + hundredSixtyPlus +
+                ", hundredEighty=" + hundredEighty +
                 '}';
     }
 

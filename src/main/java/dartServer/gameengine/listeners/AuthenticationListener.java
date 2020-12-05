@@ -1,6 +1,6 @@
 package dartServer.gameengine.listeners;
 
-import dartServer.api.AuthService;
+import dartServer.api.services.AuthService;
 import dartServer.commons.packets.incoming.requests.AuthRequestPacket;
 import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
 import dartServer.gameengine.GameEngine;

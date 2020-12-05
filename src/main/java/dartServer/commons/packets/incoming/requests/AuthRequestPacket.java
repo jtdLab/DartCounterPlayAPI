@@ -11,30 +11,31 @@ import java.util.Objects;
  */
 public class AuthRequestPacket implements RequestPacket {
 
+    @NotBlank
+    private final String uid;
+
     @Username
     private final String username;
 
-    @NotBlank
-    private final String password;
-
-    public AuthRequestPacket(String username, String password) {
+    public AuthRequestPacket(String uid, String username) {
+        this.uid = uid;
         this.username = username;
-        this.password = password;
+
+    }
+
+    public String getUid() {
+        return uid;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     @Override
     public String toString() {
         return "AuthRequestPacket{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "uid='" + uid + '\'' +
+                ", username='" + username + '\'' +
                 '}';
     }
 
@@ -43,8 +44,8 @@ public class AuthRequestPacket implements RequestPacket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AuthRequestPacket that = (AuthRequestPacket) o;
-        return Objects.equals(username, that.username) &&
-                Objects.equals(password, that.password);
+        return Objects.equals(uid, that.uid) &&
+                Objects.equals(username, that.username);
     }
 
 }

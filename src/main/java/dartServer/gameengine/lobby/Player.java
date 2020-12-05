@@ -20,6 +20,17 @@ public class Player {
     private String average;
     private String checkoutPercentage;
 
+    private int firstNine;
+
+    private int fourtyPlus;
+    private int sixtyPlus;
+    private int eightyPlus;
+    private int hundredPlus;
+    private int hundredTwentyPlus;
+    private int hundredFourtyPlus;
+    private int hundredSixtyPlus;
+    private int hundredEighty;
+
     private Integer lobbyId; // id of lobby the player is part of or null
 
     private Client client; // client for networking
@@ -122,6 +133,78 @@ public class Player {
 
     public void setCheckoutPercentage(String checkoutPercentage) {
         this.checkoutPercentage = checkoutPercentage;
+    }
+
+    public int getFirstNine() {
+        return firstNine;
+    }
+
+    public void setFirstNine(int firstNine) {
+        this.firstNine = firstNine;
+    }
+
+    public int getFourtyPlus() {
+        return fourtyPlus;
+    }
+
+    public void setFourtyPlus(int fourtyPlus) {
+        this.fourtyPlus = fourtyPlus;
+    }
+
+    public int getSixtyPlus() {
+        return sixtyPlus;
+    }
+
+    public void setSixtyPlus(int sixtyPlus) {
+        this.sixtyPlus = sixtyPlus;
+    }
+
+    public int getEightyPlus() {
+        return eightyPlus;
+    }
+
+    public void setEightyPlus(int eightyPlus) {
+        this.eightyPlus = eightyPlus;
+    }
+
+    public int getHundredPlus() {
+        return hundredPlus;
+    }
+
+    public void setHundredPlus(int hundredPlus) {
+        this.hundredPlus = hundredPlus;
+    }
+
+    public int getHundredTwentyPlus() {
+        return hundredTwentyPlus;
+    }
+
+    public void setHundredTwentyPlus(int hundredTwentyPlus) {
+        this.hundredTwentyPlus = hundredTwentyPlus;
+    }
+
+    public int getHundredFourtyPlus() {
+        return hundredFourtyPlus;
+    }
+
+    public void setHundredFourtyPlus(int hundredFourtyPlus) {
+        this.hundredFourtyPlus = hundredFourtyPlus;
+    }
+
+    public int getHundredSixtyPlus() {
+        return hundredSixtyPlus;
+    }
+
+    public void setHundredSixtyPlus(int hundredSixtyPlus) {
+        this.hundredSixtyPlus = hundredSixtyPlus;
+    }
+
+    public int getHundredEighty() {
+        return hundredEighty;
+    }
+
+    public void setHundredEighty(int hundredEighty) {
+        this.hundredEighty = hundredEighty;
     }
 
     public Integer getLobbyId() {

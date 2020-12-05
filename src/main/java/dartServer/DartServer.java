@@ -71,6 +71,7 @@ class DartServer implements Runnable {
         System.out.println("> Server port: " + port);
         Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
         System.out.println("> Logging verbosity: " + level.name());
+        logger.fatal("MICH SIEHT MAN NICHT auf m server");
         Configurator.setLevel(System.getProperty("log4j.logger"), level);
 
         System.out.println();

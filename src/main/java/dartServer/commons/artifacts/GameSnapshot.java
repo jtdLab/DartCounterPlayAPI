@@ -1,8 +1,8 @@
 package dartServer.commons.artifacts;
 
+import dartServer.gameengine.model.GameConfig;
 import dartServer.gameengine.model.enums.GameStatus;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -13,16 +13,16 @@ public class GameSnapshot {
     @NotNull
     private final GameStatus status;
 
-    @NotBlank
-    private final String description;
+    @NotNull
+    private final GameConfig config;
 
     @NotNull
-    @Size(min = 2, max = 4)
+    @Size(min = 1, max = 4)
     private final List<PlayerSnapshot> players;
 
-    public GameSnapshot(GameStatus status, String description, List<PlayerSnapshot> players) {
+    public GameSnapshot(GameStatus status, GameConfig config, List<PlayerSnapshot> players) {
         this.status = status;
-        this.description = description;
+        this.config = config;
         this.players = players;
     }
 
@@ -30,8 +30,8 @@ public class GameSnapshot {
         return status;
     }
 
-    public String getDescription() {
-        return description;
+    public GameConfig getConfig() {
+        return config;
     }
 
     public List<PlayerSnapshot> getPlayers() {
@@ -42,7 +42,7 @@ public class GameSnapshot {
     public String toString() {
         return "GameSnapshot{" +
                 "status=" + status +
-                ", description='" + description + '\'' +
+                ", description='" + config.toString() + '\'' +
                 ", players=" + players +
                 '}';
     }
@@ -53,7 +53,7 @@ public class GameSnapshot {
         if (o == null || getClass() != o.getClass()) return false;
         GameSnapshot that = (GameSnapshot) o;
         return Objects.equals(status, that.status) &&
-                Objects.equals(description, that.description) &&
+                Objects.equals(config, that.config) &&
                 Objects.equals(players, that.players);
     }
 

@@ -1,5 +1,6 @@
 package dartServer.gameengine.listeners;
 
+import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.commons.packets.incoming.requests.CreateGamePacket;
 import dartServer.commons.packets.incoming.requests.JoinGamePacket;
 import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;

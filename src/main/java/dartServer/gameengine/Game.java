@@ -271,7 +271,7 @@ public class Game {
     }
 
     public GameSnapshot getSnapshot() {
-        return new GameSnapshot(status, getDescription(), players.stream().map(player -> player.getSnapshot()).collect(Collectors.toList()));
+        return new GameSnapshot(status, config, players.stream().map(player -> player.getSnapshot()).collect(Collectors.toList()));
     }
 
     public ArrayList<Player> getPlayers() {

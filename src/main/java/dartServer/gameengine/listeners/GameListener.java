@@ -7,6 +7,7 @@ import dartServer.gameengine.lobby.User;
 import dartServer.gameengine.model.Game;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
+import dartServer.gameengine.model.GameConfig;
 import dartServer.gameengine.model.Throw;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
@@ -22,6 +23,25 @@ public class GameListener implements NetworkEventListener {
     static final Logger logger = LogManager.getLogger(GameListener.class);
 
     /**
+     * @param event the event fired on onGameConfigUpdate by a client
+     */
+    @Event
+    public void onUpdateGameConfig(PacketReceiveEvent<UpdateGameConfigPacket> event) {
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.getLobbyByUser(user);
+        GameConfig config = event.getPacket().getGameConfig();
+
+        if (lobby.updateGameConfig(user, config)) {
+            Game game = lobby.getGame();
+            SnapshotPacket snapshotPacket = new SnapshotPacket(game.getSnapshot());
+            lobby.broadcastToUsers(snapshotPacket);
+            logger.warn("Updated GameConfig of " + lobby.getId());
+            return;
+        }
+        user.sendMessage(new CreateGameResponsePacket(false));
+    }
+
+    /**
      * @param event the event fired on startGame by a client
      */
     @Event
@@ -31,7 +51,7 @@ public class GameListener implements NetworkEventListener {
 
         if (lobby.startGame(user)) {
             user.sendMessage(new CreateGameResponsePacket(true));
-            user.sendMessage(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
             logger.warn("Game " + lobby.getId() + " started");
             return;
         }

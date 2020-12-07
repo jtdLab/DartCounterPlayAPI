@@ -3,6 +3,7 @@ package dartServer.gameengine.lobby;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.gameengine.model.Game;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.model.GameConfig;
 import dartServer.gameengine.model.Player;
 import dartServer.gameengine.model.Throw;
 
@@ -39,6 +40,7 @@ public class Lobby {
         Player player = new Player(user.getUsername());
         boolean added = game.addPlayer(player);
         if(added) {
+            user.setPlayer(player);
             users.add(user);
         }
 
@@ -49,6 +51,12 @@ public class Lobby {
         users.remove(user);
         Player player = user.getPlayer();
         game.removePlayer(player);
+        user.setPlayer(null);
+    }
+
+    public boolean updateGameConfig(User user, GameConfig gameConfig) {
+        Player player = user.getPlayer();
+        return game.updateGameConfig(player, gameConfig);
     }
 
     public boolean startGame(User user) {

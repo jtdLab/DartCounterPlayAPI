@@ -47,10 +47,19 @@ public class Game {
         players.remove(player);
     }
 
+    public boolean updateGameConfig(Player player, GameConfig gameConfig) {
+        if(player.equals(getOwner())) {
+            config = gameConfig;
+            return true;
+        }
+        return false;
+    }
+
     public boolean start(Player player) {
         Player owner = getOwner();
 
         if (owner.equals(player) && status == GameStatus.PENDING && players.size() > 1) {
+            turnIndex = 0;
             createSet();
             createLeg();
             initPlayers();

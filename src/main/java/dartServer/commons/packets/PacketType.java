@@ -20,6 +20,7 @@ public enum PacketType {
     CANCEL_GAME("cancelGame", CancelGamePacket.class),
     PERFORM_THROW("performThrow", PerformThrowPacket.class),
     UNDO_THROW("undoThrow", UndoThrowPacket.class),
+    UPDATE_GAME_CONFIG("updateGameConfig", UpdateGameConfigPacket.class),
 
     // Outgoing packets
     // unicast

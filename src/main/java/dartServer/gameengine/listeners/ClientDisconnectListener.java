@@ -33,8 +33,6 @@ public class ClientDisconnectListener implements NetworkEventListener {
         }
 
         if (user.isPlaying()) {
-            Lobby lobby = GameEngine.getLobbyByUser(user);
-            // TODO find out what to do here semantically
             if (event.getClient().isKicked()) {
                 GameEngine.removeUser(user);
                 logger.warn(user.getUsername() + " got kicked");

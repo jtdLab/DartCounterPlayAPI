@@ -35,7 +35,19 @@ public class Leg {
         this.xThrows = new ArrayList<>();
         this.startIndex = startIndex;
 
+        this.firstNine = new int[numberOfPlayers];
+
+        this.fourtyPlus = new int[numberOfPlayers];
+        this.sixtyPlus = new int[numberOfPlayers];
+        this.eightyPlus = new int[numberOfPlayers];
+        this.hundredPlus = new int[numberOfPlayers];
+        this.hundredTwentyPlus = new int[numberOfPlayers];
+        this.hundredFourtyPlus = new int[numberOfPlayers];
+        this.hundredSixtyPlus = new int[numberOfPlayers];
+        this.hundredEighty = new int[numberOfPlayers];
+
         Arrays.fill(firstNine, 0);
+
         Arrays.fill(fourtyPlus, 0);
         Arrays.fill(sixtyPlus, 0);
         Arrays.fill(eightyPlus, 0);

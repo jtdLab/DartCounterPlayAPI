@@ -1,7 +1,7 @@
 package dartServer.networking.codec;
 
-import dartServer.commons.parsing.JsonManager;
 import dartServer.commons.packets.PacketContainer;
+import dartServer.commons.parsing.JsonManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;

@@ -43,7 +43,7 @@ public class FireBaseRealtimeDatabase {
             }
         }
 
-       return null;
+        return null;
     }
 
     public static boolean put(String path, String body) {
@@ -70,12 +70,10 @@ public class FireBaseRealtimeDatabase {
         }
 
         if (response != null) {
-            if (response.statusCode() == 200 && response.body().trim().equals(body.trim())) {
-               return true;
-            }
+            return response.statusCode() == 200 && response.body().trim().equals(body.trim());
         }
 
-       return false;
+        return false;
     }
 
     public static boolean patch(String path, String body) {
@@ -102,9 +100,7 @@ public class FireBaseRealtimeDatabase {
         }
 
         if (response != null) {
-            if (response.statusCode() == 200 && response.body().trim().equals(body.trim())) {
-                return true;
-            }
+            return response.statusCode() == 200 && response.body().trim().equals(body.trim());
         }
 
         return false;
@@ -134,9 +130,7 @@ public class FireBaseRealtimeDatabase {
         }
 
         if (response != null) {
-            if (response.statusCode() == 200 && response.body().trim().equals("null")) {
-                return true;
-            }
+            return response.statusCode() == 200 && response.body().trim().equals("null");
         }
 
         return false;

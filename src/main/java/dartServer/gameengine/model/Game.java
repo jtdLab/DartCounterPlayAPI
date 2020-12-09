@@ -48,7 +48,7 @@ public class Game {
     }
 
     public boolean updateGameConfig(Player player, GameConfig gameConfig) {
-        if(player.equals(getOwner())) {
+        if (player.equals(getOwner())) {
             config = gameConfig;
             return true;
         }
@@ -69,7 +69,7 @@ public class Game {
         return false;
     }
 
-    public boolean performThrow(Player player, Throw t)  {
+    public boolean performThrow(Player player, Throw t) {
         Player currentTurn = getCurrentTurn();
         // sets the Player who threw
 

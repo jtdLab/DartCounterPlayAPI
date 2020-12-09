@@ -1,7 +1,6 @@
 package dartServer.gameengine.listeners;
 
 import dartServer.gameengine.GameEngine;
-import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.ClientDisconnectEvent;
 import dartServer.networking.events.Event;

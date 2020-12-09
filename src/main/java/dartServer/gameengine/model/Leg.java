@@ -70,27 +70,27 @@ public class Leg {
         dartsThrown[index] += t.getDartsThrown();
         dartsOnDouble[index] += t.getDartsOnDouble();
 
-        if(dartsThrown[index] <= 9) {
+        if (dartsThrown[index] <= 9) {
             firstNine[index] = (statingPoints - pointsLeft[index]) / dartsThrown[index];
         }
 
         int points = t.getPoints();
-        if(points == 180) {
-            hundredEighty[index] ++;
-        } else if(points >= 160) {
-            hundredSixtyPlus[index] ++;
-        } else if(points >= 140) {
-            hundredFourtyPlus[index] ++;
-        } else if(points >= 120) {
-            hundredTwentyPlus[index] ++;
-        } else if(points >= 100) {
-            hundredPlus[index] ++;
-        } else if(points >= 80) {
-            eightyPlus[index] ++;
-        } else if(points >= 60) {
-            sixtyPlus[index] ++;
-        } else if(points >= 40) {
-            fourtyPlus[index] ++;
+        if (points == 180) {
+            hundredEighty[index]++;
+        } else if (points >= 160) {
+            hundredSixtyPlus[index]++;
+        } else if (points >= 140) {
+            hundredFourtyPlus[index]++;
+        } else if (points >= 120) {
+            hundredTwentyPlus[index]++;
+        } else if (points >= 100) {
+            hundredPlus[index]++;
+        } else if (points >= 80) {
+            eightyPlus[index]++;
+        } else if (points >= 60) {
+            sixtyPlus[index]++;
+        } else if (points >= 40) {
+            fourtyPlus[index]++;
         }
         xThrows.add(t);
     }
@@ -110,28 +110,28 @@ public class Leg {
             dartsThrown[index] -= last.getDartsThrown();
             dartsOnDouble[index] -= last.getDartsOnDouble();
 
-            if(dartsThrown[index] < 9) {
+            if (dartsThrown[index] < 9) {
                 firstNine[index] = (statingPoints - pointsLeft[index]) / dartsThrown[index];
             }
 
 
             int points = last.getPoints();
-            if(points == 180) {
-                hundredEighty[index] --;
-            } else if(points >= 160) {
-                hundredSixtyPlus[index] --;
-            } else if(points >= 140) {
-                hundredFourtyPlus[index] --;
-            } else if(points >= 120) {
-                hundredTwentyPlus[index] --;
-            } else if(points >= 100) {
-                hundredPlus[index] --;
-            } else if(points >= 80) {
-                eightyPlus[index] --;
-            } else if(points >= 60) {
-                sixtyPlus[index] --;
-            } else if(points >= 40) {
-                fourtyPlus[index] --;
+            if (points == 180) {
+                hundredEighty[index]--;
+            } else if (points >= 160) {
+                hundredSixtyPlus[index]--;
+            } else if (points >= 140) {
+                hundredFourtyPlus[index]--;
+            } else if (points >= 120) {
+                hundredTwentyPlus[index]--;
+            } else if (points >= 100) {
+                hundredPlus[index]--;
+            } else if (points >= 80) {
+                eightyPlus[index]--;
+            } else if (points >= 60) {
+                sixtyPlus[index]--;
+            } else if (points >= 40) {
+                fourtyPlus[index]--;
             }
 
             xThrows.remove(xThrows.size() - 1);

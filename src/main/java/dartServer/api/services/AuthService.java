@@ -1,6 +1,5 @@
 package dartServer.api.services;
 
-import dartServer.api.helpers.FireBaseRealtimeDatabase;
 import dartServer.commons.packets.incoming.requests.AuthRequestPacket;
 
 public class AuthService {

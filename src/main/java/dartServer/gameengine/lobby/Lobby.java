@@ -1,8 +1,8 @@
 package dartServer.gameengine.lobby;
 
 import dartServer.commons.packets.outgoing.ResponsePacket;
-import dartServer.gameengine.model.Game;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.model.Game;
 import dartServer.gameengine.model.GameConfig;
 import dartServer.gameengine.model.Player;
 import dartServer.gameengine.model.Throw;
@@ -39,7 +39,7 @@ public class Lobby {
     public boolean addUser(User user) {
         Player player = new Player(user.getUsername());
         boolean added = game.addPlayer(player);
-        if(added) {
+        if (added) {
             user.setPlayer(player);
             users.add(user);
         }

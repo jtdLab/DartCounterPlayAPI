@@ -3,9 +3,9 @@ package dartServer.commons.parsing;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dartServer.commons.parsing.deserializers.PacketContainerDeserializer;
 import dartServer.commons.packets.PacketContainer;
 import dartServer.commons.packets.PacketType;
+import dartServer.commons.parsing.deserializers.PacketContainerDeserializer;
 import dartServer.commons.parsing.serializers.PacketTypeSerializer;
 
 /**

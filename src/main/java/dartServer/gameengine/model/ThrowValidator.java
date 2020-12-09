@@ -1,7 +1,5 @@
 package dartServer.gameengine.model;
 
-import dartServer.gameengine.model.Throw;
-
 import java.util.List;
 
 public class ThrowValidator {

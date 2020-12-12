@@ -30,11 +30,10 @@ public class ServerListener implements NetworkEventListener {
         Lobby lobby = GameEngine.createLobby(user);
 
         if (lobby != null) {
-            user.sendMessage(new CreateGameResponsePacket(true));
-            user.sendMessage(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            user.sendMessage(new CreateGameResponsePacket(true, lobby.getGame().getSnapshot()));
             logger.warn(user.getUsername() + " created lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
-            user.sendMessage(new CreateGameResponsePacket(false));
+            user.sendMessage(new CreateGameResponsePacket(false, null));
         }
     }
 
@@ -48,11 +47,10 @@ public class ServerListener implements NetworkEventListener {
         Lobby lobby = GameEngine.joinLobby(user, code);
 
         if (lobby != null) {
-            user.sendMessage(new JoinGameResponsePacket(true));
-            lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            user.sendMessage(new JoinGameResponsePacket(true, lobby.getGame().getSnapshot()));
             logger.warn(user.getUsername() + " joined lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
-            user.sendMessage(new JoinGameResponsePacket(false));
+            user.sendMessage(new JoinGameResponsePacket(false, null));
         }
     }
 

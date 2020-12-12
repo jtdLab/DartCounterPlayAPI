@@ -1,5 +1,6 @@
 package dartServer.commons.packets.outgoing.unicasts;
 
+import dartServer.commons.artifacts.GameSnapshot;
 import dartServer.commons.packets.outgoing.ResponsePacket;
 
 import javax.validation.constraints.NotNull;
@@ -13,19 +14,27 @@ public class CreateGameResponsePacket implements ResponsePacket {
     @NotNull
     private final Boolean successful;
 
-    public CreateGameResponsePacket(Boolean successful) {
+    private final GameSnapshot snapshot;
+
+    public CreateGameResponsePacket(@NotNull Boolean successful, GameSnapshot snapshot) {
         this.successful = successful;
+        this.snapshot = snapshot;
     }
 
     public Boolean getSuccessful() {
         return successful;
     }
 
+    public GameSnapshot getSnapshot() {
+        return snapshot;
+    }
+
     @Override
     public String toString() {
-        return "CreateGameResponse{" +
-                "successful=" + successful + '\'' +
-                "}";
+        return "CreateGameResponsePacket{" +
+                "successful=" + successful +
+                ", snapshot=" + snapshot +
+                '}';
     }
 
     @Override
@@ -33,7 +42,7 @@ public class CreateGameResponsePacket implements ResponsePacket {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreateGameResponsePacket that = (CreateGameResponsePacket) o;
-        return Objects.equals(successful, that.successful);
+        return Objects.equals(successful, that.successful) && Objects.equals(snapshot, that.snapshot);
     }
 
 }

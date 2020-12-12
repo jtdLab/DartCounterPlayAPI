@@ -7,16 +7,16 @@ import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
- * Packet for unicast response of the server to a clients joinGame.
+ * Packet for unicast response of the server to a clients startGame.
  */
-public class JoinGameResponsePacket implements ResponsePacket {
+public class StartGameResponsePacket implements ResponsePacket {
 
     @NotNull
     private final Boolean successful;
 
     private final GameSnapshot snapshot;
 
-    public JoinGameResponsePacket(@NotNull Boolean successful, GameSnapshot snapshot) {
+    public StartGameResponsePacket(@NotNull Boolean successful, GameSnapshot snapshot) {
         this.successful = successful;
         this.snapshot = snapshot;
     }
@@ -31,7 +31,7 @@ public class JoinGameResponsePacket implements ResponsePacket {
 
     @Override
     public String toString() {
-        return "JoinGameResponsePacket{" +
+        return "StartGameResponsePacket{" +
                 "successful=" + successful +
                 ", snapshot=" + snapshot +
                 '}';
@@ -41,7 +41,7 @@ public class JoinGameResponsePacket implements ResponsePacket {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        JoinGameResponsePacket that = (JoinGameResponsePacket) o;
+        StartGameResponsePacket that = (StartGameResponsePacket) o;
         return Objects.equals(successful, that.successful) && Objects.equals(snapshot, that.snapshot);
     }
 

@@ -13,7 +13,7 @@ public class GameConfig {
     public GameConfig() {
         mode = GameMode.FIRST_TO;
         type = GameType.LEGS;
-        size = 3;
+        size = 1;
         startingPoints = 501;
     }
 

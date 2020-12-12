@@ -36,9 +36,7 @@ public class GameListener implements NetworkEventListener {
             SnapshotPacket snapshotPacket = new SnapshotPacket(game.getSnapshot());
             lobby.broadcastToUsers(snapshotPacket);
             logger.warn("Updated GameConfig of " + lobby.getId());
-            return;
         }
-        user.sendMessage(new CreateGameResponsePacket(false));
     }
 
     /**
@@ -50,12 +48,10 @@ public class GameListener implements NetworkEventListener {
         Lobby lobby = GameEngine.getLobbyByUser(user);
 
         if (lobby.startGame(user)) {
-            user.sendMessage(new CreateGameResponsePacket(true));
             lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
             logger.warn("Game " + lobby.getId() + " started");
             return;
         }
-        user.sendMessage(new CreateGameResponsePacket(false));
     }
 
     /**

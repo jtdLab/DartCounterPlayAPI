@@ -9,6 +9,9 @@ public enum GameStatus {
     @SerializedName("running")
     RUNNING,
 
+    @SerializedName("cancelled")
+    CANCELLED,
+
     @SerializedName("finished")
     FINISHED
 }

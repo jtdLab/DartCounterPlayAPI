@@ -71,18 +71,34 @@ public class EventHandler implements Comparable<EventHandler> {
 
 
     private void printServerState() {
-        logger.warn("");
-        logger.warn("======================================");
-        logger.warn("Players: " + GameEngine.getUsers().length + " (online)");
+        /**
+         * logger.warn("");
+         *         logger.warn("======================================");
+         *         logger.warn("Players: " + GameEngine.getUsers().length + " (online)");
+         *         for (User user : GameEngine.getUsers()) {
+         *             logger.warn(user);
+         *         }
+         *         logger.warn("");
+         *         logger.warn("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
+         *         for (Lobby lobby : GameEngine.getLobbies()) {
+         *             logger.warn(lobby);
+         *         }
+         *         logger.warn("======================================");
+         *         logger.warn("");
+         */
+
+        System.out.println();
+        System.out.println("======================================");
+        System.out.println("Players: " + GameEngine.getUsers().length + " (online)");
         for (User user : GameEngine.getUsers()) {
-            logger.warn(user);
+            System.out.println(user);
         }
-        logger.warn("");
-        logger.warn("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
+        System.out.println();
+        System.out.println("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
         for (Lobby lobby : GameEngine.getLobbies()) {
-            logger.warn(lobby);
+            System.out.println(lobby);
         }
-        logger.warn("======================================");
-        logger.warn("");
+        System.out.println("======================================");
+        System.out.println();
     }
 }

@@ -2,6 +2,7 @@ package dartServer;
 
 import dartServer.gameengine.GameEngine;
 import dartServer.networking.WebSocketServer;
+import dartServer.networking.events.EventHandler;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -66,11 +67,13 @@ class DartServer implements Runnable {
     public void run() {
         // Print the specified command line options
         System.out.println();
-
+        System.out.println("Server by darts_ger");
+        System.out.println();
         System.out.println("Starting with options:");
         System.out.println("> Server port: " + port);
         Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
         System.out.println("> Logging verbosity: " + level.name());
+
         Configurator.setLevel(System.getProperty("log4j.logger"), level);
 
         System.out.println();

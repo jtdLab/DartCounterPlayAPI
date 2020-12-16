@@ -1,8 +1,11 @@
 package dartServer;
 
+
+import dartServer.api.services.InvitationService;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.User;
 import dartServer.networking.WebSocketServer;
-import dartServer.networking.events.EventHandler;
+
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +13,8 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.apache.logging.log4j.spi.StandardLevel;
 
+
+//  ws://46.101.130.16:9000
 // curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 46.101.130.16:9000" -H "Origin: http://www.websocket.org" "46.101.130.16:9000"
 // curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 127.0.0.1:9000" -H "Origin: http://www.websocket.org" "127.0.0.1:9000"
 // {"payloadType":"authRequest","payload":{"uid":"48umt23tIPNWpZW0OeJvmZ8irUM2","username":"needs00"},"timestamp":"2020-10-17 03:38:16.44"}
@@ -47,6 +52,7 @@ class DartServer implements Runnable {
      * @param args Run arguments
      */
     public static void main(String... args) {
+        InvitationService.addInvitation(new User("Hadfjapfjsdpf", "JONAS", null), "KLAKDLAKDLKDLKD",9999);
 
         System.out.println(
                 " _____             _    _____                          \n" +

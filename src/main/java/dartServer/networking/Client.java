@@ -6,14 +6,14 @@ import dartServer.commons.packets.outgoing.ResponsePacket;
 import dartServer.commons.parsing.validators.JsonValidator;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
 
 public class Client {
 
-    static final Logger logger = LogManager.getLogger(Client.class);
+    static final Logger logger = LoggerFactory.getLogger(Client.class);
 
     private static long id;
 
@@ -47,7 +47,7 @@ public class Client {
         if (channel.isOpen() && channel.isActive() && channel.isWritable()) {
             for (Packet p : packets) {
                 if (!JsonValidator.isPacketValid(p)) {
-                    logger.fatal("Refusing to send invalid packet to client!");
+                    logger.error("Refusing to send invalid packet to client!");
                     continue;
                 }
                 channel.writeAndFlush(p).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE); // get errors

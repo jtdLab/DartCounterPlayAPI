@@ -3,8 +3,11 @@ package dartServer.commons.parsing.validators;
 import dartServer.commons.packets.Packet;
 import dartServer.commons.packets.PacketContainer;
 import dartServer.commons.packets.PacketType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -14,7 +17,7 @@ import java.util.Set;
 
 public class JsonValidator {
 
-    static final Logger logger = LogManager.getLogger(JsonValidator.class);
+    static final Logger logger = LoggerFactory.getLogger(JsonValidator.class);
 
     private JsonValidator() {
         throw new IllegalStateException("Can not be instantiated!");

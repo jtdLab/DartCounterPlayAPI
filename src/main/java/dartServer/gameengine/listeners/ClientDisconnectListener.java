@@ -5,15 +5,15 @@ import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.ClientDisconnectEvent;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Listener class for the event of a socket connection being closed by client or server.
  */
 public class ClientDisconnectListener implements NetworkEventListener {
 
-    static final Logger logger = LogManager.getLogger(ClientDisconnectListener.class);
+    static final Logger logger = LoggerFactory.getLogger(ClientDisconnectListener.class);
 
     /**
      * Event called on a disconnect event. Will be called regardless of who closed the connection.

@@ -17,8 +17,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.CorruptedFrameException;
 import io.netty.handler.codec.DecoderException;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
-    static final Logger logger = LogManager.getLogger(WebSocketServerHandler.class);
+    static final Logger logger = LoggerFactory.getLogger(WebSocketServerHandler.class);
 
     private Client client;
 
@@ -35,7 +35,7 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (!(msg instanceof Packet)) {
             logger.warn("Invalid object reached the server handler (only packets allowed here). That should not happen!");
-            logger.trace(msg.getClass());
+            logger.trace(String.valueOf(msg.getClass()));
             return;
         }
 

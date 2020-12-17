@@ -5,14 +5,14 @@ import dartServer.commons.parsing.validators.JsonValidator;
 import dartServer.networking.exceptions.ProtocolViolationException;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class IncomingPacketContainerValidator extends MessageToMessageDecoder<PacketContainer> {
 
-    static final Logger logger = LogManager.getLogger(IncomingPacketContainerValidator.class);
+    static final Logger logger = LoggerFactory.getLogger(IncomingPacketContainerValidator.class);
 
 
     @Override

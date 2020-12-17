@@ -5,12 +5,15 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import dartServer.gameengine.GameEngine;
 import dartServer.networking.WebSocketServer;
-import org.apache.logging.log4j.Level;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import picocli.CommandLine;
+/*import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
-import org.apache.logging.log4j.spi.StandardLevel;
+import org.apache.logging.log4j.spi.StandardLevel;*/
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,16 +41,16 @@ import java.io.InputStream;
 @CommandLine.Command(name = "DartServer", version = "1.0")
 class DartServer implements Runnable {
 
-    private static final Logger logger = LogManager.getLogger(DartServer.class);
+    private static final Logger logger = LoggerFactory.getLogger(DartServer.class);
 
     @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "Help")
     private static boolean help;
 
-    @CommandLine.Option(names = {"-p", "--port"}, description = "Server Port (default=4488)")
-    private static final int port = 9000;
+    @CommandLine.Option(names = {"-p", "--port"}, description = "Server Port (default=9000)")
+    private static int port = 9000;
 
     @CommandLine.Option(names = {"-v", "--verbosity"}, description = "Verbosity (0=off, 100=fatal, 200=error, 300=warn, 400=info, 500=debug, 600=trace)")
-    private static final int verbosity = 400;
+    private static int verbosity = 300;
 
     /**
      * Start the server by parsing the commandline options
@@ -55,7 +58,6 @@ class DartServer implements Runnable {
      * @param args Run arguments
      */
     public static void main(String... args) {
-
         // Use a service account
         try {
             InputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccount.json");
@@ -65,9 +67,9 @@ class DartServer implements Runnable {
                     .build();
             FirebaseApp.initializeApp(options);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
 
         System.out.println(
@@ -88,13 +90,15 @@ class DartServer implements Runnable {
      */
     public void run() {
         // Print the specified command line options
-        Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
-        Configurator.setLevel(System.getProperty("log4j.logger"), level);
+        //Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
+        //Configurator.setLevel(System.getProperty("log4j.logger"), level);
+
+
 
         System.out.println();
         System.out.println("Starting with options:");
         System.out.println("> Server port: " + port);
-        System.out.println("> Logging verbosity: " + level.name());
+        //System.out.println("> Logging verbosity: " + level.name());
         System.out.println();
         logger.info("Initializing game engine...");
         GameEngine.init();
@@ -103,7 +107,7 @@ class DartServer implements Runnable {
             logger.info("Starting websocket server...");
             new WebSocketServer(port).run();
         } catch (Exception e) {
-            logger.warn(e);
+            logger.error(e.getMessage());
         }
     }
 }

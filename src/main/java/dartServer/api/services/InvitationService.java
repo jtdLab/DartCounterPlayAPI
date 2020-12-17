@@ -8,9 +8,8 @@ import com.google.cloud.firestore.FieldValue;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-import dartServer.gameengine.lobby.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +17,7 @@ import java.util.Map;
 
 public class InvitationService {
 
-    static final Logger logger = LogManager.getLogger(InvitationService.class);
+    static final Logger logger = LoggerFactory.getLogger(InvitationService.class);
 
     public static void addInvitation(String uid, String inviter, int gameCode) {
         Firestore db = FirestoreClient.getFirestore();

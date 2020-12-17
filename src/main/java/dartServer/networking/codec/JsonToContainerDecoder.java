@@ -5,8 +5,8 @@ import dartServer.commons.parsing.JsonManager;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class JsonToContainerDecoder extends MessageToMessageDecoder<TextWebSocketFrame> {
 
-    static final Logger logger = LogManager.getLogger(JsonToContainerDecoder.class);
+    static final Logger logger = LoggerFactory.getLogger(JsonToContainerDecoder.class);
 
     /**
      * {@inheritDoc}

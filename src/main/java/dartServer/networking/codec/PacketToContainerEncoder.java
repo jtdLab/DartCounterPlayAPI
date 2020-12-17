@@ -6,8 +6,8 @@ import dartServer.commons.packets.PacketType;
 import dartServer.networking.exceptions.ProtocolViolationException;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class PacketToContainerEncoder extends MessageToMessageEncoder<Packet> {
 
-    static final Logger logger = LogManager.getLogger(PacketToContainerEncoder.class);
+    static final Logger logger = LoggerFactory.getLogger(PacketToContainerEncoder.class);
 
     /**
      * {@inheritDoc}

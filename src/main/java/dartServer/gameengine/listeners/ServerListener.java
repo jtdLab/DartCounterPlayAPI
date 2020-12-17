@@ -14,15 +14,15 @@ import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.Event;
 import dartServer.networking.events.NetworkEventListener;
 import dartServer.networking.events.PacketReceiveEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Listener class for server events.
  */
 public class ServerListener implements NetworkEventListener {
 
-    static final Logger logger = LogManager.getLogger(ServerListener.class);
+    static final Logger logger = LoggerFactory.getLogger(ServerListener.class);
 
     /**
      * @param event the event fired on createGame by a client

@@ -46,8 +46,8 @@ class DartServer implements Runnable {
     @CommandLine.Option(names = {"-p", "--port"}, description = "Server Port (default=4488)")
     private static final int port = 9000;
 
-    @CommandLine.Option(names = {"-v", "--verbosity"}, description = "Verbosity (0=off, 100=fatal, ..., 600=trace)")
-    private static final int verbosity = 300;
+    @CommandLine.Option(names = {"-v", "--verbosity"}, description = "Verbosity (0=off, 100=fatal, 200=error, 300=warn, 400=info, 500=debug, 600=trace)")
+    private static final int verbosity = 400;
 
     /**
      * Start the server by parsing the commandline options
@@ -58,7 +58,7 @@ class DartServer implements Runnable {
 
         // Use a service account
         try {
-            InputStream serviceAccount = new FileInputStream("src/serviceAccount.json");
+            InputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccount.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
@@ -88,19 +88,14 @@ class DartServer implements Runnable {
      */
     public void run() {
         // Print the specified command line options
-        System.out.println();
-        System.out.println("Server by darts_ger");
+        Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
+        Configurator.setLevel(System.getProperty("log4j.logger"), level);
+
         System.out.println();
         System.out.println("Starting with options:");
         System.out.println("> Server port: " + port);
-        Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
         System.out.println("> Logging verbosity: " + level.name());
-
-        //Configurator.setLevel(System.getProperty("log4j.logger"), level);
-        logger.warn("WARRRRRRRNNNNNUNNNNNNGGGGG");
-
         System.out.println();
-
         logger.info("Initializing game engine...");
         GameEngine.init();
 

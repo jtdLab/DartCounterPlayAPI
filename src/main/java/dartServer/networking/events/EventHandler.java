@@ -88,17 +88,17 @@ public class EventHandler implements Comparable<EventHandler> {
          */
 
         System.out.println();
-        System.out.println("======================================");
-        System.out.println("Players: " + GameEngine.getUsers().length + " (online)");
+        logger.info("======================================");
+        logger.info("Players: " + GameEngine.getUsers().length + " (online)");
         for (User user : GameEngine.getUsers()) {
-            System.out.println(user);
+            logger.info(user.toString());
         }
         System.out.println();
-        System.out.println("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
+        logger.info("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
         for (Lobby lobby : GameEngine.getLobbies()) {
-            System.out.println(lobby);
+            logger.info(lobby.toString());
         }
-        System.out.println("======================================");
+        logger.info("======================================");
         System.out.println();
     }
 }

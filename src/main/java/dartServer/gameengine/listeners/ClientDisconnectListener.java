@@ -1,5 +1,6 @@
 package dartServer.gameengine.listeners;
 
+import dartServer.api.services.IsOnlineService;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.ClientDisconnectEvent;
@@ -43,6 +44,8 @@ public class ClientDisconnectListener implements NetworkEventListener {
             GameEngine.removeUser(user);
             logger.warn(user.getUsername() + " left");
         }
+
+        IsOnlineService.updateIsOnline(user.getUid(), false);
     }
 
 }

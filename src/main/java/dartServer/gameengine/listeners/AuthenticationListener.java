@@ -1,6 +1,7 @@
 package dartServer.gameengine.listeners;
 
 import dartServer.api.services.AuthService;
+import dartServer.api.services.IsOnlineService;
 import dartServer.commons.packets.incoming.requests.AuthRequestPacket;
 import dartServer.commons.packets.outgoing.unicasts.AuthResponsePacket;
 import dartServer.gameengine.GameEngine;
@@ -32,6 +33,7 @@ public class AuthenticationListener implements NetworkEventListener {
             User user = GameEngine.createUser(authRequest.getUid(), authRequest.getUsername(), event.getClient());
             if (user != null) {
                 user.sendMessage(new AuthResponsePacket(true));
+                IsOnlineService.updateIsOnline(user.getUid(), true);
                 logger.warn(authRequest.getUsername() + " joined");
             } else {
                 event.getClient().sendPacket(new AuthResponsePacket(false));

@@ -8,16 +8,12 @@ import com.google.cloud.firestore.FieldValue;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class InvitationService {
-
-    static final Logger logger = LoggerFactory.getLogger(InvitationService.class);
 
     public static void addInvitation(String uid, String inviter, int gameCode) {
         Firestore db = FirestoreClient.getFirestore();

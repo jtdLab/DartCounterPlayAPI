@@ -1,7 +1,6 @@
 package dartServer.commons.packets.incoming.requests;
 
 import dartServer.commons.packets.incoming.RequestPacket;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;

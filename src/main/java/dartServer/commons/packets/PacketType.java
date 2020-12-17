@@ -1,7 +1,10 @@
 package dartServer.commons.packets;
 
 import dartServer.commons.packets.incoming.requests.*;
-import dartServer.commons.packets.outgoing.broadcasts.*;
+import dartServer.commons.packets.outgoing.broadcasts.GameCanceledPacket;
+import dartServer.commons.packets.outgoing.broadcasts.PlayerExitedPacket;
+import dartServer.commons.packets.outgoing.broadcasts.PlayerJoinedPacket;
+import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
 import dartServer.commons.packets.outgoing.unicasts.*;
 
 /**

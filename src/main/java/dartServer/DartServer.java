@@ -1,17 +1,22 @@
 package dartServer;
 
 
-import dartServer.api.services.InvitationService;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import dartServer.gameengine.GameEngine;
-import dartServer.gameengine.lobby.User;
 import dartServer.networking.WebSocketServer;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 import org.apache.logging.log4j.spi.StandardLevel;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 //  ws://46.101.130.16:9000
@@ -52,7 +57,20 @@ class DartServer implements Runnable {
      * @param args Run arguments
      */
     public static void main(String... args) {
-        InvitationService.addInvitation(new User("Hadfjapfjsdpf", "JONAS", null), "KLAKDLAKDLKDLKD",9999);
+
+        // Use a service account
+        try {
+            InputStream serviceAccount = new FileInputStream("./serviceAccount.json");
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(credentials)
+                    .build();
+            FirebaseApp.initializeApp(options);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println(
                 " _____             _    _____                          \n" +

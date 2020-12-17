@@ -2,7 +2,6 @@ package dartServer.gameengine.listeners;
 
 import dartServer.commons.packets.incoming.requests.*;
 import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
-import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;

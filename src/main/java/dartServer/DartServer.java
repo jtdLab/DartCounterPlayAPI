@@ -1,6 +1,5 @@
 package dartServer;
 
-
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -18,8 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-
-//  ws://46.101.130.16:9000
+// ws://46.101.130.16:9000
 // curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 46.101.130.16:9000" -H "Origin: http://www.websocket.org" "46.101.130.16:9000"
 // curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 127.0.0.1:9000" -H "Origin: http://www.websocket.org" "127.0.0.1:9000"
 // {"payloadType":"authRequest","payload":{"uid":"48umt23tIPNWpZW0OeJvmZ8irUM2","username":"needs00"},"timestamp":"2020-10-17 03:38:16.44"}
@@ -60,7 +58,7 @@ class DartServer implements Runnable {
 
         // Use a service account
         try {
-            InputStream serviceAccount = new FileInputStream("./serviceAccount.json");
+            InputStream serviceAccount = new FileInputStream("src/serviceAccount.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
@@ -98,7 +96,8 @@ class DartServer implements Runnable {
         Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
         System.out.println("> Logging verbosity: " + level.name());
 
-        Configurator.setLevel(System.getProperty("log4j.logger"), level);
+        //Configurator.setLevel(System.getProperty("log4j.logger"), level);
+        logger.warn("WARRRRRRRNNNNNUNNNNNNGGGGG");
 
         System.out.println();
 

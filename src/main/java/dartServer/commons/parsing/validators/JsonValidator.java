@@ -29,7 +29,6 @@ public class JsonValidator {
     public static boolean isPacketContainerValid(PacketContainer p) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
-
         Set<ConstraintViolation<PacketContainer>> constraintViolations = validator.validate(p);
 
         if (constraintViolations.size() > 0) {

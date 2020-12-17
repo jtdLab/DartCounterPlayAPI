@@ -37,14 +37,8 @@ class DartServer implements Runnable {
 
     private static final Logger logger = LoggerFactory.getLogger(DartServer.class);
 
-    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "Help")
-    private static boolean help;
-
     @CommandLine.Option(names = {"-p", "--port"}, description = "Server Port (default=9000)")
     private static int port = 9000;
-
-    @CommandLine.Option(names = {"-v", "--verbosity"}, description = "Verbosity (0=off, 100=fatal, 200=error, 300=warn, 400=info, 500=debug, 600=trace)")
-    private static int verbosity = 300;
 
     /**
      * Start the server by parsing the commandline options
@@ -52,20 +46,6 @@ class DartServer implements Runnable {
      * @param args Run arguments
      */
     public static void main(String... args) {
-        // Use a service account
-        try {
-            InputStream serviceAccount = new FileInputStream("src/main/resources/serviceAccount.json");
-            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
-            FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(credentials)
-                    .build();
-            FirebaseApp.initializeApp(options);
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-
         System.out.println(
                 " _____             _    _____                          \n" +
                         "|  __ \\           | |  / ____|                         \n" +
@@ -83,16 +63,26 @@ class DartServer implements Runnable {
      * Initialize the server
      */
     public void run() {
-        // Print the specified command line options
-        //Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
-        //Configurator.setLevel(System.getProperty("log4j.logger"), level);
-
-
         System.out.println();
         System.out.println("Starting with options:");
         System.out.println("> Server port: " + port);
-        //System.out.println("> Logging verbosity: " + level.name());
         System.out.println();
+
+        // Use a service account
+        try {
+            InputStream serviceAccount = new FileInputStream("./serviceAccount.json");
+            GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(credentials)
+                    .build();
+            FirebaseApp.initializeApp(options);
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage());
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+
+
         logger.info("Initializing game engine...");
         GameEngine.init();
 

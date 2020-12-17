@@ -8,12 +8,6 @@ import dartServer.networking.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
-/*import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
-import org.apache.logging.log4j.spi.StandardLevel;*/
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -92,7 +86,6 @@ class DartServer implements Runnable {
         // Print the specified command line options
         //Level level = Level.getLevel(StandardLevel.getStandardLevel(verbosity).name());
         //Configurator.setLevel(System.getProperty("log4j.logger"), level);
-
 
 
         System.out.println();

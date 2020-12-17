@@ -3,11 +3,8 @@ package dartServer.commons.parsing.validators;
 import dartServer.commons.packets.Packet;
 import dartServer.commons.packets.PacketContainer;
 import dartServer.commons.packets.PacketType;
-
-
-import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-
+import org.slf4j.LoggerFactory;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

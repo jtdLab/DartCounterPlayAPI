@@ -70,7 +70,7 @@ class DartServer implements Runnable {
 
         // Use a service account
         try {
-            InputStream serviceAccount = new FileInputStream("./serviceAccount.json");
+            InputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccount.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
@@ -81,7 +81,6 @@ class DartServer implements Runnable {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-
 
         logger.info("Initializing game engine...");
         GameEngine.init();

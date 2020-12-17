@@ -4,6 +4,7 @@ import dartServer.api.services.InvitationService;
 import dartServer.commons.packets.incoming.requests.CreateGamePacket;
 import dartServer.commons.packets.incoming.requests.InviteToGamePacket;
 import dartServer.commons.packets.incoming.requests.JoinGamePacket;
+import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
 import dartServer.commons.packets.outgoing.unicasts.CreateGameResponsePacket;
 import dartServer.commons.packets.outgoing.unicasts.InviteToGameResponse;
 import dartServer.commons.packets.outgoing.unicasts.JoinGameResponsePacket;
@@ -46,13 +47,13 @@ public class ServerListener implements NetworkEventListener {
     public void onInviteToGame(PacketReceiveEvent<InviteToGamePacket> event) {
         InviteToGamePacket invite = event.getPacket();
         User user = GameEngine.getUser(event.getClient().getAddress());
-        Lobby lobby = GameEngine.createLobby(user);
+        Lobby lobby = GameEngine.getLobbyByUser(user);
 
         if (lobby != null) {
             user.sendMessage(new InviteToGameResponse(true));
             InvitationService.addInvitation(invite.getUid(), user.getUsername(), lobby.getCode());
             // TODO check if game is pending
-            logger.warn(user.getUsername() + " invited " + invite.getUsername() + " to " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            logger.warn(user.getUsername() + " invited " + invite.getUsername() + " to Lobby" + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
             user.sendMessage(new InviteToGameResponse(false));
         }
@@ -70,6 +71,7 @@ public class ServerListener implements NetworkEventListener {
 
         if (lobby != null) {
             user.sendMessage(new JoinGameResponsePacket(true, lobby.getGame().getSnapshot()));
+            lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
             logger.warn(user.getUsername() + " joined lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
             user.sendMessage(new JoinGameResponsePacket(false, null));

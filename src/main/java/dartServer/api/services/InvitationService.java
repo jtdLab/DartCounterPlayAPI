@@ -20,13 +20,13 @@ public class InvitationService {
 
     static final Logger logger = LogManager.getLogger(InvitationService.class);
 
-    public static void addInvitation(User from, String uidOfInvited, int gameCode) {
+    public static void addInvitation(String uid, String inviter, int gameCode) {
         Firestore db = FirestoreClient.getFirestore();
 
-        DocumentReference docRef = db.collection("users").document(uidOfInvited);
+        DocumentReference docRef = db.collection("users").document(uid);
 
         Map<String, Object> invitation = new HashMap<>();
-        invitation.put("inviter", from.getUsername());
+        invitation.put("inviter", inviter);
         invitation.put("gameCode", gameCode);
 
         //asynchronously write data

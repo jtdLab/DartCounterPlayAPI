@@ -4,6 +4,8 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.Lobby;
+import dartServer.gameengine.lobby.User;
 import dartServer.networking.WebSocketServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,11 +87,44 @@ class DartServer implements Runnable {
         logger.info("Initializing game engine...");
         GameEngine.init();
 
+        logger.info("Starting monitoring ...");
+        Thread thread = new Thread(() -> {
+            while(true) {
+                printServerState();
+                try {
+                    Thread.sleep(30000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+
         try {
             logger.info("Starting websocket server...");
             new WebSocketServer(port).run();
         } catch (Exception e) {
             logger.warn(e.getMessage());
         }
+    }
+
+    private void printServerState() {
+        System.out.println();
+        logger.info("======================================");
+        logger.info("============ SERVER STATE ============");
+        logger.info("======================================");
+        logger.info("Players: " + GameEngine.getUsers().length + " (online)");
+        for (User user : GameEngine.getUsers()) {
+            logger.info(user.toString());
+        }
+        logger.info("======================================");
+        logger.info("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
+        for (Lobby lobby : GameEngine.getLobbies()) {
+            logger.info(lobby.toString());
+        }
+        logger.info("======================================");
+        logger.info("======================================");
+        logger.info("======================================");
+        System.out.println();
     }
 }

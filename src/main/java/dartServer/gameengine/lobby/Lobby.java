@@ -33,6 +33,10 @@ public class Lobby {
         id = lobbyCount++;
     }
 
+    public User getOwner() {
+        return users.get(0);
+    }
+
 
     // --== Methods ==--
 

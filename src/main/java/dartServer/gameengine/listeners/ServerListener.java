@@ -53,7 +53,7 @@ public class ServerListener implements NetworkEventListener {
             user.sendMessage(new InviteToGameResponse(true));
             InvitationService.addInvitation(invite.getUid(), user.getUsername(), lobby.getCode());
             // TODO check if game is pending
-            logger.info(user.getUsername() + " invited " + invite.getUsername() + " to lobby" + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            logger.info(user.getUsername() + " invited " + invite.getUsername() + " to lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
             user.sendMessage(new InviteToGameResponse(false));
         }

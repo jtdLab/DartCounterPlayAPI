@@ -143,6 +143,9 @@ public class GameEngine {
     }
 
     public static void removeLobby(Lobby lobby) {
+        for(User user: lobby.getUsers()) {
+            user.setLobbyId(null);
+        }
         lobbies.remove(lobby);
     }
 

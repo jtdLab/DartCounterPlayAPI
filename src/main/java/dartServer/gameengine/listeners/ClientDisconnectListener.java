@@ -2,6 +2,7 @@ package dartServer.gameengine.listeners;
 
 import dartServer.api.services.IsOnlineService;
 import dartServer.gameengine.GameEngine;
+import dartServer.gameengine.lobby.Lobby;
 import dartServer.gameengine.lobby.User;
 import dartServer.networking.events.ClientDisconnectEvent;
 import dartServer.networking.events.Event;
@@ -37,7 +38,14 @@ public class ClientDisconnectListener implements NetworkEventListener {
                 GameEngine.removeUser(user);
                 logger.info(user.getUsername() + " got kicked");
             } else {
-                user.setClient(null); // remove client because disconnected
+                //user.setClient(null); // remove client because disconnected
+                Lobby lobby = GameEngine.getLobbyByUser(user);
+                if(user.equals(lobby.getOwner())) {
+                    GameEngine.removeLobby(lobby);
+                    // TODO cancel game
+                    // TODO send messages to other players to show them they game is over
+                }
+                GameEngine.removeUser(user);
                 logger.info(user.getUsername() + " left");
             }
         } else {

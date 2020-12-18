@@ -41,7 +41,6 @@ public class EventHandler implements Comparable<EventHandler> {
     public void fire(NetworkEvent event) {
         try {
             eventMethod.invoke(listener, event);
-            printServerState();
         } catch (InvocationTargetException e) {
             logger.warn("Error in event listener!", e.getTargetException());
         } catch (Exception e) {
@@ -71,22 +70,6 @@ public class EventHandler implements Comparable<EventHandler> {
 
 
     private void printServerState() {
-        /**
-         * logger.warn("");
-         *         logger.warn("======================================");
-         *         logger.warn("Players: " + GameEngine.getUsers().length + " (online)");
-         *         for (User user : GameEngine.getUsers()) {
-         *             logger.warn(user);
-         *         }
-         *         logger.warn("");
-         *         logger.warn("Lobbies: " + GameEngine.getLobbies().size() + " (active)");
-         *         for (Lobby lobby : GameEngine.getLobbies()) {
-         *             logger.warn(lobby);
-         *         }
-         *         logger.warn("======================================");
-         *         logger.warn("");
-         */
-
         System.out.println();
         logger.info("======================================");
         logger.info("Players: " + GameEngine.getUsers().length + " (online)");

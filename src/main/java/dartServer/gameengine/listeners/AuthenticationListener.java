@@ -34,7 +34,7 @@ public class AuthenticationListener implements NetworkEventListener {
             if (user != null) {
                 user.sendMessage(new AuthResponsePacket(true));
                 IsOnlineService.updateIsOnline(user.getUid(), true);
-                logger.warn(authRequest.getUsername() + " joined");
+                logger.info(authRequest.getUsername() + " joined");
             } else {
                 event.getClient().sendPacket(new AuthResponsePacket(false));
             }

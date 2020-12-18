@@ -43,14 +43,13 @@ public class WebSocketServerHandler extends ChannelInboundHandlerAdapter {
 
         if (!(p instanceof RequestPacket)) {
             logger.warn(client + " sent invalid packet, that is not of the RequestPacket type.");
-            logger.info("This usually means that the client tried to sent a server response packet to the server.");
             logger.debug("Dropping packet: " + p);
             throw new ProtocolViolationException();
         }
 
         RequestPacket rp = (RequestPacket) p;
 
-        logger.info("Received " + PacketType.forClass(rp.getClass()) + " from " + client);
+        logger.debug("Received " + PacketType.forClass(rp.getClass()) + " from " + client);
         logger.trace(client + " sent " + msg);
 
         PacketReceiveEvent event = new PacketReceiveEvent(client, rp);

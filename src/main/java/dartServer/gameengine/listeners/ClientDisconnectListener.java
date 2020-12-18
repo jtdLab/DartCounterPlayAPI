@@ -35,14 +35,14 @@ public class ClientDisconnectListener implements NetworkEventListener {
         if (user.isPlaying()) {
             if (event.getClient().isKicked()) {
                 GameEngine.removeUser(user);
-                logger.warn(user.getUsername() + " got kicked");
+                logger.info(user.getUsername() + " got kicked");
             } else {
                 user.setClient(null); // remove client because disconnected
-                logger.warn(user.getUsername() + " left");
+                logger.info(user.getUsername() + " left");
             }
         } else {
             GameEngine.removeUser(user);
-            logger.warn(user.getUsername() + " left");
+            logger.info(user.getUsername() + " left");
         }
 
         IsOnlineService.updateIsOnline(user.getUid(), false);

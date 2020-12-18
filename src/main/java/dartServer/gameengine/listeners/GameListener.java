@@ -34,7 +34,7 @@ public class GameListener implements NetworkEventListener {
             Game game = lobby.getGame();
             SnapshotPacket snapshotPacket = new SnapshotPacket(game.getSnapshot());
             lobby.broadcastToUsers(snapshotPacket);
-            logger.warn("Updated GameConfig of " + lobby.getId());
+            logger.info(user.getUsername() + " updated gameConfig of lobby " + lobby.getId() + " [Code = " + lobby.getCode() + "]");
         }
     }
 
@@ -48,7 +48,7 @@ public class GameListener implements NetworkEventListener {
 
         if (lobby.startGame(user)) {
             lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
-            logger.warn("Game " + lobby.getId() + " started");
+            logger.info("Game " + lobby.getId() + " started");
             return;
         }
     }
@@ -93,7 +93,7 @@ public class GameListener implements NetworkEventListener {
         if (lobby.performThrow(user, t)) {
             Game game = lobby.getGame();
             lobby.broadcastToUsers(new SnapshotPacket(game.getSnapshot()));
-            logger.warn(user.getUsername() + " scored " + t.toString());
+            logger.info(user.getUsername() + " scored " + t.toString());
         }
     }
 
@@ -108,7 +108,7 @@ public class GameListener implements NetworkEventListener {
         if (lobby.undoThrow(user)) {
             Game game = lobby.getGame();
             lobby.broadcastToUsers(new SnapshotPacket(game.getSnapshot()));
-            logger.warn("Undo throw by " + user.getUsername());
+            logger.info("Undo throw by " + user.getUsername());
         }
     }
 

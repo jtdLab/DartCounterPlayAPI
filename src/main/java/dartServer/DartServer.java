@@ -77,9 +77,9 @@ class DartServer implements Runnable {
                     .build();
             FirebaseApp.initializeApp(options);
         } catch (FileNotFoundException e) {
-            logger.error(e.getMessage());
+            logger.warn(e.getMessage());
         } catch (IOException e) {
-            logger.error(e.getMessage());
+            logger.warn(e.getMessage());
         }
 
         logger.info("Initializing game engine...");
@@ -89,7 +89,7 @@ class DartServer implements Runnable {
             logger.info("Starting websocket server...");
             new WebSocketServer(port).run();
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.warn(e.getMessage());
         }
     }
 }

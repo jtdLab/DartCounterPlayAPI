@@ -34,7 +34,7 @@ public class ServerListener implements NetworkEventListener {
 
         if (lobby != null) {
             user.sendMessage(new CreateGameResponsePacket(true, lobby.getGame().getSnapshot()));
-            logger.warn(user.getUsername() + " created lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            logger.info(user.getUsername() + " created lobby " + lobby.getId() + " [Code = " + lobby.getCode() + "]");
         } else {
             user.sendMessage(new CreateGameResponsePacket(false, null));
         }
@@ -53,7 +53,7 @@ public class ServerListener implements NetworkEventListener {
             user.sendMessage(new InviteToGameResponse(true));
             InvitationService.addInvitation(invite.getUid(), user.getUsername(), lobby.getCode());
             // TODO check if game is pending
-            logger.warn(user.getUsername() + " invited " + invite.getUsername() + " to Lobby" + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            logger.info(user.getUsername() + " invited " + invite.getUsername() + " to lobby" + lobby.getId() + "[Code = " + lobby.getCode() + "]");
         } else {
             user.sendMessage(new InviteToGameResponse(false));
         }
@@ -72,7 +72,7 @@ public class ServerListener implements NetworkEventListener {
         if (lobby != null) {
             user.sendMessage(new JoinGameResponsePacket(true, lobby.getGame().getSnapshot()));
             lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
-            logger.warn(user.getUsername() + " joined lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            logger.info(user.getUsername() + " joined lobby " + lobby.getId() + " [Code = " + lobby.getCode() + "]");
         } else {
             user.sendMessage(new JoinGameResponsePacket(false, null));
         }

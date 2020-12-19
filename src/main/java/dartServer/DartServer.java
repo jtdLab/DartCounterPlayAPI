@@ -72,7 +72,7 @@ class DartServer implements Runnable {
 
         // Use a service account
         try {
-            InputStream serviceAccount = new FileInputStream("./src/main/resources/serviceAccount.json");
+            InputStream serviceAccount = new FileInputStream("./serviceAccount.json");
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)

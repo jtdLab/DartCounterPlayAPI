@@ -6,7 +6,7 @@ import io.netty.channel.embedded.EmbeddedChannel;
 import org.junit.jupiter.api.Test;
 
 class LobbyTest {
-
+/*
     @Test
     void testAddPlayer() {
         EmbeddedChannel channel = new EmbeddedChannel();
@@ -55,5 +55,5 @@ class LobbyTest {
 
     @Test
     void testToString() {
-    }
+    }*/
 }

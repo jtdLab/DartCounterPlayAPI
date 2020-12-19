@@ -10,6 +10,6 @@ RUN mvn -f /home/app/pom.xml clean package
 # Package stage
 #
 FROM openjdk:11-jre-slim
-COPY --from=build /home/app/target/original-dartCounterPlayAPI-1.0-SNAPSHOT.jar /usr/local/lib/dartCounterPlayAPI.jar
+COPY --from=build /home/app/target/dartCounterPlayAPI-1.0-SNAPSHOT.jar /usr/local/lib/dartCounterPlayAPI.jar
 EXPOSE 9000
 ENTRYPOINT ["java","-jar","/usr/local/lib/dartCounterPlayAPI.jar"]

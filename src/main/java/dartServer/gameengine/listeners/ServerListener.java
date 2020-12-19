@@ -59,7 +59,6 @@ public class ServerListener implements NetworkEventListener {
         }
     }
 
-
     /**
      * @param event the event fired on joinGame by a client
      */

@@ -40,6 +40,7 @@ public class ClientDisconnectListener implements NetworkEventListener {
             } else {
                 //user.setClient(null); // remove client because disconnected
                 Lobby lobby = GameEngine.getLobbyByUser(user);
+                // TODO if game is canceld and then user disconnects error appears
                 if(user.equals(lobby.getOwner())) {
                     GameEngine.removeLobby(lobby);
                     // TODO cancel game

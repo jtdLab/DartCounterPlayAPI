@@ -78,6 +78,10 @@ public class Lobby {
         return game.undoThrow(player);
     }
 
+    public void cancelGame() {
+        game.cancel();
+    }
+
     /**
      * broadcasts the given packet to all Clients in the Lobby.
      *

@@ -1,6 +1,7 @@
 package dartServer.gameengine.listeners;
 
 import dartServer.commons.packets.incoming.requests.*;
+import dartServer.commons.packets.outgoing.broadcasts.PlayerExitedPacket;
 import dartServer.commons.packets.outgoing.broadcasts.SnapshotPacket;
 import dartServer.gameengine.GameEngine;
 import dartServer.gameengine.lobby.Lobby;
@@ -77,8 +78,18 @@ public class GameListener implements NetworkEventListener {
      */
     @Event
     public void onExitGame(PacketReceiveEvent<ExitGamePacket> event) {
-        logger.warn("onExit - NOT IMPLEMENTED YET");
-        // TODO
+        User user = GameEngine.getUser(event.getClient().getAddress());
+        Lobby lobby = GameEngine.getLobbyByUser(user);
+
+        if(user.isPlaying()) {
+            // TODO safe game and end it
+            lobby.broadcastToUsers(new PlayerExitedPacket(user.getUsername()));
+            logger.info(user.getUsername() + " exited lobby " + lobby.getId() + "[Code = " + lobby.getCode() + "]");
+            lobby.cancelGame();
+            lobby.broadcastToUsers(new SnapshotPacket(lobby.getGame().getSnapshot()));
+            logger.info("canceled lobby " + lobby.getId() + " [Code = " + lobby.getCode() + "]");
+            GameEngine.removeLobby(lobby);
+        }
     }
 
     /**

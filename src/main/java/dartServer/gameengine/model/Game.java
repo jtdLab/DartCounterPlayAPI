@@ -33,6 +33,10 @@ public class Game {
     // --== Methods ==--
 
     public boolean addPlayer(Player player) {
+        if(status == GameStatus.CANCELLED) {
+            return  false;
+        }
+
         if (players.size() < 4) {
             for (Player p : players) {
                 if (p.getName().equals(player.getName())) return false;
@@ -48,6 +52,10 @@ public class Game {
     }
 
     public boolean updateGameConfig(Player player, GameConfig gameConfig) {
+        if(status == GameStatus.CANCELLED) {
+            return  false;
+        }
+
         if (player.equals(getOwner())) {
             config = gameConfig;
             return true;
@@ -56,6 +64,10 @@ public class Game {
     }
 
     public boolean start(Player player) {
+        if(status == GameStatus.CANCELLED) {
+            return  false;
+        }
+
         Player owner = getOwner();
 
         if (owner.equals(player) && status == GameStatus.PENDING && players.size() > 1) {
@@ -70,6 +82,10 @@ public class Game {
     }
 
     public boolean performThrow(Player player, Throw t) {
+        if(status == GameStatus.CANCELLED) {
+            return  false;
+        }
+
         Player currentTurn = getCurrentTurn();
         // sets the Player who threw
 
@@ -159,6 +175,10 @@ public class Game {
     }
 
     public boolean undoThrow(Player player) {
+        if(status == GameStatus.CANCELLED) {
+            return  false;
+        }
+
         Player previous = getPreviousTurn();
 
         if (status == GameStatus.RUNNING && previous.equals(player)) {
@@ -263,6 +283,10 @@ public class Game {
             return true;
         }
         return false;
+    }
+
+    public void cancel() {
+        status = GameStatus.CANCELLED;
     }
 
     public boolean updateConfig(Player player, GameConfig config) {

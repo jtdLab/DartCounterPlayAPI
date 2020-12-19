@@ -19,7 +19,7 @@ import java.io.InputStream;
 // ws://46.101.130.16:9000
 // curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 46.101.130.16:9000" -H "Origin: http://www.websocket.org" "46.101.130.16:9000"
 // curl -i -N -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 127.0.0.1:9000" -H "Origin: http://www.websocket.org" "127.0.0.1:9000"
-// {"payloadType":"authRequest","payload":{"uid":"48umt23tIPNWpZW0OeJvmZ8irUM2","username":"needs00"},"timestamp":"2020-10-17 03:38:16.44"}
+// {"payloadType":"authRequest","payload":{"uid":"LVi4ZRQMskgTYG2StmNFUXxN0yW2","username":"mrjosch"},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"createGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"joinGame","payload":{"gameCode":1000},"timestamp":"2020-10-17 03:38:16.44"}
 // {"payloadType":"startGame","payload":{},"timestamp":"2020-10-17 03:38:16.44"}
@@ -109,7 +109,7 @@ class DartServer implements Runnable {
     }
 
     private void printServerState() {
-        System.out.println();
+        logger.info("");
         logger.info("======================================");
         logger.info("============ SERVER STATE ============");
         logger.info("======================================");
@@ -125,6 +125,6 @@ class DartServer implements Runnable {
         logger.info("======================================");
         logger.info("======================================");
         logger.info("======================================");
-        System.out.println();
+        logger.info("");
     }
 }

@@ -27,6 +27,7 @@ public class AuthenticationListener implements NetworkEventListener {
     @Event
     public void onAuth(PacketReceiveEvent<AuthRequestPacket> event) {
         AuthRequestPacket authRequest = event.getPacket();
+
         boolean authenticated = AuthService.authenticate(authRequest);
 
         if (authenticated) {
